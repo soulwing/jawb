@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -43,7 +42,7 @@ class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCell value, Class<?> targetType)
+  public Object evaluate(BoundCell value, Class<?> targetType)
       throws WorkbookBindingException {
 
     Method method = TypeUtil.findValueOfMethod(targetType);

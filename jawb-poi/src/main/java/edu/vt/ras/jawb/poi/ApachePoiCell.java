@@ -24,6 +24,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 
 import edu.vt.ras.jawb.spi.BoundCell;
+import edu.vt.ras.jawb.spi.BoundCellReference;
 
 /**
  * A {@link BoundCell} that delegates to a POI {@link Cell}.
@@ -33,11 +34,22 @@ import edu.vt.ras.jawb.spi.BoundCell;
 class ApachePoiCell implements BoundCell {
 
   private final Cell delegate;
+  private final BoundCellReference ref;
   private final boolean useDate1904;
   
-  public ApachePoiCell(Cell delegate, boolean useDate1904) {
+  public ApachePoiCell(Cell delegate, BoundCellReference ref, 
+      boolean useDate1904) {
     this.delegate = delegate;
+    this.ref = ref;
     this.useDate1904 = useDate1904;  
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public BoundCellReference getReference() {
+    return ref;
   }
 
   /**

@@ -20,7 +20,6 @@ package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 
@@ -41,8 +40,7 @@ class StringCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCell cell, 
-      Class<?> targetType) 
+  public Object evaluate(BoundCell cell, Class<?> targetType) 
       throws WorkbookBindingException {
     
     if (!String.class.isAssignableFrom(targetType)) {
@@ -53,7 +51,7 @@ class StringCellEvaluatorStrategy implements CellEvaluatorStrategy {
       return cell.getStringValue();
     }
     catch (IllegalStateException ex) {
-      throw new TypeMismatchException(ref, targetType);
+      throw new TypeMismatchException(cell.getReference(), targetType);
     }
 
   }

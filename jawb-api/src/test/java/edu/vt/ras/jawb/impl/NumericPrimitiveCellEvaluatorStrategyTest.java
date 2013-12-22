@@ -25,8 +25,6 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import edu.vt.ras.jawb.impl.NumericPrimitiveCellEvaluatorStrategy;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -37,8 +35,6 @@ import edu.vt.ras.jawb.spi.BoundCell;
 public class NumericPrimitiveCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
-  
-  private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
   private BoundCell cell = mockery.mock(BoundCell.class);
   
@@ -51,7 +47,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, double.class), equalTo((Object) result));
+        .evaluate(cell, double.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
 
@@ -64,7 +60,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, float.class), equalTo((Object) (float) result));
+        .evaluate(cell, float.class), equalTo((Object) (float) result));
     mockery.assertIsSatisfied();
   }
   
@@ -77,7 +73,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, long.class), equalTo((Object) (long) result));
+        .evaluate(cell, long.class), equalTo((Object) (long) result));
     mockery.assertIsSatisfied();
   }
   
@@ -90,7 +86,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, int.class), equalTo((Object) (int) result));
+        .evaluate(cell, int.class), equalTo((Object) (int) result));
     mockery.assertIsSatisfied();
   }
   
@@ -103,7 +99,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, short.class), equalTo((Object) (short) result));
+        .evaluate(cell, short.class), equalTo((Object) (short) result));
     mockery.assertIsSatisfied();
   }
   
@@ -116,7 +112,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, byte.class), equalTo((Object) (byte) result));
+        .evaluate(cell, byte.class), equalTo((Object) (byte) result));
     mockery.assertIsSatisfied();
   }
   

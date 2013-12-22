@@ -30,7 +30,6 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -41,8 +40,6 @@ import edu.vt.ras.jawb.spi.BoundCell;
 public class CalendarCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
-  
-  private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
   private BoundCell cell = mockery.mock(BoundCell.class);
 
@@ -56,7 +53,7 @@ public class CalendarCellEvaluatorStrategyTest {
     } } );
        
     assertThat(CalendarCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Calendar.class), equalTo((Object) result));
+        .evaluate(cell, Calendar.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -65,11 +62,12 @@ public class CalendarCellEvaluatorStrategyTest {
     mockery.checking(new Expectations() { { 
       oneOf(cell).getDateValue();
       will(throwException(new IllegalStateException()));
+      allowing(cell).getReference();
     } } );
        
     try {
       CalendarCellEvaluatorStrategy.INSTANCE
-          .evaluate(ref, cell, Calendar.class);
+          .evaluate(cell, Calendar.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

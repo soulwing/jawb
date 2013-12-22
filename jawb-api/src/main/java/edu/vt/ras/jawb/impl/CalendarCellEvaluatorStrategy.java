@@ -22,7 +22,6 @@ import java.util.Calendar;
 
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -42,8 +41,8 @@ class CalendarCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCell cell, 
-      Class<?> targetType) throws WorkbookBindingException {
+  public Object evaluate(BoundCell cell, Class<?> targetType) 
+      throws WorkbookBindingException {
 
     if (!Calendar.class.isAssignableFrom(targetType)) {
       return null;
@@ -55,7 +54,7 @@ class CalendarCellEvaluatorStrategy implements CellEvaluatorStrategy {
       return calendar;
     }
     catch (IllegalStateException ex) {
-      throw new TypeMismatchException(ref, targetType);
+      throw new TypeMismatchException(cell.getReference(), targetType);
     }
   }
 

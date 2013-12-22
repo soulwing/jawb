@@ -20,7 +20,6 @@ package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 
@@ -42,8 +41,8 @@ class BooleanCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCell cell, 
-      Class<?> targetType) throws WorkbookBindingException {
+  public Object evaluate(BoundCell cell, Class<?> targetType) 
+      throws WorkbookBindingException {
     
     if (!boolean.class.isAssignableFrom(targetType)
         && !Boolean.class.isAssignableFrom(targetType)) {
@@ -53,7 +52,7 @@ class BooleanCellEvaluatorStrategy implements CellEvaluatorStrategy {
       return cell.getBooleanValue();
     }
     catch (IllegalStateException ex) {
-      throw new TypeMismatchException(ref, targetType);
+      throw new TypeMismatchException(cell.getReference(), targetType);
     }
   }
 

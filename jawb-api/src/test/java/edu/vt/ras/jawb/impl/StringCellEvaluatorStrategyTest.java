@@ -27,7 +27,6 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -38,8 +37,6 @@ import edu.vt.ras.jawb.spi.BoundCell;
 public class StringCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
-  
-  private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
   private BoundCell cell = mockery.mock(BoundCell.class);
 
@@ -52,7 +49,7 @@ public class StringCellEvaluatorStrategyTest {
     } } );
        
     assertThat(StringCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, String.class), equalTo((Object) result));
+        .evaluate(cell, String.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -61,10 +58,11 @@ public class StringCellEvaluatorStrategyTest {
     mockery.checking(new Expectations() { { 
       oneOf(cell).getStringValue();
       will(throwException(new IllegalStateException()));
+      allowing(cell).getReference();      
     } } );
        
     try {
-      StringCellEvaluatorStrategy.INSTANCE.evaluate(ref, cell, String.class);
+      StringCellEvaluatorStrategy.INSTANCE.evaluate(cell, String.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

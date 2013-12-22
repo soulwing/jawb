@@ -27,7 +27,6 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -38,8 +37,6 @@ import edu.vt.ras.jawb.spi.BoundCell;
 public class BooleanCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
-  
-  private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
   private BoundCell cell = mockery.mock(BoundCell.class);
 
@@ -52,7 +49,7 @@ public class BooleanCellEvaluatorStrategyTest {
     } } );
        
     assertThat(BooleanCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Boolean.class), equalTo((Object) result));
+        .evaluate(cell, Boolean.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -65,7 +62,7 @@ public class BooleanCellEvaluatorStrategyTest {
     } } );
        
     assertThat(
-        BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, cell, boolean.class),
+        BooleanCellEvaluatorStrategy.INSTANCE.evaluate(cell, boolean.class),
         equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
@@ -75,10 +72,11 @@ public class BooleanCellEvaluatorStrategyTest {
     mockery.checking(new Expectations() { { 
       oneOf(cell).getBooleanValue();
       will(throwException(new IllegalStateException()));
+      allowing(cell).getReference();
     } } );
        
     try {
-      BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, cell, boolean.class);
+      BooleanCellEvaluatorStrategy.INSTANCE.evaluate(cell, boolean.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

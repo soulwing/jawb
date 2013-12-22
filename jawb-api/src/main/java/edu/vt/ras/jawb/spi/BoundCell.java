@@ -28,6 +28,12 @@ import java.util.Date;
 public interface BoundCell {
 
   /**
+   * Gets the cell reference representing the location of this cell.
+   * @return cell reference
+   */
+  BoundCellReference getReference();
+  
+  /**
    * Tests the receiver to determine it it represents a blank cell value.
    * @return {@code true} if this value is blank
    */

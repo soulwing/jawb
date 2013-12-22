@@ -19,8 +19,8 @@
 package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
+import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
 import edu.vt.ras.jawb.spi.Evaluator;
 
@@ -65,7 +65,7 @@ class CellEvaluator implements Evaluator {
       return null;
     }
     for (CellEvaluatorStrategy strategy : strategies) {
-      obj = strategy.evaluate(ref, value, targetType);
+      obj = strategy.evaluate(value, targetType);
       if (obj != null) break;
     }
     return obj;

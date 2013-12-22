@@ -29,8 +29,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
+import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
@@ -70,14 +70,14 @@ class ApachePoiWorkbook implements BoundWorkbook {
    */
   @Override
   public BoundCell evaluateCell(BoundCellReference ref) {
-    CellReference cellRef = ((ApachePoiCellReference) applyBias(ref))
-        .getDelegate();
+    ref = applyBias(ref);
+    CellReference cellRef = ((ApachePoiCellReference) ref).getDelegate();
     String sheetName = cellRef.getSheetName();
     Sheet sheet = sheetName != null ? 
         delegate.getSheet(sheetName) : delegate.getSheetAt(0);
     Row row = sheet.getRow(cellRef.getRow());
     Cell cell = row.getCell(cellRef.getCol());
-    return new ApachePoiCell(cell, useDate1904);
+    return new ApachePoiCell(cell, ref, useDate1904);
   }
 
   /**

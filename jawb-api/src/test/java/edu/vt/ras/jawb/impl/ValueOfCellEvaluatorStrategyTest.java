@@ -28,7 +28,6 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -39,8 +38,6 @@ import edu.vt.ras.jawb.spi.BoundCell;
 public class ValueOfCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
-  
-  private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
   private BoundCell cell = mockery.mock(BoundCell.class);
   
@@ -53,7 +50,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Double.class), equalTo((Object) result));
+        .evaluate(cell, Double.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
 
@@ -66,7 +63,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Float.class), equalTo((Object)((float) result)));
+        .evaluate(cell, Float.class), equalTo((Object)((float) result)));
     mockery.assertIsSatisfied();
   }
   
@@ -79,7 +76,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Long.class), equalTo((Object)((long) result)));
+        .evaluate(cell, Long.class), equalTo((Object)((long) result)));
     mockery.assertIsSatisfied();
   }
   
@@ -92,7 +89,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Integer.class), equalTo((Object)((int) result)));
+        .evaluate(cell, Integer.class), equalTo((Object)((int) result)));
     mockery.assertIsSatisfied();
   }
   
@@ -105,7 +102,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Short.class), equalTo((Object)((short) result)));
+        .evaluate(cell, Short.class), equalTo((Object)((short) result)));
     mockery.assertIsSatisfied();
   }
   
@@ -118,7 +115,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, Byte.class), equalTo((Object)((byte) result)));
+        .evaluate(cell, Byte.class), equalTo((Object)((byte) result)));
     mockery.assertIsSatisfied();
   }
   
@@ -131,7 +128,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, BigDecimal.class), 
+        .evaluate(cell, BigDecimal.class), 
         equalTo((Object)(BigDecimal.valueOf(result))));
     mockery.assertIsSatisfied();
   }
@@ -145,7 +142,7 @@ public class ValueOfCellEvaluatorStrategyTest {
     } });
     
     assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, cell, BigInteger.class), 
+        .evaluate(cell, BigInteger.class), 
         equalTo((Object)(BigInteger.valueOf((long) result))));
     mockery.assertIsSatisfied();
   }
