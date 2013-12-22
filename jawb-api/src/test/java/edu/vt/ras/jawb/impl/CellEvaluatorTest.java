@@ -31,9 +31,8 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import edu.vt.ras.jawb.impl.CellEvaluator;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
 
 /**
@@ -47,7 +46,7 @@ public class CellEvaluatorTest {
   
   private BoundWorkbook workbook = mockery.mock(BoundWorkbook.class);
   
-  private BoundCellValue value = mockery.mock(BoundCellValue.class);
+  private BoundCell cell = mockery.mock(BoundCell.class);
   
   private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
@@ -56,10 +55,10 @@ public class CellEvaluatorTest {
     final boolean result = true;
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(with(same(ref)));
-      will(returnValue(value));
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.BOOLEAN));
-      oneOf(value).getBooleanValue();
+      will(returnValue(cell));
+      oneOf(cell).isBlank();
+      will(returnValue(false));
+      oneOf(cell).getBooleanValue();
       will(returnValue(result));
     } });
     
@@ -74,10 +73,10 @@ public class CellEvaluatorTest {
     final boolean result = true;
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(with(same(ref)));
-      will(returnValue(value));
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.BOOLEAN));
-      oneOf(value).getBooleanValue();
+      will(returnValue(cell));
+      oneOf(cell).isBlank();
+      will(returnValue(false));
+      oneOf(cell).getBooleanValue();
       will(returnValue(result));
     } });
     
@@ -93,12 +92,10 @@ public class CellEvaluatorTest {
     result.setTime(new Date());
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(with(same(ref)));
-      will(returnValue(value));
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.NUMERIC));
-      oneOf(value).isValidDate();
-      will(returnValue(true));
-      oneOf(value).getDateValue();
+      will(returnValue(cell));
+      oneOf(cell).isBlank();
+      will(returnValue(false));
+      oneOf(cell).getDateValue();
       will(returnValue(result.getTime()));
     } });
     
@@ -113,12 +110,10 @@ public class CellEvaluatorTest {
     final Date result = new Date();
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(with(same(ref)));
-      will(returnValue(value));
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.NUMERIC));
-      oneOf(value).isValidDate();
-      will(returnValue(true));
-      oneOf(value).getDateValue();
+      will(returnValue(cell));
+      oneOf(cell).isBlank();
+      will(returnValue(false));
+      oneOf(cell).getDateValue();
       will(returnValue(result));
     } });
     
@@ -273,10 +268,10 @@ public class CellEvaluatorTest {
     final String result = new String();
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(with(same(ref)));
-      will(returnValue(value));
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.STRING));
-      oneOf(value).getStringValue();
+      will(returnValue(cell));
+      oneOf(cell).isBlank();
+      will(returnValue(false));
+      oneOf(cell).getStringValue();
       will(returnValue(result));
     } });
     
@@ -289,10 +284,10 @@ public class CellEvaluatorTest {
   private Expectations numericValueExpectations(final double result) {
     return new Expectations() { { 
       oneOf(workbook).evaluateCell(with(same(ref)));
-      will(returnValue(value));
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.NUMERIC));
-      oneOf(value).getNumericValue();
+      will(returnValue(cell));
+      oneOf(cell).isBlank();
+      will(returnValue(false));
+      oneOf(cell).getNumericValue();
       will(returnValue(result));
     } };
   }

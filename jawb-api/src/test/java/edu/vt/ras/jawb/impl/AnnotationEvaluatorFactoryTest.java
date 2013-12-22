@@ -33,7 +33,7 @@ import edu.vt.ras.jawb.annotation.Bound;
 import edu.vt.ras.jawb.annotation.Cell;
 import edu.vt.ras.jawb.annotation.IterateRows;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
 import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
@@ -50,7 +50,7 @@ public class AnnotationEvaluatorFactoryTest {
   
   private BoundWorkbook workbook = mockery.mock(BoundWorkbook.class);
   
-  private BoundCellValue value = mockery.mock(BoundCellValue.class);
+  private BoundCell value = mockery.mock(BoundCell.class);
   
   private BoundCellReference ref = mockery.mock(BoundCellReference.class);
 
@@ -187,8 +187,8 @@ public class AnnotationEvaluatorFactoryTest {
 
   private Expectations stringValueExpectations(final String result) {
     return new Expectations() { {
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.STRING));
+      oneOf(value).isBlank();
+      will(returnValue(false));
       exactly(1).of(provider).createCellReference(
           with(nullValue(String.class)), with(any(String.class)));
       will(returnValue(ref));

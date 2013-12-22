@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * A strategy for binding a cell to a value obtained by invoking a static
@@ -43,13 +43,9 @@ class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType)
+  public Object evaluate(BoundCellReference ref, BoundCell value, Class<?> targetType)
       throws WorkbookBindingException {
 
-    if (!value.getType().equals(BoundCellValue.Type.NUMERIC)) {
-      return null;
-    }
-    
     Method method = TypeUtil.findValueOfMethod(targetType);
     if (method == null) {
       return null;
@@ -60,6 +56,9 @@ class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
       return method.invoke(targetType, TypeUtil.wrapValue(argType, 
           value.getNumericValue()));
     }
+    catch (IllegalStateException ex) {
+      return null;
+    }
     catch (InvocationTargetException ex) {
       throw new WorkbookBindingException(ex.getCause());
     }
@@ -68,5 +67,6 @@ class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
     }
 
   }
+  
 
 }

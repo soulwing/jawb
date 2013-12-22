@@ -30,9 +30,8 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.impl.CalendarCellEvaluatorStrategy;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * Unit tests for {@link CalendarCellEvaluatorStrategy}.
@@ -45,36 +44,32 @@ public class CalendarCellEvaluatorStrategyTest {
   
   private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
-  private BoundCellValue value = mockery.mock(BoundCellValue.class);
+  private BoundCell cell = mockery.mock(BoundCell.class);
 
   @Test
   public void testEvaluateWithDateValue() throws Exception {
     final Calendar result = Calendar.getInstance();
     result.setTime(new Date());
     mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.NUMERIC));
-      oneOf(value).isValidDate();
-      will(returnValue(true));
-      oneOf(value).getDateValue();
+      oneOf(cell).getDateValue();
       will(returnValue(result.getTime()));
     } } );
        
     assertThat(CalendarCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Calendar.class), equalTo((Object) result));
+        .evaluate(ref, cell, Calendar.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
   @Test
   public void testEvaluateWithNonDateValue() throws Exception {
     mockery.checking(new Expectations() { { 
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.BLANK));
+      oneOf(cell).getDateValue();
+      will(throwException(new IllegalStateException()));
     } } );
        
     try {
       CalendarCellEvaluatorStrategy.INSTANCE
-          .evaluate(ref, value, Calendar.class);
+          .evaluate(ref, cell, Calendar.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

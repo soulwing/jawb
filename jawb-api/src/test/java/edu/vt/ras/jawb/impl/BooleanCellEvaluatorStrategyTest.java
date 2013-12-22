@@ -27,9 +27,8 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.impl.BooleanCellEvaluatorStrategy;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * Unit tests for {@link BooleanCellEvaluatorStrategy}.
@@ -42,20 +41,18 @@ public class BooleanCellEvaluatorStrategyTest {
   
   private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
-  private BoundCellValue value = mockery.mock(BoundCellValue.class);
+  private BoundCell cell = mockery.mock(BoundCell.class);
 
   @Test
   public void testEvaluateWithWrapperTarget() throws Exception {
     final boolean result = false;
     mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.BOOLEAN));
-      oneOf(value).getBooleanValue();
+      oneOf(cell).getBooleanValue();
       will(returnValue(result));
     } } );
        
     assertThat(BooleanCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Boolean.class), equalTo((Object) result));
+        .evaluate(ref, cell, Boolean.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -63,14 +60,12 @@ public class BooleanCellEvaluatorStrategyTest {
   public void testEvaluateWithPrimitiveTarget() throws Exception {
     final boolean result = false;
     mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.BOOLEAN));
-      oneOf(value).getBooleanValue();
+      oneOf(cell).getBooleanValue();
       will(returnValue(result));
     } } );
        
     assertThat(
-        BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, boolean.class),
+        BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, cell, boolean.class),
         equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
@@ -78,12 +73,12 @@ public class BooleanCellEvaluatorStrategyTest {
   @Test
   public void testEvaluateWithNonBooleanValue() throws Exception {
     mockery.checking(new Expectations() { { 
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.BLANK));
+      oneOf(cell).getBooleanValue();
+      will(throwException(new IllegalStateException()));
     } } );
        
     try {
-      BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, boolean.class);
+      BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, cell, boolean.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

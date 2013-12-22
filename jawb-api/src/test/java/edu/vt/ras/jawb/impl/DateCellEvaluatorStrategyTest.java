@@ -31,7 +31,7 @@ import org.junit.Test;
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.impl.DateCellEvaluatorStrategy;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * Unit tests for {@link DateCellEvaluatorStrategy}.
@@ -44,34 +44,30 @@ public class DateCellEvaluatorStrategyTest {
   
   private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
-  private BoundCellValue value = mockery.mock(BoundCellValue.class);
+  private BoundCell cell = mockery.mock(BoundCell.class);
 
   @Test
   public void testEvaluateWithDateValue() throws Exception {
     final Date result = new Date();
     mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.NUMERIC));
-      oneOf(value).isValidDate();
-      will(returnValue(true));
-      oneOf(value).getDateValue();
+      oneOf(cell).getDateValue();
       will(returnValue(result));
     } } );
        
     assertThat(DateCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Date.class), equalTo((Object) result));
+        .evaluate(ref, cell, Date.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
   @Test
   public void testEvaluateWithNonDateValue() throws Exception {
     mockery.checking(new Expectations() { { 
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.BLANK));
+      oneOf(cell).getDateValue();
+      will(throwException(new IllegalStateException()));
     } } );
        
     try {
-      DateCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, Date.class);
+      DateCellEvaluatorStrategy.INSTANCE.evaluate(ref, cell, Date.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

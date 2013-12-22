@@ -20,7 +20,7 @@ package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * A strategy for evaluating the value of a cell.
@@ -33,13 +33,13 @@ interface CellEvaluatorStrategy {
    * Attempts to evaluate the given cell value to produce an instance of
    * the target type.
    * @param ref cell reference
-   * @param cellValue evaluated value of cell
+   * @param cell evaluated cell
    * @param targetType target binding type
    * @return evaluated value or {@code null} if the receiver does not 
    *    support the target type
    * @throws WorkbookBindingException
    */
-  Object evaluate(BoundCellReference ref, BoundCellValue cellValue, 
+  Object evaluate(BoundCellReference ref, BoundCell cell, 
       Class<?> targetType)
       throws WorkbookBindingException;
   

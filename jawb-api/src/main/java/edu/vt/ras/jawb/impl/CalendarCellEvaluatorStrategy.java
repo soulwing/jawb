@@ -23,7 +23,7 @@ import java.util.Calendar;
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * A strategy for binding a cell containing a date to a Java {@link Calendar}.
@@ -42,21 +42,21 @@ class CalendarCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType) 
-      throws WorkbookBindingException {
+  public Object evaluate(BoundCellReference ref, BoundCell cell, 
+      Class<?> targetType) throws WorkbookBindingException {
 
     if (!Calendar.class.isAssignableFrom(targetType)) {
       return null;
     }
 
-    if (!value.getType().equals(BoundCellValue.Type.NUMERIC)
-        || !value.isValidDate()) {
-      throw new TypeMismatchException(ref, value.getType(), targetType);
+    try {
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(cell.getDateValue());
+      return calendar;
     }
-    
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(value.getDateValue());
-    return calendar;
+    catch (IllegalStateException ex) {
+      throw new TypeMismatchException(ref, targetType);
+    }
   }
 
 }

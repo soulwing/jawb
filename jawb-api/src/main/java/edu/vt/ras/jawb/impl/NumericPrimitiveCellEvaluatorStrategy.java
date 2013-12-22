@@ -21,7 +21,7 @@ package edu.vt.ras.jawb.impl;
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * A {@link CellEvaluatorStrategy} for numeric primitive target types.
@@ -41,18 +41,20 @@ class NumericPrimitiveCellEvaluatorStrategy
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType)
-      throws WorkbookBindingException {
+  public Object evaluate(BoundCellReference ref, BoundCell cell, 
+      Class<?> targetType) throws WorkbookBindingException {
     
     if (!TypeUtil.isNumericPrimitive(targetType)) {
       return null;
     }
     
-    if (value.getType() != BoundCellValue.Type.NUMERIC) {
-      throw new TypeMismatchException(ref, value.getType(), targetType);
+    try {
+      return TypeUtil.wrapValue(targetType, cell.getNumericValue());
     }
-    
-    return TypeUtil.wrapValue(targetType, value.getNumericValue());
+    catch (IllegalStateException ex) {
+      throw new TypeMismatchException(ref, targetType);
+    }
+
   }
 
 }

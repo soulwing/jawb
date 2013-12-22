@@ -23,8 +23,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -32,7 +30,7 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
@@ -47,7 +45,6 @@ class ApachePoiWorkbook implements BoundWorkbook {
       new LinkedList<WorkbookIterator>();
   
   private final Workbook delegate;
-  private final FormulaEvaluator formulaEvaluator;
   private final boolean useDate1904;
   
   /**
@@ -56,8 +53,6 @@ class ApachePoiWorkbook implements BoundWorkbook {
    */
   public ApachePoiWorkbook(Workbook delegate) {
     this.delegate = delegate;
-    this.formulaEvaluator = delegate.getCreationHelper()
-        .createFormulaEvaluator();
     this.useDate1904 = ((XSSFWorkbook) delegate).getCTWorkbook()
         .getWorkbookPr().getDate1904();
   }
@@ -74,16 +69,16 @@ class ApachePoiWorkbook implements BoundWorkbook {
    * {@inheritDoc}
    */
   @Override
-  public BoundCellValue evaluateCell(BoundCellReference ref) {
+  public BoundCell evaluateCell(BoundCellReference ref) {
     CellReference cellRef = ((ApachePoiCellReference) applyBias(ref))
         .getDelegate();
     String sheetName = cellRef.getSheetName();
     Sheet sheet = sheetName != null ? 
         delegate.getSheet(sheetName) : delegate.getSheetAt(0);
+    System.out.println(cellRef.formatAsString());
     Row row = sheet.getRow(cellRef.getRow());
     Cell cell = row.getCell(cellRef.getCol());
-    CellValue value = formulaEvaluator.evaluate(cell);
-    return new ApachePoiCellValue(value, useDate1904);
+    return new ApachePoiCell(cell, useDate1904);
   }
 
   /**

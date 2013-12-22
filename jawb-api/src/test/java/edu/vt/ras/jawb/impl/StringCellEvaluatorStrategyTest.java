@@ -27,9 +27,8 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.impl.StringCellEvaluatorStrategy;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * Unit tests for {@link StringCellEvaluatorStrategy}.
@@ -42,32 +41,30 @@ public class StringCellEvaluatorStrategyTest {
   
   private BoundCellReference ref = mockery.mock(BoundCellReference.class);
   
-  private BoundCellValue value = mockery.mock(BoundCellValue.class);
+  private BoundCell cell = mockery.mock(BoundCell.class);
 
   @Test
   public void testEvaluateWithStringValue() throws Exception {
     final String result = new String();
     mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.STRING));
-      oneOf(value).getStringValue();
+      oneOf(cell).getStringValue();
       will(returnValue(result));
     } } );
        
     assertThat(StringCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, String.class), equalTo((Object) result));
+        .evaluate(ref, cell, String.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
   @Test
   public void testEvaluateWithNonStringValue() throws Exception {
     mockery.checking(new Expectations() { { 
-      atLeast(1).of(value).getType();
-      will(returnValue(BoundCellValue.Type.BLANK));
+      oneOf(cell).getStringValue();
+      will(throwException(new IllegalStateException()));
     } } );
        
     try {
-      StringCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, String.class);
+      StringCellEvaluatorStrategy.INSTANCE.evaluate(ref, cell, String.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

@@ -1,5 +1,5 @@
 /*
- * File created on Dec 17, 2013 
+ * File created on Dec 18, 2013 
  *
  * Copyright (c) 2013 Virginia Polytechnic Institute and State University
  *
@@ -18,12 +18,52 @@
  */
 package edu.vt.ras.jawb.spi;
 
+import java.util.Date;
+
 /**
- * DESCRIBE THE TYPE HERE.
+ * An object that provides access to the type and value of a bound cell.
  *
  * @author Carl Harris
  */
 public interface BoundCell {
 
+  /**
+   * Tests the receiver to determine it it represents a blank cell value.
+   * @return {@code true} if this value is blank
+   */
+  boolean isBlank();
+  
+  /**
+   * Gets the receiver's value as a boolean.
+   * <p>
+   * @return
+   * @throws IllegalStateException if invoked on a value that is not of 
+   *    boolean type
+   */
+  boolean getBooleanValue();
+  
+  /**
+   * Gets the receiver's value as a {@link Date}.
+   * @return
+   * @throws IllegalStateException if invoked on a value that is not of 
+   *    date type
+   */
+  Date getDateValue();
+  
+  /**
+   * Gets the receiver's value as a double.
+   * @return
+   * @throws IllegalStateException if invoked on a value that is not of 
+   *    numeric type
+   */
+  double getNumericValue();
+  
+  /**
+   * Gets the receiver's value as a string.
+   * @return
+   * @throws IllegalStateException if invoked on a value that is not of 
+   *    numeric type
+   */
+  String getStringValue();
   
 }

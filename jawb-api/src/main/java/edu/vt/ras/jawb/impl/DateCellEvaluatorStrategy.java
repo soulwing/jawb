@@ -23,7 +23,7 @@ import java.util.Date;
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
  * A strategy for binding a cell containing a date to a Java {@link Date}.
@@ -42,20 +42,19 @@ class DateCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType)
-      throws WorkbookBindingException {
+  public Object evaluate(BoundCellReference ref, BoundCell cell, 
+      Class<?> targetType) throws WorkbookBindingException {
     
     if (!Date.class.isAssignableFrom(targetType)) {
       return null;
     }
 
-    if (!value.getType().equals(BoundCellValue.Type.NUMERIC)
-        || !value.isValidDate()) {
-      throw new TypeMismatchException(ref, 
-          value.getType(), targetType);
+    try {
+      return cell.getDateValue();
     }
-    
-    return value.getDateValue();
+    catch (IllegalStateException ex) {
+      throw new TypeMismatchException(ref, targetType);
+    }
   }
 
 }

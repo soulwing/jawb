@@ -20,7 +20,7 @@ package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundCellValue;
+import edu.vt.ras.jawb.spi.BoundCell;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
 import edu.vt.ras.jawb.spi.Evaluator;
 
@@ -59,9 +59,9 @@ class CellEvaluator implements Evaluator {
   @Override
   public Object evaluate(BoundWorkbook workbook)
       throws WorkbookBindingException {
-    BoundCellValue value = workbook.evaluateCell(ref);
+    BoundCell value = workbook.evaluateCell(ref);
     Object obj = null;
-    if (value.getType() == BoundCellValue.Type.BLANK) {
+    if (value.isBlank()) {
       return null;
     }
     for (CellEvaluatorStrategy strategy : strategies) {

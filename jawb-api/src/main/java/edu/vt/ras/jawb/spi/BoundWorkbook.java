@@ -31,7 +31,7 @@ public interface BoundWorkbook {
    * @param ref cell reference
    * @return evaulation result
    */
-  BoundCellValue evaluateCell(BoundCellReference ref);
+  BoundCell evaluateCell(BoundCellReference ref);
   
   /**
    * Pushes a new iterator onto the receiver's stack of iterators.
