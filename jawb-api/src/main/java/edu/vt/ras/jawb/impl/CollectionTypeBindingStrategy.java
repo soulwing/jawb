@@ -56,9 +56,9 @@ class CollectionTypeBindingStrategy implements BindingStrategy {
     BeanIntrospector boundClass = evaluatorFactory.createBeanIntrospector(
         introspector, introspector.getSubType());
 
-    Evaluator evaluator = new CollectionEvaluator(
+    Evaluator evaluator = evaluatorFactory.createCollectionEvaluator(
         CollectionUtil.getCollectionType(introspector), 
-        evaluatorFactory.createEvaluator(boundClass), 
+        evaluatorFactory.createBeanEvaluator(boundClass), 
         iterator);
     
     return new BaseBinding(introspector.getAccessor(), evaluator);

@@ -68,7 +68,8 @@ class ArrayOfSimpleTypeBindingStrategy implements BindingStrategy {
     Evaluator cellEvaluator = evaluatorFactory.createCellEvaluator(
         introspector.getSheetReference(), cell.value(), type);
     
-    Evaluator evaluator = new ArrayEvaluator(type, cellEvaluator, iterator);
+    Evaluator evaluator = evaluatorFactory.createArrayEvaluator(type, 
+        cellEvaluator, iterator);
     
     return new BaseBinding(introspector.getAccessor(), evaluator);
   }

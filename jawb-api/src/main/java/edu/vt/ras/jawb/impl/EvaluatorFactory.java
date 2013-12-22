@@ -18,6 +18,8 @@
  */
 package edu.vt.ras.jawb.impl;
 
+import java.util.Collection;
+
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
@@ -35,15 +37,36 @@ public interface EvaluatorFactory {
    * @return evaluator
    * @throws WorkbookBindingException
    */
-  Evaluator createEvaluator(BeanIntrospector boundClass)
+  Evaluator createBeanEvaluator(BeanIntrospector boundClass)
       throws WorkbookBindingException;
   
   /**
-   * Creates a bound cell reference.
+   * Creates an array evaluator.
+   * @param targetType target array element type
+   * @param elementEvaluator element evaluator
+   * @param iterator workbook iterator
+   * @return evaluator
+   */
+  Evaluator createArrayEvaluator(Class<?> targetType,
+      Evaluator elementEvaluator, WorkbookIterator iterator);
+
+  /**
+   * Creates a collection evaluator.
+   * @param targetType target collection type
+   * @param elementEvaluator element evaluator
+   * @param iterator workbook iterator
+   * @return evaluator
+   */
+  Evaluator createCollectionEvaluator(
+      Class<? extends Collection> targetType,
+      Evaluator elementEvaluator, WorkbookIterator iterator);
+  
+  /**
+   * Creates a cell evaluator.
    * @param sheetReference sheet reference
    * @param ref string representation of the cell reference.
    * @param targetType type of target attribute
-   * @return bound cell reference
+   * @return evaluator
    */
   Evaluator createCellEvaluator(String sheetReference,
       String ref, Class<?> targetType);

@@ -55,8 +55,10 @@ class ArrayTypeBindingStrategy implements BindingStrategy {
     BeanIntrospector boundClass = evaluatorFactory.createBeanIntrospector(
         introspector, introspector.getSubType());
     
-    Evaluator evaluator = new ArrayEvaluator(introspector.getSubType(), 
-        evaluatorFactory.createEvaluator(boundClass), iterator);
+    Evaluator evaluator = evaluatorFactory.createArrayEvaluator(
+        introspector.getSubType(), 
+        evaluatorFactory.createBeanEvaluator(boundClass), 
+        iterator);
     
     return new BaseBinding(introspector.getAccessor(), evaluator);
   }

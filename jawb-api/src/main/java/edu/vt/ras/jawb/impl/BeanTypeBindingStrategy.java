@@ -48,7 +48,7 @@ class BeanTypeBindingStrategy implements BindingStrategy {
         introspector, introspector.getType());
     
     return new BaseBinding(introspector.getAccessor(),
-        evaluatorFactory.createEvaluator(boundClass));
+        evaluatorFactory.createBeanEvaluator(boundClass));
   }
 
 }

@@ -66,7 +66,7 @@ public class AnnotationBindingIntrospectorTest {
     mockery.checking(stringValueExpectations(result));   
     BeanIntrospector boundClass = introspector.createBeanIntrospector(
         null, MockBeanWithFieldAnnotation.class);
-    Evaluator evaluator = introspector.createEvaluator(boundClass);
+    Evaluator evaluator = introspector.createBeanEvaluator(boundClass);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, instanceOf(MockBeanWithFieldAnnotation.class));
@@ -80,7 +80,7 @@ public class AnnotationBindingIntrospectorTest {
     mockery.checking(stringValueExpectations(result));
     BeanIntrospector boundClass = introspector.createBeanIntrospector(
         null, MockBeanWithMethodAnnotation.class);
-    Evaluator evaluator = introspector.createEvaluator(boundClass);
+    Evaluator evaluator = introspector.createBeanEvaluator(boundClass);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, instanceOf(MockBeanWithMethodAnnotation.class));
@@ -94,7 +94,7 @@ public class AnnotationBindingIntrospectorTest {
     mockery.checking(stringValueExpectations(result));
     BeanIntrospector boundClass = introspector.createBeanIntrospector(
         null, MockBeanWithComposedBean.class);
-    Evaluator evaluator = introspector.createEvaluator(boundClass);
+    Evaluator evaluator = introspector.createBeanEvaluator(boundClass);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();    
     assertThat(obj, instanceOf(MockBeanWithComposedBean.class));
@@ -113,7 +113,7 @@ public class AnnotationBindingIntrospectorTest {
     
     BeanIntrospector boundClass = introspector.createBeanIntrospector(
         null, MockBeanWithArrayOfSimpleType.class);
-    Evaluator evaluator = introspector.createEvaluator(boundClass);
+    Evaluator evaluator = introspector.createBeanEvaluator(boundClass);
 
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
@@ -134,7 +134,7 @@ public class AnnotationBindingIntrospectorTest {
     
     BeanIntrospector boundClass = introspector.createBeanIntrospector(
         null, MockBeanWithCollectionOfSimpleType.class);
-    Evaluator evaluator = introspector.createEvaluator(boundClass);
+    Evaluator evaluator = introspector.createBeanEvaluator(boundClass);
 
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
@@ -154,7 +154,7 @@ public class AnnotationBindingIntrospectorTest {
     
     BeanIntrospector boundClass = introspector.createBeanIntrospector(
         null, MockBeanWithArrayOfBeanType.class);
-    Evaluator evaluator = introspector.createEvaluator(boundClass);
+    Evaluator evaluator = introspector.createBeanEvaluator(boundClass);
 
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
@@ -174,7 +174,7 @@ public class AnnotationBindingIntrospectorTest {
     
     BeanIntrospector boundClass = introspector.createBeanIntrospector(
         null, MockBeanWithCollectionOfBeanType.class);
-    Evaluator evaluator = introspector.createEvaluator(boundClass);
+    Evaluator evaluator = introspector.createBeanEvaluator(boundClass);
 
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();

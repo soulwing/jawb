@@ -58,7 +58,7 @@ public class BeanTypeBindingStrategyTest {
       oneOf(evaluatorFactory).createBeanIntrospector(
           with(introspector), with(MockBean.class));
       will(returnValue(beanIntrospector));
-      oneOf(evaluatorFactory).createEvaluator(beanIntrospector);
+      oneOf(evaluatorFactory).createBeanEvaluator(beanIntrospector);
     } });
     
     Binding binding = BeanTypeBindingStrategy.INSTANCE.createBinding(

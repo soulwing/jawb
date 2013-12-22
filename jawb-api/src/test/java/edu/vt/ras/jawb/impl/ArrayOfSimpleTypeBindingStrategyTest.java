@@ -32,6 +32,7 @@ import edu.vt.ras.jawb.annotation.Cell;
 import edu.vt.ras.jawb.annotation.IterateColumns;
 import edu.vt.ras.jawb.annotation.IterateRows;
 import edu.vt.ras.jawb.annotation.IterateSheets;
+import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
 /**
@@ -52,6 +53,7 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
   @Test
   public void testWithAnnotatedArrayOfSupportedType() throws Exception {
     final WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+    final Evaluator elementEvaluator = mockery.mock(Evaluator.class);
     final Cell cell = mockery.mock(Cell.class);
     final IterateColumns columns = mockery.mock(IterateColumns.class);
     mockery.checking(new Expectations() { { 
@@ -72,6 +74,7 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       oneOf(introspector).getSheetReference();
       will(returnValue("sheetRef"));
       oneOf(evaluatorFactory).createCellEvaluator("sheetRef", "ref", String.class);
+      will(returnValue(elementEvaluator));
       oneOf(columns).count();
       will(returnValue(1));
       oneOf(columns).increment();
@@ -83,6 +86,8 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       oneOf(introspector).getAccessor();
       oneOf(evaluatorFactory).createColumnIterator(1, 1);
       will(returnValue(iterator));
+      oneOf(evaluatorFactory).createArrayEvaluator(String.class, 
+          elementEvaluator, iterator);
     } });
     
     Binding binding = ArrayOfSimpleTypeBindingStrategy.INSTANCE

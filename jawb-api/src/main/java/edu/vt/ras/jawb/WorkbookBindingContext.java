@@ -68,7 +68,7 @@ public class WorkbookBindingContext {
     WorkbookBindingProvider provider = getProvider();
     EvaluatorFactory evaluatorFactory = 
         new AnnotationBindingIntrospector(provider);
-    Evaluator evaluator = evaluatorFactory.createEvaluator(
+    Evaluator evaluator = evaluatorFactory.createBeanEvaluator(
         evaluatorFactory.createBeanIntrospector(null, boundClass));
     return new WorkbookBindingContext(evaluator, provider);
   }

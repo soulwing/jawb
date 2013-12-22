@@ -29,6 +29,7 @@ import org.junit.Test;
 import edu.vt.ras.jawb.annotation.IterateColumns;
 import edu.vt.ras.jawb.annotation.IterateRows;
 import edu.vt.ras.jawb.annotation.IterateSheets;
+import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
 /**
@@ -52,6 +53,7 @@ public class ArrayTypeBindingStrategyTest {
   @Test
   public void testWithAnnotatedArrayType() throws Exception {
     final WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+    final Evaluator elementEvaluator = mockery.mock(Evaluator.class);
     final IterateColumns columns = mockery.mock(IterateColumns.class);
     mockery.checking(new Expectations() { { 
       oneOf(introspector).isArrayType();
@@ -73,10 +75,13 @@ public class ArrayTypeBindingStrategyTest {
       oneOf(evaluatorFactory).createBeanIntrospector(introspector, 
           Object.class);
       will(returnValue(beanIntrospector));
-      oneOf(evaluatorFactory).createEvaluator(beanIntrospector);
+      oneOf(evaluatorFactory).createBeanEvaluator(beanIntrospector);
+      will(returnValue(elementEvaluator));
       oneOf(introspector).getAccessor();
       oneOf(evaluatorFactory).createColumnIterator(1, 1);
       will(returnValue(iterator));
+      oneOf(evaluatorFactory).createArrayEvaluator(Object.class, 
+          elementEvaluator, iterator);
     } });
     
     Binding binding = ArrayTypeBindingStrategy.INSTANCE

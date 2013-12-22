@@ -68,7 +68,7 @@ class CollectionOfSimpleTypeBindingStrategy implements BindingStrategy {
     Evaluator cellEvaluator = evaluatorFactory.createCellEvaluator(
         introspector.getSheetReference(), cell.value(), type);
     
-    Evaluator evaluator = new CollectionEvaluator(
+    Evaluator evaluator = evaluatorFactory.createCollectionEvaluator(
         CollectionUtil.getCollectionType(introspector),
         cellEvaluator, iterator);
     

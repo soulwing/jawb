@@ -22,6 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jmock.Expectations;
@@ -31,6 +32,7 @@ import org.junit.Test;
 import edu.vt.ras.jawb.annotation.IterateColumns;
 import edu.vt.ras.jawb.annotation.IterateRows;
 import edu.vt.ras.jawb.annotation.IterateSheets;
+import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
 /**
@@ -54,6 +56,7 @@ public class CollectionTypeBindingStrategyTest {
   @Test
   public void testWithAnnotatedCollectionType() throws Exception {
     final WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+    final Evaluator elementEvaluator = mockery.mock(Evaluator.class);
     final IterateColumns columns = mockery.mock(IterateColumns.class);
     mockery.checking(new Expectations() { { 
       oneOf(introspector).isCollectionType();
@@ -77,10 +80,13 @@ public class CollectionTypeBindingStrategyTest {
       oneOf(evaluatorFactory).createBeanIntrospector(introspector, 
           Object.class);
       will(returnValue(beanIntrospector));
-      oneOf(evaluatorFactory).createEvaluator(beanIntrospector);
+      oneOf(evaluatorFactory).createBeanEvaluator(beanIntrospector);
+      will(returnValue(elementEvaluator));
       oneOf(introspector).getAccessor();
       oneOf(evaluatorFactory).createColumnIterator(1, 1);
       will(returnValue(iterator));
+      oneOf(evaluatorFactory).createCollectionEvaluator(
+          ArrayList.class, elementEvaluator, iterator);
     } });
     
     Binding binding = CollectionTypeBindingStrategy.INSTANCE

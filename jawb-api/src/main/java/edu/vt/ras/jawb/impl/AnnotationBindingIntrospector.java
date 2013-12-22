@@ -18,6 +18,8 @@
  */
 package edu.vt.ras.jawb.impl;
 
+import java.util.Collection;
+
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.impl.cell.CellEvaluator;
 import edu.vt.ras.jawb.spi.Evaluator;
@@ -55,7 +57,7 @@ public class AnnotationBindingIntrospector implements EvaluatorFactory {
    * {@inheritDoc}
    */
   @Override
-  public Evaluator createEvaluator(BeanIntrospector boundClass)
+  public Evaluator createBeanEvaluator(BeanIntrospector boundClass)
       throws WorkbookBindingException {
     BeanEvaluator evaluator = new BeanEvaluator(boundClass.getType());
     for (AttributeIntrospector introspector : boundClass.getAttributes()) {
@@ -84,6 +86,25 @@ public class AnnotationBindingIntrospector implements EvaluatorFactory {
     return null;
   }
   
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Evaluator createArrayEvaluator(Class<?> targetType,
+      Evaluator elementEvaluator, WorkbookIterator iterator) {
+    return new ArrayEvaluator(targetType, elementEvaluator, iterator);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Evaluator createCollectionEvaluator(
+      Class<? extends Collection> targetType, Evaluator elementEvaluator,
+      WorkbookIterator iterator) {
+    return new CollectionEvaluator(targetType, elementEvaluator, iterator);
+  }
+
   /**
    * {@inheritDoc}
    */
