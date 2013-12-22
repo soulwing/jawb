@@ -16,12 +16,13 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.fail;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.jmock.Expectations;
@@ -29,16 +30,16 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.impl.cell.DateCellEvaluatorStrategy;
+import edu.vt.ras.jawb.impl.CalendarCellEvaluatorStrategy;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
 /**
- * Unit tests for {@link DateCellEvaluatorStrategy}.
+ * Unit tests for {@link CalendarCellEvaluatorStrategy}.
  *
  * @author Carl Harris
  */
-public class DateCellEvaluatorStrategyTest {
+public class CalendarCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
   
@@ -48,18 +49,19 @@ public class DateCellEvaluatorStrategyTest {
 
   @Test
   public void testEvaluateWithDateValue() throws Exception {
-    final Date result = new Date();
+    final Calendar result = Calendar.getInstance();
+    result.setTime(new Date());
     mockery.checking(new Expectations() { { 
       oneOf(value).getType();
       will(returnValue(BoundCellValue.Type.NUMERIC));
       oneOf(value).isValidDate();
       will(returnValue(true));
       oneOf(value).getDateValue();
-      will(returnValue(result));
+      will(returnValue(result.getTime()));
     } } );
        
-    assertThat(DateCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Date.class), equalTo((Object) result));
+    assertThat(CalendarCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, Calendar.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -71,7 +73,8 @@ public class DateCellEvaluatorStrategyTest {
     } } );
        
     try {
-      DateCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, Date.class);
+      CalendarCellEvaluatorStrategy.INSTANCE
+          .evaluate(ref, value, Calendar.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

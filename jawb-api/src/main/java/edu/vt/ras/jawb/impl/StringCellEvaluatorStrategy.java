@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;

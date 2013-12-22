@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -31,7 +31,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import edu.vt.ras.jawb.impl.cell.CellEvaluator;
+import edu.vt.ras.jawb.impl.CellEvaluator;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 import edu.vt.ras.jawb.spi.BoundWorkbook;

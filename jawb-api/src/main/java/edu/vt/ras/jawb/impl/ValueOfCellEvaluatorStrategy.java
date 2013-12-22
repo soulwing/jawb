@@ -16,26 +16,27 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
-import java.util.Date;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
 /**
- * A strategy for binding a cell containing a date to a Java {@link Date}.
+ * A strategy for binding a cell to a value obtained by invoking a static
+ * {@code valueOf(double)} method on the target type.
  *
  * @author Carl Harris
  */
-class DateCellEvaluatorStrategy implements CellEvaluatorStrategy {
-
-  public static final CellEvaluatorStrategy INSTANCE = 
-      new DateCellEvaluatorStrategy();
+class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
   
-  private DateCellEvaluatorStrategy() {    
+  public static final CellEvaluatorStrategy INSTANCE = 
+      new ValueOfCellEvaluatorStrategy();
+  
+  private ValueOfCellEvaluatorStrategy() {    
   }
 
   /**
@@ -44,18 +45,28 @@ class DateCellEvaluatorStrategy implements CellEvaluatorStrategy {
   @Override
   public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType)
       throws WorkbookBindingException {
+
+    if (!value.getType().equals(BoundCellValue.Type.NUMERIC)) {
+      return null;
+    }
     
-    if (!Date.class.isAssignableFrom(targetType)) {
+    Method method = TypeUtil.findValueOfMethod(targetType);
+    if (method == null) {
       return null;
     }
 
-    if (!value.getType().equals(BoundCellValue.Type.NUMERIC)
-        || !value.isValidDate()) {
-      throw new TypeMismatchException(ref, 
-          value.getType(), targetType);
+    try {
+      Class<?> argType = method.getParameterTypes()[0];
+      return method.invoke(targetType, TypeUtil.wrapValue(argType, 
+          value.getNumericValue()));
     }
-    
-    return value.getDateValue();
+    catch (InvocationTargetException ex) {
+      throw new WorkbookBindingException(ex.getCause());
+    }
+    catch (IllegalAccessException ex) {
+      throw new WorkbookBindingException(ex.getCause());
+    }
+
   }
 
 }

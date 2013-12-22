@@ -16,31 +16,43 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
+import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
 /**
- * A strategy for evaluating the value of a cell.
+ * A {@link CellEvaluatorStrategy} for numeric primitive target types.
  *
  * @author Carl Harris
  */
-public interface CellEvaluatorStrategy {
+class NumericPrimitiveCellEvaluatorStrategy 
+    implements CellEvaluatorStrategy {
 
-  /**
-   * Attempts to evaluate the given cell value to produce an instance of
-   * the target type.
-   * @param ref cell reference
-   * @param cellValue evaluated value of cell
-   * @param targetType target binding type
-   * @return evaluated value or {@code null} if the receiver does not 
-   *    support the target type
-   * @throws WorkbookBindingException
-   */
-  Object evaluate(BoundCellReference ref, BoundCellValue cellValue, 
-      Class<?> targetType)
-      throws WorkbookBindingException;
+  public static final CellEvaluatorStrategy INSTANCE =
+      new NumericPrimitiveCellEvaluatorStrategy();
   
+  private NumericPrimitiveCellEvaluatorStrategy() {    
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType)
+      throws WorkbookBindingException {
+    
+    if (!TypeUtil.isNumericPrimitive(targetType)) {
+      return null;
+    }
+    
+    if (value.getType() != BoundCellValue.Type.NUMERIC) {
+      throw new TypeMismatchException(ref, value.getType(), targetType);
+    }
+    
+    return TypeUtil.wrapValue(targetType, value.getNumericValue());
+  }
+
 }

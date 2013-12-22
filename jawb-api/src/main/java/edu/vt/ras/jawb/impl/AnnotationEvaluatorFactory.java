@@ -21,7 +21,6 @@ package edu.vt.ras.jawb.impl;
 import java.util.Collection;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.impl.cell.CellEvaluator;
 import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
 import edu.vt.ras.jawb.spi.WorkbookIterator;

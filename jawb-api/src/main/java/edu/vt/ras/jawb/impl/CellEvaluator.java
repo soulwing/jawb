@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
@@ -29,7 +29,7 @@ import edu.vt.ras.jawb.spi.Evaluator;
  *
  * @author Carl Harris
  */
-public class CellEvaluator implements Evaluator {
+class CellEvaluator implements Evaluator {
 
   private static final CellEvaluatorStrategy[] strategies = {
     BooleanCellEvaluatorStrategy.INSTANCE,

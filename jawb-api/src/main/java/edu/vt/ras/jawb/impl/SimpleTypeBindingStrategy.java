@@ -20,7 +20,6 @@ package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.annotation.Cell;
-import edu.vt.ras.jawb.impl.cell.TypeUtil;
 import edu.vt.ras.jawb.spi.Evaluator;
 
 /**

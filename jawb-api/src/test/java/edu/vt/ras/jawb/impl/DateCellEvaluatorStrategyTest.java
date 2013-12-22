@@ -16,27 +16,29 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.fail;
+
+import java.util.Date;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.TypeMismatchException;
-import edu.vt.ras.jawb.impl.cell.BooleanCellEvaluatorStrategy;
+import edu.vt.ras.jawb.impl.DateCellEvaluatorStrategy;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
 /**
- * Unit tests for {@link BooleanCellEvaluatorStrategy}.
+ * Unit tests for {@link DateCellEvaluatorStrategy}.
  *
  * @author Carl Harris
  */
-public class BooleanCellEvaluatorStrategyTest {
+public class DateCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
   
@@ -45,45 +47,31 @@ public class BooleanCellEvaluatorStrategyTest {
   private BoundCellValue value = mockery.mock(BoundCellValue.class);
 
   @Test
-  public void testEvaluateWithWrapperTarget() throws Exception {
-    final boolean result = false;
+  public void testEvaluateWithDateValue() throws Exception {
+    final Date result = new Date();
     mockery.checking(new Expectations() { { 
       oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.BOOLEAN));
-      oneOf(value).getBooleanValue();
+      will(returnValue(BoundCellValue.Type.NUMERIC));
+      oneOf(value).isValidDate();
+      will(returnValue(true));
+      oneOf(value).getDateValue();
       will(returnValue(result));
     } } );
        
-    assertThat(BooleanCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Boolean.class), equalTo((Object) result));
+    assertThat(DateCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, Date.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
   @Test
-  public void testEvaluateWithPrimitiveTarget() throws Exception {
-    final boolean result = false;
-    mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.BOOLEAN));
-      oneOf(value).getBooleanValue();
-      will(returnValue(result));
-    } } );
-       
-    assertThat(
-        BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, boolean.class),
-        equalTo((Object) result));
-    mockery.assertIsSatisfied();
-  }
-
-  @Test
-  public void testEvaluateWithNonBooleanValue() throws Exception {
+  public void testEvaluateWithNonDateValue() throws Exception {
     mockery.checking(new Expectations() { { 
       atLeast(1).of(value).getType();
       will(returnValue(BoundCellValue.Type.BLANK));
     } } );
        
     try {
-      BooleanCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, boolean.class);
+      DateCellEvaluatorStrategy.INSTANCE.evaluate(ref, value, Date.class);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

@@ -16,45 +16,46 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
+
+import java.util.Date;
 
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
-
 /**
- * A strategy for binding a cell containing a boolean value to a Java 
- * boolean type.
+ * A strategy for binding a cell containing a date to a Java {@link Date}.
  *
  * @author Carl Harris
  */
-class BooleanCellEvaluatorStrategy implements CellEvaluatorStrategy {
+class DateCellEvaluatorStrategy implements CellEvaluatorStrategy {
 
   public static final CellEvaluatorStrategy INSTANCE = 
-      new BooleanCellEvaluatorStrategy();
+      new DateCellEvaluatorStrategy();
   
-  private BooleanCellEvaluatorStrategy() {    
+  private DateCellEvaluatorStrategy() {    
   }
-  
+
   /**
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCellValue cellValue, Class<?> targetType)
+  public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType)
       throws WorkbookBindingException {
     
-    if (!boolean.class.isAssignableFrom(targetType)
-        && !Boolean.class.isAssignableFrom(targetType)) {
+    if (!Date.class.isAssignableFrom(targetType)) {
       return null;
     }
-    if (!cellValue.getType().equals(BoundCellValue.Type.BOOLEAN)) {
-      throw new TypeMismatchException(ref, 
-          cellValue.getType(), targetType);
-    }
 
-    return cellValue.getBooleanValue();
+    if (!value.getType().equals(BoundCellValue.Type.NUMERIC)
+        || !value.isValidDate()) {
+      throw new TypeMismatchException(ref, 
+          value.getType(), targetType);
+    }
+    
+    return value.getDateValue();
   }
 
 }

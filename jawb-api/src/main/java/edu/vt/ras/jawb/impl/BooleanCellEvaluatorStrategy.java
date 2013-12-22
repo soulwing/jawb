@@ -1,5 +1,5 @@
 /*
- * File created on Dec 20, 2013 
+ * File created on Dec 17, 2013 
  *
  * Copyright (c) 2013 Virginia Polytechnic Institute and State University
  *
@@ -16,43 +16,45 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
+
 /**
- * A {@link CellEvaluatorStrategy} for numeric primitive target types.
+ * A strategy for binding a cell containing a boolean value to a Java 
+ * boolean type.
  *
  * @author Carl Harris
  */
-class NumericPrimitiveCellEvaluatorStrategy 
-    implements CellEvaluatorStrategy {
+class BooleanCellEvaluatorStrategy implements CellEvaluatorStrategy {
 
-  public static final CellEvaluatorStrategy INSTANCE =
-      new NumericPrimitiveCellEvaluatorStrategy();
+  public static final CellEvaluatorStrategy INSTANCE = 
+      new BooleanCellEvaluatorStrategy();
   
-  private NumericPrimitiveCellEvaluatorStrategy() {    
+  private BooleanCellEvaluatorStrategy() {    
   }
   
   /**
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCellReference ref, BoundCellValue value, Class<?> targetType)
+  public Object evaluate(BoundCellReference ref, BoundCellValue cellValue, Class<?> targetType)
       throws WorkbookBindingException {
     
-    if (!TypeUtil.isNumericPrimitive(targetType)) {
+    if (!boolean.class.isAssignableFrom(targetType)
+        && !Boolean.class.isAssignableFrom(targetType)) {
       return null;
     }
-    
-    if (value.getType() != BoundCellValue.Type.NUMERIC) {
-      throw new TypeMismatchException(ref, value.getType(), targetType);
+    if (!cellValue.getType().equals(BoundCellValue.Type.BOOLEAN)) {
+      throw new TypeMismatchException(ref, 
+          cellValue.getType(), targetType);
     }
-    
-    return TypeUtil.wrapValue(targetType, value.getNumericValue());
+
+    return cellValue.getBooleanValue();
   }
 
 }

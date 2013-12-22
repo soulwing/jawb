@@ -16,28 +16,25 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.cell;
+package edu.vt.ras.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import edu.vt.ras.jawb.impl.cell.ValueOfCellEvaluatorStrategy;
+import edu.vt.ras.jawb.impl.NumericPrimitiveCellEvaluatorStrategy;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
 /**
- * Unit tests for {@link ValueOfCellEvaluatorStrategy}.
+ * Unit tests for {@link NumericPrimitiveCellEvaluatorStrategy}.
  *
  * @author Carl Harris
  */
-public class ValueOfCellEvaluatorStrategyTest {
+public class NumericPrimitiveCellEvaluatorStrategyTest {
 
   private Mockery mockery = new Mockery();
   
@@ -55,8 +52,8 @@ public class ValueOfCellEvaluatorStrategyTest {
       will(returnValue(result));
     } });
     
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Double.class), equalTo((Object) result));
+    assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, double.class), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
 
@@ -70,8 +67,8 @@ public class ValueOfCellEvaluatorStrategyTest {
       will(returnValue(result));
     } });
     
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Float.class), equalTo((Object)((float) result)));
+    assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, float.class), equalTo((Object) (float) result));
     mockery.assertIsSatisfied();
   }
   
@@ -85,13 +82,13 @@ public class ValueOfCellEvaluatorStrategyTest {
       will(returnValue(result));
     } });
     
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Long.class), equalTo((Object)((long) result)));
+    assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, long.class), equalTo((Object) (long) result));
     mockery.assertIsSatisfied();
   }
   
   @Test
-  public void testWithIntegerTarget() throws Exception {
+  public void testWithIntTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(new Expectations() { { 
       oneOf(value).getType();
@@ -100,8 +97,8 @@ public class ValueOfCellEvaluatorStrategyTest {
       will(returnValue(result));
     } });
     
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Integer.class), equalTo((Object)((int) result)));
+    assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, int.class), equalTo((Object) (int) result));
     mockery.assertIsSatisfied();
   }
   
@@ -115,8 +112,8 @@ public class ValueOfCellEvaluatorStrategyTest {
       will(returnValue(result));
     } });
     
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Short.class), equalTo((Object)((short) result)));
+    assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, short.class), equalTo((Object) (short) result));
     mockery.assertIsSatisfied();
   }
   
@@ -130,41 +127,9 @@ public class ValueOfCellEvaluatorStrategyTest {
       will(returnValue(result));
     } });
     
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, Byte.class), equalTo((Object)((byte) result)));
+    assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
+        .evaluate(ref, value, byte.class), equalTo((Object) (byte) result));
     mockery.assertIsSatisfied();
   }
   
-  @Test
-  public void testWithBigDecimalTarget() throws Exception {
-    final double result = 1.0;
-    mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.NUMERIC));
-      oneOf(value).getNumericValue();
-      will(returnValue(result));
-    } });
-    
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, BigDecimal.class), 
-        equalTo((Object)(BigDecimal.valueOf(result))));
-    mockery.assertIsSatisfied();
-  }
-  
-  @Test
-  public void testWithBigIntegerTarget() throws Exception {
-    final double result = 1.0;
-    mockery.checking(new Expectations() { { 
-      oneOf(value).getType();
-      will(returnValue(BoundCellValue.Type.NUMERIC));
-      oneOf(value).getNumericValue();
-      will(returnValue(result));
-    } });
-    
-    assertThat(ValueOfCellEvaluatorStrategy.INSTANCE
-        .evaluate(ref, value, BigInteger.class), 
-        equalTo((Object)(BigInteger.valueOf((long) result))));
-    mockery.assertIsSatisfied();
-  }
-
 }
