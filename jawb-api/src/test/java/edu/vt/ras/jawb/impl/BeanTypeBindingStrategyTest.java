@@ -27,6 +27,7 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.annotation.Bound;
+import edu.vt.ras.jawb.annotation.Sheet;
 
 /**
  * Unit tests for {@link BeanTypeBindingStrategy}.
@@ -70,7 +71,9 @@ public class BeanTypeBindingStrategyTest {
   @Test
   public void testWithNoAnnotation() throws Exception {
     mockery.checking(new Expectations() { { 
-      oneOf(introspector).getAnnotation(Bound.class);
+      oneOf(introspector).getAnnotation(Bound.class);      
+      will(returnValue(null));
+      oneOf(introspector).getAnnotation(Sheet.class);      
       will(returnValue(null));
     } });
     

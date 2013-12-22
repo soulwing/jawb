@@ -20,6 +20,7 @@ package edu.vt.ras.jawb.impl;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.annotation.Bound;
+import edu.vt.ras.jawb.annotation.Sheet;
 
 /**
  * A {@link BindingStrategy} for an attribute with a Java bean type.
@@ -40,7 +41,9 @@ class BeanTypeBindingStrategy implements BindingStrategy {
   @Override
   public Binding createBinding(AttributeIntrospector introspector,
       EvaluatorFactory evaluatorFactory) throws WorkbookBindingException {
-    if (introspector.getAnnotation(Bound.class) == null) {
+    
+    if (introspector.getAnnotation(Bound.class) == null
+        && introspector.getAnnotation(Sheet.class) == null) {
       return null;
     }    
 
