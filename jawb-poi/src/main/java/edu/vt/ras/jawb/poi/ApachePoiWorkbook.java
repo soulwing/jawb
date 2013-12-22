@@ -75,7 +75,6 @@ class ApachePoiWorkbook implements BoundWorkbook {
     String sheetName = cellRef.getSheetName();
     Sheet sheet = sheetName != null ? 
         delegate.getSheet(sheetName) : delegate.getSheetAt(0);
-    System.out.println(cellRef.formatAsString());
     Row row = sheet.getRow(cellRef.getRow());
     Cell cell = row.getCell(cellRef.getCol());
     return new ApachePoiCell(cell, useDate1904);
