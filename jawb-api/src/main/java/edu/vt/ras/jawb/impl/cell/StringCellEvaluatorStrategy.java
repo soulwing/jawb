@@ -18,6 +18,7 @@
  */
 package edu.vt.ras.jawb.impl.cell;
 
+import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.WorkbookBindingException;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;

@@ -32,7 +32,7 @@ import edu.vt.ras.jawb.spi.WorkbookIterator;
  *
  * @author Carl Harris
  */
-public class AnnotationBindingIntrospector implements EvaluatorFactory {
+public class AnnotationEvaluatorFactory implements EvaluatorFactory {
 
   private static final BindingStrategy[] strategies = {
     ArrayOfSimpleTypeBindingStrategy.INSTANCE,
@@ -49,7 +49,7 @@ public class AnnotationBindingIntrospector implements EvaluatorFactory {
    * Constructs a new instance.
    * @param provider
    */
-  public AnnotationBindingIntrospector(WorkbookBindingProvider provider) {
+  public AnnotationEvaluatorFactory(WorkbookBindingProvider provider) {
     this.provider = provider;
   }
 

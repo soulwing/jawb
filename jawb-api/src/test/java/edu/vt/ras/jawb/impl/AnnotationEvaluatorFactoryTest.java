@@ -40,11 +40,11 @@ import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
 /**
- * Unit tests for {@link AnnotationBindingIntrospector}.
+ * Unit tests for {@link AnnotationEvaluatorFactory}.
  *
  * @author Carl Harris
  */
-public class AnnotationBindingIntrospectorTest {
+public class AnnotationEvaluatorFactoryTest {
 
   private Mockery mockery = new Mockery();
   
@@ -57,8 +57,8 @@ public class AnnotationBindingIntrospectorTest {
   private WorkbookBindingProvider provider = 
       mockery.mock(WorkbookBindingProvider.class);
   
-  private AnnotationBindingIntrospector introspector = 
-      new AnnotationBindingIntrospector(provider);
+  private AnnotationEvaluatorFactory introspector = 
+      new AnnotationEvaluatorFactory(provider);
   
   @Test
   public void testCreateEvaluatorWithAnnotatedField() throws Exception {

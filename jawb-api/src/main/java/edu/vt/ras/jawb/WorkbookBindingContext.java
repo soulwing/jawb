@@ -21,7 +21,7 @@ package edu.vt.ras.jawb;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-import edu.vt.ras.jawb.impl.AnnotationBindingIntrospector;
+import edu.vt.ras.jawb.impl.AnnotationEvaluatorFactory;
 import edu.vt.ras.jawb.impl.EvaluatorFactory;
 import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
@@ -67,7 +67,7 @@ public class WorkbookBindingContext {
       throws WorkbookBindingException {
     WorkbookBindingProvider provider = getProvider();
     EvaluatorFactory evaluatorFactory = 
-        new AnnotationBindingIntrospector(provider);
+        new AnnotationEvaluatorFactory(provider);
     Evaluator evaluator = evaluatorFactory.createBeanEvaluator(
         evaluatorFactory.createBeanIntrospector(null, boundClass));
     return new WorkbookBindingContext(evaluator, provider);

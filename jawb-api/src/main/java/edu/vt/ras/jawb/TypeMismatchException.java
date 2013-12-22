@@ -18,6 +18,7 @@
  */
 package edu.vt.ras.jawb;
 
+import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCellValue;
 
 
@@ -31,11 +32,17 @@ public class TypeMismatchException extends WorkbookBindingException {
 
   private static final long serialVersionUID = 1456249282208759934L;
 
-  public TypeMismatchException(
+  /**
+   * Constructs a new instance.
+   * @param ref bound cell reference
+   * @param cellType source cell type
+   * @param attributeType target binding type
+   */
+  public TypeMismatchException(BoundCellReference ref, 
       BoundCellValue.Type cellType, Class<?> attributeType) {
     super(String.format(
-        "cell of type %s cannot be bound to attribute of type %s",
-        cellType, attributeType.getName())); 
+        "cell of type %s at location %s cannot be bound to attribute of type %s",
+        cellType, ref, attributeType.getName())); 
   }
   
 }

@@ -31,7 +31,7 @@ import edu.vt.ras.jawb.spi.BoundCellValue;
  *
  * @author Carl Harris
  */
-public class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
+class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
   
   public static final CellEvaluatorStrategy INSTANCE = 
       new ValueOfCellEvaluatorStrategy();
