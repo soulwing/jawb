@@ -30,11 +30,13 @@ import edu.vt.ras.jawb.spi.WorkbookIterator;
  *
  * @author Carl Harris
  */
-class CollectionEvaluator implements Evaluator {
+class CollectionEvaluator implements Evaluator, Parentable {
 
   private final Class<? extends Collection> targetType;
   private final Evaluator elementEvaluator;
   private final WorkbookIterator iterator;
+  
+  private Object parent;
   
   /**
    * Constructs a new instance.
@@ -53,9 +55,22 @@ class CollectionEvaluator implements Evaluator {
    * {@inheritDoc}
    */
   @Override
+  public void setParent(Object parent) {
+    this.parent = parent;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   @SuppressWarnings("unchecked")
   public Object evaluate(BoundWorkbook workbook)
       throws WorkbookBindingException {
+
+    if (elementEvaluator instanceof Parentable) {
+      ((Parentable) elementEvaluator).setParent(parent);
+    }
+    
     Collection elements = newCollection();
     iterator.reset();
     workbook.pushIterator(iterator);
@@ -65,6 +80,11 @@ class CollectionEvaluator implements Evaluator {
       elements.add(element);
     }
     workbook.popIterator(iterator);
+
+    if (elementEvaluator instanceof Parentable) {
+      ((Parentable) elementEvaluator).setParent(null);
+    }
+
     return elements;
   }
 

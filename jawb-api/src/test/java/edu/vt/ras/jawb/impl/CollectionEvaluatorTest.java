@@ -21,6 +21,7 @@ package edu.vt.ras.jawb.impl;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 
 import java.util.ArrayList;
@@ -47,27 +48,35 @@ public class CollectionEvaluatorTest {
   
   private WorkbookIterator iterator = new ColumnIterator(1, 1, null);
   
-  private Evaluator elementEvaluator = mockery.mock(Evaluator.class);
+  private ParentableEvaluator elementEvaluator = 
+      mockery.mock(ParentableEvaluator.class);
   
   private CollectionEvaluator evaluator = new CollectionEvaluator(
       ArrayList.class, elementEvaluator, iterator);
   
   @Test
   public void testEvaluate() throws Exception {
+    final Object parent = new Object();
     final Object element = new Object();
     mockery.checking(new Expectations() { { 
+      oneOf(elementEvaluator).setParent(with(parent));
+      oneOf(elementEvaluator).setParent(with(nullValue(Object.class)));
       oneOf(workbook).pushIterator(with(same(iterator)));
       oneOf(elementEvaluator).evaluate(with(same(workbook)));
       will(returnValue(element));
       oneOf(workbook).popIterator(with(same(iterator)));
     } });
     
+    evaluator.setParent(parent);
     Object result = evaluator.evaluate(workbook);
     assertThat(result, instanceOf(List.class));
     ArrayList elements = (ArrayList) result;
     mockery.assertIsSatisfied();
     assertThat(elements.isEmpty(), equalTo(false));
     assertThat(elements.get(0), sameInstance(element));
+  }
+  
+  public interface ParentableEvaluator extends Evaluator, Parentable {    
   }
   
 }

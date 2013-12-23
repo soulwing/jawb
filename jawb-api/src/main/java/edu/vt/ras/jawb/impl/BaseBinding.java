@@ -49,16 +49,16 @@ class BaseBinding implements Binding {
   public void bind(BoundWorkbook workbook, Object boundObject) 
       throws WorkbookBindingException {
     
-    if (evaluator instanceof BeanEvaluator) {
-      ((BeanEvaluator) evaluator).setParent(boundObject);
+    if (evaluator instanceof Parentable) {
+      ((Parentable) evaluator).setParent(boundObject);
     }
     
     Object result = evaluator.evaluate(workbook);
     if (result == null && accessor.getType().isPrimitive()) return;
     accessor.setValue(boundObject, result);
     
-    if (evaluator instanceof BeanEvaluator) {
-      ((BeanEvaluator) evaluator).setParent(null);
+    if (evaluator instanceof Parentable) {
+      ((Parentable) evaluator).setParent(null);
     }
 
   }

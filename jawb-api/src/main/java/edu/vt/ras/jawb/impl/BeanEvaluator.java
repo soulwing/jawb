@@ -33,7 +33,7 @@ import edu.vt.ras.jawb.spi.Evaluator;
  *
  * @author Carl Harris
  */
-class BeanEvaluator implements Evaluator {
+class BeanEvaluator implements Evaluator, Parentable {
 
   private static final String BEFORE_EXTRACT_METHOD = "beforeExtract";
 
@@ -58,8 +58,7 @@ class BeanEvaluator implements Evaluator {
   }
 
   /**
-   * Sets the parent bean.
-   * @param parent parent bean reference
+   * {@inheritDoc}
    */
   public void setParent(Object parent) {
     this.parent = parent;
@@ -110,7 +109,10 @@ class BeanEvaluator implements Evaluator {
       callback.invoke(target, parent);
     }
     catch (InvocationTargetException ex) {
-      throw new WorkbookBindingException(ex.getCause());
+      WorkbookBindingException wbex =  
+          new WorkbookBindingException(ex.getCause());
+      wbex.setStackTrace(ex.getStackTrace());
+      throw wbex;
     }
     catch (IllegalAccessException ex) {
       throw new WorkbookBindingException(ex);
