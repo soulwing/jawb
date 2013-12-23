@@ -1,5 +1,5 @@
 /*
- * File created on Dec 17, 2013 
+ * File created on Dec 23, 2013 
  *
  * Copyright (c) 2013 Virginia Polytechnic Institute and State University
  *
@@ -16,25 +16,24 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.annotation;
+package edu.vt.ras.jawb.impl.expression;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import edu.vt.ras.jawb.WorkbookBindingException;
+import edu.vt.ras.jawb.spi.BoundWorkbook;
 
 /**
- * An annotation that describes an iteration of columns on a worksheet.
+ * An operand in an expression.
  *
  * @author Carl Harris
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
-public @interface IterateColumns {
+public interface Operand {
 
-  int count();
-  int increment() default 1;
-  Predicate stop() default @Predicate;
-  Predicate skip() default @Predicate;
+  /**
+   * Evaluates the receiver in the context of the given workbook.
+   * @param workbook workbook context
+   * @return evaluation result.
+   * @throws WorkbookBindingException
+   */
+  Value evaluate(BoundWorkbook workbook) throws WorkbookBindingException;
   
 }

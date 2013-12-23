@@ -34,5 +34,7 @@ public @interface IterateSheets {
 
   int count();
   int increment() default 1;
+  Predicate stop() default @Predicate;
+  Predicate skip() default @Predicate;
 
 }

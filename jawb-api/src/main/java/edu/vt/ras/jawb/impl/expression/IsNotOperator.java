@@ -1,5 +1,5 @@
 /*
- * File created on Dec 17, 2013 
+ * File created on Dec 23, 2013 
  *
  * Copyright (c) 2013 Virginia Polytechnic Institute and State University
  *
@@ -16,25 +16,33 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.annotation;
+package edu.vt.ras.jawb.impl.expression;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import edu.vt.ras.jawb.WorkbookBindingException;
 
 /**
- * An annotation that describes an iteration of columns on a worksheet.
+ * A type matching operator for an expression.
  *
  * @author Carl Harris
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
-public @interface IterateColumns {
+class IsNotOperator extends BinaryOperator {
 
-  int count();
-  int increment() default 1;
-  Predicate stop() default @Predicate;
-  Predicate skip() default @Predicate;
+  /**
+   * Constructs a new instance.
+   * @param a
+   * @param b
+   */
+  public IsNotOperator(Operand a, Operand b) {
+    super(a, b);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected Value evaluate(Value a, Value b) throws WorkbookBindingException {
+    Value.Type type = Value.Type.valueOf(b.toString().toUpperCase());
+    return new Value(Value.Type.BOOLEAN, !a.getType().equals(type));
+  }
   
 }
