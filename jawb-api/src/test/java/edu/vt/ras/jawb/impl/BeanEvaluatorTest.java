@@ -19,7 +19,9 @@
 package edu.vt.ras.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.sameInstance;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -54,12 +56,32 @@ public class BeanEvaluatorTest {
       oneOf(binding).bind(with(same(workbook)), with(any(MockBean.class)));
     } });
     
+    Object parent = new Object();
+    evaluator.setParent(parent);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, instanceOf(MockBean.class));
+    MockBean bean = (MockBean) obj;
+    assertThat(bean.beforeInvoked, equalTo(true));
+    assertThat(bean.afterInvoked, equalTo(true));
+    assertThat(bean.parent, sameInstance(parent));
   }
   
   public static class MockBean {
+    
+    private boolean beforeInvoked;
+    private boolean afterInvoked;
+    private Object parent;
+    
+    void beforeExtract(Object parent) {
+      beforeInvoked = true;
+      this.parent = parent;
+    }
+    
+    void afterExtract(Object parent) {
+      afterInvoked = true;
+      assertThat(parent, sameInstance(this.parent));
+    }
   }
   
 }
