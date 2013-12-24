@@ -72,6 +72,7 @@ public class CompiledExpressionFactory implements ExpressionFactory {
     TokenStream tokenStream = new CommonTokenStream(lexer);
     ExpressionErrorListener errorListener = new ExpressionErrorListener();
     ExpressionParser parser = new ExpressionParser(tokenStream);
+    parser.removeErrorListeners();
     parser.addErrorListener(errorListener);
     ExpressionCompiler visitor = new ExpressionCompiler();
     visitor.setProvider(provider);
