@@ -256,7 +256,7 @@ public class MyExpressionVisitor extends ExpressionBaseVisitor<Operand> {
       return function;
     }
     if (ctx.LPAREN() != null) {
-      return super.visit(ctx.expression(0));
+      return new NestedExpressionOperand(super.visit(ctx.expression(0)));
     }
     if (ctx.operand() != null) {
       return super.visit(ctx.operand());
