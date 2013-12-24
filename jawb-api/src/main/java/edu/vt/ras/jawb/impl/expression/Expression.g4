@@ -22,54 +22,26 @@ grammar Expression;
 statement:
     expression? EOF;
 
-expression:
-    exclusiveOrOp (OP_OR exclusiveOrOp)?;
+expression: exclusiveOrOp (OP_OR exclusiveOrOp)?;
 
-exclusiveOrOp:
-    andOp (OP_XOR andOp)?;
+exclusiveOrOp: andOp (OP_XOR andOp)?;
     
-andOp:
-    equalityOp (OP_AND equalityOp)?;
+andOp: equalityOp (OP_AND equalityOp)?;
   
-equalityOp:
-    relationalOp OP_EQ relationalOp
-  | relationalOp OP_NEQ relationalOp
-  | relationalOp
-  ;
+equalityOp: relationalOp (equalityOperator relationalOp)?;
 
 relationalOp:
-    additiveOp OP_MATCH additiveOp
- |  additiveOp OP_LT additiveOp
- |  additiveOp OP_LEQ additiveOp
- |  additiveOp OP_GT additiveOp
- |  additiveOp OP_GEQ additiveOp
- |  additiveOp
+    additiveOp (relationalOperator additiveOp)?
  |  isTypeOp
  ;
 
-isTypeOp:
-    additiveOp OP_IS TYPE
- |  additiveOp OP_IS_NOT TYPE    
- ;
+isTypeOp: additiveOp (isOperator TYPE)?;
  
-additiveOp:
-    multiplicativeOp OP_PLUS multiplicativeOp
-  | multiplicativeOp OP_MINUS multiplicativeOp
-  | multiplicativeOp
-  ;
+additiveOp: multiplicativeOp (additiveOperator multiplicativeOp)*;
 
-multiplicativeOp:
-    unaryOp OP_MULT unaryOp
-  | unaryOp OP_DIV unaryOp
-  | unaryOp
-  ;
+multiplicativeOp: unaryOp (multiplicativeOperator unaryOp)*;
 
-unaryOp:
-    OP_MINUS function
-  | OP_PLUS function
-  | OP_NOT function
-  | function
-  ;
+unaryOp: unaryOperator? function;
 
 function:
    FN_IF LPAREN (expression COMMA expression)+ (COMMA expression)? RPAREN
@@ -78,6 +50,18 @@ function:
  ;
 
 operand: REF | NUMBER | DATE | TIME | BOOLEAN | STRING;
+
+equalityOperator: OP_EQ | OP_NEQ; 
+
+relationalOperator: OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_MATCH;
+
+isOperator: OP_IS | OP_IS_NOT;
+
+additiveOperator: OP_PLUS | OP_MINUS;
+
+multiplicativeOperator: OP_MULT | OP_DIV;
+
+unaryOperator: OP_PLUS | OP_MINUS | OP_NOT;
 
 TYPE: TYPE_NUMBER | TYPE_DATE | TYPE_BOOLEAN | TYPE_STRING | TYPE_BLANK;
 

@@ -87,64 +87,88 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
    */
   @Override
   public Operand visitExpression(ExpressionContext ctx) {
-    Operand a = super.visit(ctx.exclusiveOrOp(0));
-    if (ctx.exclusiveOrOp(1) == null) return a;
-    
-    Operand b = super.visit(ctx.exclusiveOrOp(1));
-    if (ctx.OP_OR() != null) {
-      return new InclusiveOrOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(
+        visit(ctx.exclusiveOrOp(0)));
+    for (int i = 1, max = ctx.exclusiveOrOp().size(); i < max; i++) {
+      operator.addOperation(inclusiveOrOperator(ctx), 
+          visit(ctx.exclusiveOrOp(i)));
     }
-    throw new IllegalStateException("unrecognized OR operator");    
+    return operator;
   }
 
+  private BinaryOperator inclusiveOrOperator(ExpressionContext ctx) {
+    if (ctx.OP_OR() != null) {
+      return new InclusiveOrOperator();
+    }
+    throw new IllegalStateException("unrecognized OR operator");
+  }
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public Operand visitExclusiveOrOp(ExclusiveOrOpContext ctx) {
-    Operand a = super.visit(ctx.andOp(0));
-    if (ctx.andOp(1) == null) return a;
-    
-    Operand b = super.visit(ctx.andOp(1));
-    if (ctx.OP_XOR() != null) {
-      return new ExclusiveOrOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(
+        visit(ctx.andOp(0)));
+    for (int i = 1, max = ctx.andOp().size(); i < max; i++) {
+      operator.addOperation(exclusiveOrOperator(ctx), 
+          visit(ctx.andOp(i)));
     }
-    throw new IllegalStateException("unrecognized XOR operator");    
+    return operator;
   }
 
+  private BinaryOperator exclusiveOrOperator(ExclusiveOrOpContext ctx) {
+    if (ctx.OP_XOR() != null) {
+      return new ExclusiveOrOperator();
+    }
+    throw new IllegalStateException("unrecognized XOR operator");
+  }
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public Operand visitAndOp(AndOpContext ctx) {
-    Operand a = super.visit(ctx.equalityOp(0));
-    if (ctx.equalityOp(1) == null) return a;
-    
-    Operand b = super.visit(ctx.equalityOp(1));
-    if (ctx.OP_AND() != null) {
-      return new AndOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(
+        visit(ctx.equalityOp(0)));
+    for (int i = 1, max = ctx.equalityOp().size(); i < max; i++) {
+      operator.addOperation(andOperator(ctx), 
+          visit(ctx.equalityOp(i)));
     }
-    throw new IllegalStateException("unrecognized AND operator");    
+    return operator;
   }
 
+  private BinaryOperator andOperator(AndOpContext ctx) {
+    if (ctx.OP_AND() != null) {
+      return new AndOperator();
+    }
+    throw new IllegalStateException("unrecognized AND operator");
+  }
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public Operand visitEqualityOp(EqualityOpContext ctx) {
-    Operand a = super.visit(ctx.relationalOp(0));
-    if (ctx.relationalOp(1) == null) return a;
-    
-    Operand b = super.visit(ctx.relationalOp(1));
-    if (ctx.OP_EQ() != null) {
-      return new EqualsOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(
+        visit(ctx.relationalOp(0)));
+    for (int i = 1, max = ctx.relationalOp().size(); i < max; i++) {
+      operator.addOperation(equalityOperator(ctx), 
+          visit(ctx.relationalOp(i)));
     }
-    if (ctx.OP_NEQ() != null) {
-      return new NotEqualsOperator(a, b);
-    }
-    throw new IllegalStateException("unrecognized relational operator");    
+    return operator;
   }
 
+  private BinaryOperator equalityOperator(EqualityOpContext ctx) {
+    if (ctx.equalityOperator().OP_EQ() != null) {
+      return new EqualsOperator();
+    }
+    if (ctx.equalityOperator().OP_NEQ() != null) {
+      return new NotEqualsOperator();
+    }
+    throw new IllegalStateException("unrecognized equality operator");
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -154,28 +178,34 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
       return super.visit(ctx.isTypeOp());
     }
     
-    Operand a = super.visit(ctx.additiveOp(0));
-    if (ctx.additiveOp(1) == null) return a;
-    
-    Operand b = super.visit(ctx.additiveOp(1));
-    if (ctx.OP_LT() != null) {
-      return new LessThanOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(
+        visit(ctx.additiveOp(0)));
+    for (int i = 1, max = ctx.additiveOp().size(); i < max; i++) {
+      operator.addOperation(relationalOperator(ctx), 
+          visit(ctx.additiveOp(i)));
     }
-    if (ctx.OP_LEQ() != null) {
-      return new LessOrEqualsOperator(a, b);
+    return operator;
+  }
+
+  private BinaryOperator relationalOperator(RelationalOpContext ctx) {
+    if (ctx.relationalOperator().OP_LT() != null) {
+      return new LessThanOperator();
     }
-    if (ctx.OP_GT() != null) {
-      return new GreaterThanOperator(a, b);
+    if (ctx.relationalOperator().OP_LEQ() != null) {
+      return new LessOrEqualsOperator();
     }
-    if (ctx.OP_GEQ() != null) {
-      return new GreaterOrEqualsOperator(a, b);
+    if (ctx.relationalOperator().OP_GT() != null) {
+      return new GreaterThanOperator();
     }
-    if (ctx.OP_MATCH() != null) {
-      return new MatchOperator(a, b);
+    if (ctx.relationalOperator().OP_GEQ() != null) {
+      return new GreaterOrEqualsOperator();
+    }
+    if (ctx.relationalOperator().OP_MATCH() != null) {
+      return new MatchOperator();
     }
     throw new IllegalStateException("unrecognized relational operator");
   }
-
+  
   /**
    * {@inheritDoc}
    */
@@ -183,64 +213,87 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
   public Operand visitIsTypeOp(IsTypeOpContext ctx) {
     Operand a = super.visit(ctx.additiveOp());
     Operand b = new LiteralOperand(Value.Type.STRING, ctx.TYPE().getText());
-    if (ctx.OP_IS() != null) {
-      return new IsOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(a);
+    operator.addOperation(isOperator(ctx), b);
+    return operator;
+  }
+
+  private BinaryOperator isOperator(IsTypeOpContext ctx) {
+    if (ctx.isOperator().OP_IS() != null) {
+      return new IsOperator();
     }
-    if (ctx.OP_IS_NOT() != null) {
-      return new IsNotOperator(a, b);
+    if (ctx.isOperator().OP_IS_NOT() != null) {
+      return new IsNotOperator();
     }
     throw new IllegalStateException("unrecognized IS operator");
   }
-
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public Operand visitAdditiveOp(AdditiveOpContext ctx) {
-    Operand a = super.visit(ctx.multiplicativeOp(0));
-    if (ctx.multiplicativeOp(1) == null) return a;
-    
-    Operand b = super.visit(ctx.multiplicativeOp(1));
-    if (ctx.OP_PLUS() != null) {
-      return new AdditionOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(
+        visit(ctx.multiplicativeOp(0)));
+    for (int i = 1, max = ctx.multiplicativeOp().size(); i < max; i++) {
+      operator.addOperation(additiveOperator(ctx, i - 1), 
+          visit(ctx.multiplicativeOp(i)));
     }
-    if (ctx.OP_MINUS() != null) {
-      return new SubtractionOperator(a, b);
+    return operator;
+  }
+
+  private BinaryOperator additiveOperator(AdditiveOpContext ctx, int i) {
+    if (ctx.additiveOperator(i).OP_PLUS() != null) {
+      return new AdditionOperator();
+    }
+    if (ctx.additiveOperator(i).OP_MINUS() != null) {
+      return new SubtractionOperator();
     }
     throw new IllegalStateException("unrecognized additive operator");
   }
-
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public Operand visitMultiplicativeOp(MultiplicativeOpContext ctx) {
-    Operand a = super.visit(ctx.unaryOp(0));
-    if (ctx.unaryOp(1) == null) return a;
-    
-    Operand b = super.visit(ctx.unaryOp(1));
-    if (ctx.OP_MULT() != null) {
-      return new MultiplicationOperator(a, b);
+    PolyadicOperator operator = new PolyadicOperator(
+        visit(ctx.unaryOp(0)));
+    for (int i = 1, max = ctx.unaryOp().size(); i < max; i++) {
+      operator.addOperation(multiplicativeOperator(ctx, i - 1), 
+          visit(ctx.unaryOp(i)));
     }
-    if (ctx.OP_DIV() != null) {
-      return new DivisionOperator(a, b);
+    return operator;
+  }
+
+  private BinaryOperator multiplicativeOperator(MultiplicativeOpContext ctx,
+      int index) {
+    if (ctx.multiplicativeOperator(index).OP_MULT() != null) {
+      return new MultiplicationOperator();
+    }
+    if (ctx.multiplicativeOperator(index).OP_DIV() != null) {
+      return new DivisionOperator();
     }
     throw new IllegalStateException("unrecognized multiplicative operator");
   }
-
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public Operand visitUnaryOp(UnaryOpContext ctx) {
     Operand operand = super.visit(ctx.function());
-    if (ctx.OP_MINUS() != null) {
+    if (ctx.unaryOperator() == null
+        || ctx.unaryOperator().OP_PLUS() != null) {
+      return operand;
+    }
+    if (ctx.unaryOperator().OP_MINUS() != null) {
       return new NegationOperator(operand);
     }
-    if (ctx.OP_NOT() != null) {
+    if (ctx.unaryOperator().OP_NOT() != null) {
       return new NotOperator(operand);
     }
-    return operand;
+    throw new IllegalStateException("unrecognized unary operator");
   }
 
   /**

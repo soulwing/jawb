@@ -20,7 +20,6 @@ package edu.vt.ras.jawb.impl.expression;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -32,7 +31,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.impl.expression.Value.Type;
+import edu.vt.ras.jawb.spi.BoundCell;
 import edu.vt.ras.jawb.spi.BoundCellReference;
+import edu.vt.ras.jawb.spi.BoundWorkbook;
 import edu.vt.ras.jawb.spi.DateTimeConverter;
 import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
 
@@ -57,16 +58,32 @@ public class ExpressionCompilerTest {
 
   @Test
   public void testReferenceOperand() throws Exception {
+    final BoundWorkbook workbook = mockery.mock(BoundWorkbook.class);
+    final BoundCell cell = mockery.mock(BoundCell.class);
+    mockery.checking(new Expectations() { { 
+      oneOf(workbook).evaluateCell(with(ref));
+      will(returnValue(cell));
+      allowing(cell).isBlank();
+      will(returnValue(false));
+      allowing(cell).getBooleanValue();
+      will(throwException(new IllegalAccessException()));
+      allowing(cell).getStringValue();
+      will(throwException(new IllegalAccessException()));
+      allowing(cell).getNumericValue();
+      will(returnValue(1.0));
+    } });
+    
     Operand op = compileStatement("A1");
+    Value value = op.evaluate(workbook);
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(ReferenceOperand.class));
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 1.0));
   }
 
   @Test
   public void testLiteralNumberOperand() throws Exception {
     Operand op = compileStatement("1.0");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(LiteralOperand.class));
     Value value = op.evaluate(null);
     assertThat(value.getType(), equalTo(Value.Type.NUMBER));
     assertThat(value.getValue(), equalTo((Object) 1.0));
@@ -76,7 +93,6 @@ public class ExpressionCompilerTest {
   public void testLiteralBooleanOperand() throws Exception {
     Operand op = compileStatement("true");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(LiteralOperand.class));
     Value value = op.evaluate(null);
     assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
     assertThat(value.getValue(), equalTo((Object) true));
@@ -86,7 +102,6 @@ public class ExpressionCompilerTest {
   public void testLiteralStringOperand() throws Exception {
     Operand op = compileStatement("'string'");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(LiteralOperand.class));
     Value value = op.evaluate(null);
     assertThat(value.getType(), equalTo(Value.Type.STRING));
     assertThat(value.getValue(), equalTo((Object) "string"));
@@ -100,11 +115,14 @@ public class ExpressionCompilerTest {
       oneOf(provider).getDateTimeConverter();
       will(returnValue(converter));
       oneOf(converter).convertDate(with(date));
-      will(returnValue(0.0));
+      will(returnValue(1.0));
     } });
+    
     Operand op = compileStatement(date);
+    Value value = op.evaluate(null);
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(LiteralOperand.class));
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 1.0));    
   }
 
   @Test
@@ -115,39 +133,47 @@ public class ExpressionCompilerTest {
       oneOf(provider).getDateTimeConverter();
       will(returnValue(converter));
       oneOf(converter).convertTime(with(time));
-      will(returnValue(0.0));
+      will(returnValue(1.0));
     } });
+    
     Operand op = compileStatement(time);
+    Value value = op.evaluate(null);
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(LiteralOperand.class));
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 1.0));    
   }
 
   @Test
   public void testNestedExpression() throws Exception {
-    Operand op = compileStatement("(0)");
+    Operand op = compileStatement("(1.0)");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(NestedExpressionOperand.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 1.0));
   }
 
   @Test
   public void testIfFunction() throws Exception {
     Operand op = compileStatement("if(true, true, false)");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(IfFunction.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));
   }
 
   @Test
   public void testUnaryPlusExpression() throws Exception {
     Operand op = compileStatement("+1");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(LiteralOperand.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 1.0));
   }
   
   @Test
   public void testUnaryMinusExpression() throws Exception {
     Operand op = compileStatement("-1");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(UnaryOperator.class));
     Value value = op.evaluate(null);
     assertThat(value.getType(), equalTo(Type.NUMBER));
     assertThat(value.getValue(), equalTo((Object) (double) -1.0));
@@ -157,35 +183,280 @@ public class ExpressionCompilerTest {
   public void testNotExpression() throws Exception {
     Operand op = compileStatement("!true");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(UnaryOperator.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));
   }
 
   @Test
   public void testMultiplyExpression() throws Exception {
-    Operand op = compileStatement("1 * 1");
+    Operand op = compileStatement("2 * 2");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(MultiplicationOperator.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 4.0));
   }
   
   @Test
   public void testDivideExpression() throws Exception {
-    Operand op = compileStatement("1 / 1");
+    Operand op = compileStatement("2 / 2");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(DivisionOperator.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 1.0));
   }
   
   @Test
   public void testAddExpression() throws Exception {
     Operand op = compileStatement("1 + 1");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(AdditionOperator.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 2.0));
   }
   
   @Test
   public void testSubtractExpression() throws Exception {
     Operand op = compileStatement("1 - 1");
     mockery.assertIsSatisfied();
-    assertThat(op, instanceOf(SubtractionOperator.class));
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) 0.0));
+  }
+
+  @Test
+  public void testCompoundArithmeticExpression() throws Exception {
+    Operand op = compileStatement("(1 + 3 - 1) * 3 / -3");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.NUMBER));
+    assertThat(value.getValue(), equalTo((Object) (double) -3.0));
+  }
+  
+  @Test
+  public void testLessThanExpressionTrue() throws Exception {
+    Operand op = compileStatement("0 < 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));   
+  }
+
+  @Test
+  public void testLessThanExpressionFalse() throws Exception {
+    Operand op = compileStatement("1 < 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));   
+  }
+
+  @Test
+  public void testLessOrEqualsExpressionTrue() throws Exception {
+    Operand op = compileStatement("1 <= 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));   
+  }
+
+  @Test
+  public void testLessOrEqualsExpressionFalse() throws Exception {
+    Operand op = compileStatement("1 <= 0");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));   
+  }
+
+  @Test
+  public void testGreaterThanExpressionTrue() throws Exception {
+    Operand op = compileStatement("1 > 0");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));   
+  }
+
+  @Test
+  public void testGreaterThanExpressionFalse() throws Exception {
+    Operand op = compileStatement("1 > 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));   
+  }
+
+  @Test
+  public void testGreaterOrEqualsExpressionTrue() throws Exception {
+    Operand op = compileStatement("1 >= 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));   
+  }
+
+  @Test
+  public void testGreaterOrEqualsExpressionFalse() throws Exception {
+    Operand op = compileStatement("0 >= 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));   
+  }
+
+  @Test
+  public void testMatchExpressionTrue() throws Exception {
+    Operand op = compileStatement("'string1-string2-string3' ~= 'string2'");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));   
+  }
+
+  @Test
+  public void testMatchExpressionFalse() throws Exception {
+    Operand op = compileStatement("'string1-string2-string3' ~= 'string0'");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));   
+  }
+  
+  @Test
+  public void testIsExpressionTrue() throws Exception {
+    Operand op = compileStatement("'string' is string");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
+  }
+
+  @Test
+  public void testIsExpressionFalse() throws Exception {
+    Operand op = compileStatement("1.0 is string");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));       
+  }
+  
+  @Test
+  public void testIsNotExpressionTrue() throws Exception {
+    Operand op = compileStatement("1.0 is not string");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
+  }
+
+  @Test
+  public void testIsNotExpressionFalse() throws Exception {
+    Operand op = compileStatement("'string' is not string");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));       
+  }
+
+  @Test
+  public void testEqualsExpressionTrue() throws Exception {
+    Operand op = compileStatement("1 == 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
+  }
+
+  @Test
+  public void testEqualsExpressionFalse() throws Exception {
+    Operand op = compileStatement("0 == 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));       
+  }
+
+  @Test
+  public void testNotEqualsExpressionTrue() throws Exception {
+    Operand op = compileStatement("0 != 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
+  }
+  
+  @Test
+  public void testNotEqualsExpressionFalse() throws Exception {
+    Operand op = compileStatement("1 != 1");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));       
+  }
+
+  @Test
+  public void testAndExpressionTrue() throws Exception {
+    Operand op = compileStatement("true && true");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
+  }
+
+  @Test
+  public void testAndExpressionFalse() throws Exception {
+    Operand op = compileStatement("true && false");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));       
+  }
+
+  @Test
+  public void testExclusiveOrExpressionTrue() throws Exception {
+    Operand op = compileStatement("true ^ false");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
+  }
+
+  @Test
+  public void testExclusiveOrExpressionFalse() throws Exception {
+    Operand op = compileStatement("true ^ true");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));       
+  }
+
+  @Test
+  public void testInclusiveOrExpressionTrue() throws Exception {
+    Operand op = compileStatement("true || false");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
+  }
+
+  @Test
+  public void testInclusiveOrExpressionFalse() throws Exception {
+    Operand op = compileStatement("false || false");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) false));       
+  }
+
+  @Test
+  public void testCompoundLogicalStatement() throws Exception {
+    Operand op = compileStatement(
+        "(0 != 1 && 1 == 1) || 0 > 1 && 0 < 1 ^ 'string' is string");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BOOLEAN));
+    assertThat(value.getValue(), equalTo((Object) true));       
   }
   
   private Operand compileStatement(String statement) {
