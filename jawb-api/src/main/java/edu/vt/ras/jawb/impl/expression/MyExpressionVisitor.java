@@ -279,7 +279,7 @@ public class MyExpressionVisitor extends ExpressionBaseVisitor<Operand> {
     }
     if (ctx.BOOLEAN() != null) {
       return new LiteralOperand(Value.Type.BOOLEAN, 
-          Boolean.parseBoolean(ctx.NUMBER().getText().toLowerCase()));      
+          Boolean.parseBoolean(ctx.BOOLEAN().getText().toLowerCase()));      
     }
     if (ctx.STRING() != null) {
       return new LiteralOperand(Value.Type.STRING, ctx.STRING().getText());
