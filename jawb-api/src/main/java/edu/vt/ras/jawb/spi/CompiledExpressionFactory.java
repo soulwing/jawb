@@ -31,7 +31,7 @@ import edu.vt.ras.jawb.impl.expression.Operand;
 
 /**
  * An {@link ExpressionFactory} that creates compiled expressions.
- *
+ * 
  * @author Carl Harris
  */
 public class CompiledExpressionFactory implements ExpressionFactory {
@@ -50,36 +50,23 @@ public class CompiledExpressionFactory implements ExpressionFactory {
    * {@inheritDoc}
    */
   @Override
-  public Evaluator createExpressionEvaluator(String expression, 
+  public Evaluator createExpressionEvaluator(String expression,
       String sheetReference) {
-    final Operand operand = compileStatement(expression, sheetReference);
-    return new Evaluator() {
-      @Override
-      public Object evaluate(BoundWorkbook workbook)
-          throws WorkbookBindingException {
-        return operand.evaluate(workbook).getValue();
-      }
-    };
+    return new ExpressionEvaluator(
+        compileStatement(expression, sheetReference));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Evaluator createPredicateEvaluator(String expression, 
+  public Evaluator createPredicateEvaluator(String expression,
       String sheetReference) {
-    final Operand operand = compileStatement(expression, sheetReference);
-    return new Evaluator() {
-      @Override
-      public Object evaluate(BoundWorkbook workbook)
-          throws WorkbookBindingException {
-        return operand.evaluate(workbook).isTrue();
-      }
-    };
+    return new PredicateEvaluator(
+        compileStatement(expression, sheetReference));
   }
 
-  private Operand compileStatement(String statement,
-      String sheetReference) {
+  private Operand compileStatement(String statement, String sheetReference) {
     ANTLRInputStream inputStream = new ANTLRInputStream(statement);
     ExpressionLexer lexer = new ExpressionLexer(inputStream);
     TokenStream tokenStream = new CommonTokenStream(lexer);
@@ -95,6 +82,60 @@ public class CompiledExpressionFactory implements ExpressionFactory {
     }
     return operand;
   }
-  
 
+  private static class ExpressionEvaluator implements Evaluator {
+    
+    private final Operand operand;
+
+    /**
+     * Constructs a new instance.
+     * @param operand
+     */
+    public ExpressionEvaluator(Operand operand) {
+      this.operand = operand;
+    }
+    
+    @Override
+    public Object evaluate(BoundWorkbook workbook)
+        throws WorkbookBindingException {
+      return operand.evaluate(workbook).getValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+      return operand.toString();
+    }
+    
+  }
+  
+  private static class PredicateEvaluator implements Evaluator {
+    
+    private final Operand operand;
+        
+    /**
+     * Constructs a new instance.
+     * @param operand
+     */
+    public PredicateEvaluator(Operand operand) {
+      this.operand = operand;
+    }
+
+    @Override
+    public Object evaluate(BoundWorkbook workbook)
+        throws WorkbookBindingException {
+      return operand.evaluate(workbook).isTrue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+      return operand.toString();
+    }
+
+  }
 }
