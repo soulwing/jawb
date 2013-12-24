@@ -37,7 +37,7 @@ import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
  *
  * @author Carl Harris
  */
-public class MyExpressionVisitor extends ExpressionBaseVisitor<Operand> {
+public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
 
   private String sheetReference;
   private WorkbookBindingProvider provider;
@@ -285,10 +285,14 @@ public class MyExpressionVisitor extends ExpressionBaseVisitor<Operand> {
       return new LiteralOperand(Value.Type.STRING, ctx.STRING().getText());
     }
     if (ctx.DATE() != null) {
-      // TODO
+      return new LiteralOperand(Value.Type.NUMBER, 
+          provider.getDateTimeConverter().convertDate(
+              ctx.DATE().getText()));
     }
     if (ctx.TIME() != null) {
-      // TODO
+      return new LiteralOperand(Value.Type.NUMBER, 
+          provider.getDateTimeConverter().convertTime(
+              ctx.TIME().getText()));
     }
     throw new IllegalStateException("unrecognized operand");
   }
