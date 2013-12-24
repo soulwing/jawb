@@ -53,6 +53,8 @@ public class ReferenceOperandTest {
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(ref);
       will(returnValue(cell));
+      allowing(cell).getReference();
+      will(returnValue(ref));
       allowing(cell).isBlank();
       will(returnValue(false));
       allowing(cell).getNumericValue();
@@ -75,6 +77,8 @@ public class ReferenceOperandTest {
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(ref);
       will(returnValue(cell));
+      allowing(cell).getReference();
+      will(returnValue(ref));
       allowing(cell).isBlank();
       will(returnValue(false));
       allowing(cell).getNumericValue();
@@ -97,6 +101,8 @@ public class ReferenceOperandTest {
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(ref);
       will(returnValue(cell));
+      allowing(cell).getReference();
+      will(returnValue(ref));
       allowing(cell).isBlank();
       will(returnValue(false));
       allowing(cell).getNumericValue();
@@ -118,6 +124,8 @@ public class ReferenceOperandTest {
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(ref);
       will(returnValue(cell));
+      allowing(cell).getReference();
+      will(returnValue(ref));
       allowing(cell).isBlank();
       will(returnValue(true));
     } });

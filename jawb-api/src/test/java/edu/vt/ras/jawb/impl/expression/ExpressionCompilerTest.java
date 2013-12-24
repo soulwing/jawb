@@ -63,6 +63,8 @@ public class ExpressionCompilerTest {
     mockery.checking(new Expectations() { { 
       oneOf(workbook).evaluateCell(with(ref));
       will(returnValue(cell));
+      allowing(cell).getReference();
+      will(returnValue(ref));
       allowing(cell).isBlank();
       will(returnValue(false));
       allowing(cell).getBooleanValue();
