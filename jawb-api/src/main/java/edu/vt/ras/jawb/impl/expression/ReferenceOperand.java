@@ -45,27 +45,30 @@ class ReferenceOperand implements Operand {
    */
   @Override
   public Value evaluate(BoundWorkbook workbook)
-      throws WorkbookBindingException {
-    
-    BoundCell result = workbook.evaluateCell(ref);
-    
-    if (result.isBlank()) {
+      throws WorkbookBindingException {    
+    BoundCell cell = workbook.evaluateCell(ref);
+    return cellValue(cell);
+  }
+
+  private Value cellValue(BoundCell cell) {
+    Object value = null;
+    if (cell.isBlank()) {
       return new Value();
     }
     
-    Object value = getNumericValue(result);
+    value = getStringValue(cell);
+    if (value != null) {
+      return new Value(Value.Type.STRING, value);
+    }
+
+    value = getNumericValue(cell);
     if (value != null) {
       return new Value(Value.Type.NUMBER, value);
     }
     
-    value = getBooleanValue(result);
+    value = getBooleanValue(cell);
     if (value != null) {
       return new Value(Value.Type.BOOLEAN, value);
-    }
-    
-    value = getStringValue(result);
-    if (value != null) {
-      return new Value(Value.Type.STRING, value);
     }
     
     throw new IllegalStateException("unrecognized data type");
