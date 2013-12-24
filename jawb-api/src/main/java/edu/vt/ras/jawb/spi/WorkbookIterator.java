@@ -18,6 +18,8 @@
  */
 package edu.vt.ras.jawb.spi;
 
+import edu.vt.ras.jawb.WorkbookBindingException;
+
 
 /**
  * An iterator that is used to bias a workbook cell reference.
@@ -28,20 +30,28 @@ public abstract class WorkbookIterator {
 
   private final int count;
   private final int increment;
+  private final String stop;
+  private final String skip;
   private final WorkbookBindingProvider provider;
   private int iteration;
   private String sheetReference;
+  private Evaluator stopExpression;
+  private Evaluator skipExpression;
   
   /**
    * Constructs a new instance.
    * @param count number of steps in the iteration
    * @param increment offset to apply at each iteration
+   * @param stop expression to evaluate to stop iteration
+   * @param skip expression to evaluate to skip the result of an iteration
    * @param provider binding provider
    */
   protected WorkbookIterator(int count, int increment, 
-      WorkbookBindingProvider provider) {
+      String stop, String skip, WorkbookBindingProvider provider) {
     this.count = count;
     this.increment = increment;
+    this.stop = stop;
+    this.skip = skip;
     this.provider = provider;
   }
 
@@ -96,6 +106,34 @@ public abstract class WorkbookIterator {
   }
 
   /**
+   * Evaluates the stop expression.
+   * @param workbook the subject workbook 
+   * @return stop expression result
+   * @throws WorkbookBindingException
+   */
+  public boolean stop(BoundWorkbook workbook) 
+      throws WorkbookBindingException {
+    if (stop == null || stop.trim().isEmpty()) return false;
+    boolean result = (boolean) stopExpression().evaluate(workbook);
+    System.out.println(stopExpression() + ": " + result);
+    return result;
+  }
+
+  /**
+   * Evaluates the skip expression.
+   * @param workbook the subject workbook 
+   * @return skip expression result
+   * @throws WorkbookBindingException
+   */
+  public boolean skip(BoundWorkbook workbook) 
+      throws WorkbookBindingException {
+    if (skip == null || skip.trim().isEmpty()) return false;
+    boolean result = (boolean) skipExpression().evaluate(workbook);
+    System.out.println(skipExpression() + ": " + result);
+    return result;
+  }
+
+  /**
    * Gets the offset specified by the receiver's current state
    * @return current offset
    */
@@ -117,5 +155,31 @@ public abstract class WorkbookIterator {
    */
   public abstract BoundCellReference applyBias(BoundCellReference ref, 
       BoundWorkbook workbook);
-  
+
+  /**
+   * Gets the expression to evaluate to determine if the iteration should
+   * be stopped.
+   * @return expression evaluator
+   */
+  private Evaluator stopExpression() {
+    if (stopExpression == null) {
+      stopExpression = provider.getExpressionFactory()
+          .createPredicateEvaluator(stop, sheetReference);
+    }
+    return stopExpression;
+  }
+
+  /**
+   * Gets the expression to evaluate to determine if the result of the 
+   * current iteration should be skipped
+   * @return expression evaluator
+   */
+  private Evaluator skipExpression() {
+    if (skipExpression == null) {
+      skipExpression = provider.getExpressionFactory()
+          .createPredicateEvaluator(skip, sheetReference);
+    }
+    return skipExpression;
+  }
+
 }

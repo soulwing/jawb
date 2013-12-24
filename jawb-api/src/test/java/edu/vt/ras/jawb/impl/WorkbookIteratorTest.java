@@ -37,7 +37,7 @@ public class WorkbookIteratorTest {
 
   @Test
   public void testCountUpByOne() throws Exception {
-    MockIterator iterator = new MockIterator(2, 1, null);
+    MockIterator iterator = new MockIterator(2, 1, null, null, null);
     assertThat(iterator.hasNext(), equalTo(true));
     iterator.next();
     assertThat(iterator.getOffset(), equalTo(0));
@@ -49,7 +49,7 @@ public class WorkbookIteratorTest {
 
   @Test
   public void testCountDownByOne() throws Exception {
-    MockIterator iterator = new MockIterator(2, -1, null);
+    MockIterator iterator = new MockIterator(2, -1, null, null, null);
     assertThat(iterator.hasNext(), equalTo(true));
     iterator.next();
     assertThat(iterator.getOffset(), equalTo(0));
@@ -61,7 +61,7 @@ public class WorkbookIteratorTest {
 
   @Test
   public void testCountUpByTwo() throws Exception {
-    MockIterator iterator = new MockIterator(2, 2, null);
+    MockIterator iterator = new MockIterator(2, 2, null, null, null);
     assertThat(iterator.hasNext(), equalTo(true));
     iterator.next();
     assertThat(iterator.getOffset(), equalTo(0));
@@ -73,7 +73,7 @@ public class WorkbookIteratorTest {
 
   @Test
   public void testReset() throws Exception {
-    MockIterator iterator = new MockIterator(2, 1, null);
+    MockIterator iterator = new MockIterator(2, 1, null, null, null);
     assertThat(iterator.hasNext(), equalTo(true));
     iterator.next();
     assertThat(iterator.getOffset(), equalTo(0));
@@ -93,7 +93,7 @@ public class WorkbookIteratorTest {
   
   @Test
   public void testOverrun() throws Exception {
-    MockIterator iterator = new MockIterator(1, 1, null);
+    MockIterator iterator = new MockIterator(1, 1, null, null, null);
     assertThat(iterator.hasNext(), equalTo(true));
     iterator.next();
     assertThat(iterator.getOffset(), equalTo(0));
@@ -104,7 +104,7 @@ public class WorkbookIteratorTest {
 
   @Test(expected = IllegalStateException.class)
   public void testUnderrun() throws Exception {
-    MockIterator iterator = new MockIterator(1, 1, null);
+    MockIterator iterator = new MockIterator(1, 1, null, null, null);
     assertThat(iterator.hasNext(), equalTo(true));
     assertThat(iterator.getOffset(), equalTo(0));
   }
@@ -112,9 +112,9 @@ public class WorkbookIteratorTest {
 
   private static class MockIterator extends WorkbookIterator {
 
-    public MockIterator(int count, int increment,
+    public MockIterator(int count, int increment, String stop, String skip,
         WorkbookBindingProvider provider) {
-      super(count, increment, provider);
+      super(count, increment, stop, skip, provider);
     }
 
     @Override

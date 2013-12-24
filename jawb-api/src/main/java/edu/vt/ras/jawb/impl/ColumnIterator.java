@@ -40,7 +40,7 @@ class ColumnIterator extends WorkbookIterator {
    */
   public ColumnIterator(int count, int increment, String stop, String skip,
       WorkbookBindingProvider provider) {
-    super(count, increment, provider);
+    super(count, increment, stop, skip, provider);
   }
 
   /**

@@ -76,6 +76,8 @@ class CollectionEvaluator implements Evaluator, Parentable {
     workbook.pushIterator(iterator);
     while (iterator.hasNext()) {
       iterator.next();
+      if (iterator.stop(workbook)) break;
+      if (iterator.skip(workbook)) continue;
       Object element = elementEvaluator.evaluate(workbook);
       elements.add(element);
     }

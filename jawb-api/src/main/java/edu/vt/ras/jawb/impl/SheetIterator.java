@@ -40,7 +40,7 @@ class SheetIterator extends WorkbookIterator {
    */
   public SheetIterator(int count, int increment,
       String stop, String skip, WorkbookBindingProvider provider) {
-    super(count, increment, provider);
+    super(count, increment, stop, skip, provider);
   }
 
   /**
