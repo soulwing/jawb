@@ -43,13 +43,13 @@ class GreaterOrEqualsOperator extends BinaryOperator {
   protected Value evaluate(Value a, Value b) throws WorkbookBindingException {
     return new Value(Value.Type.BOOLEAN, a.compareTo(b) >= 0);
   }
-  
+
   /**
    * {@inheritDoc}
    */
   @Override
-  public String toString() {
-    return String.format("%s >= %s", getA(), getB());
+  protected String getDisplayFormat() {
+    return "%s >= %s";
   }
   
 }

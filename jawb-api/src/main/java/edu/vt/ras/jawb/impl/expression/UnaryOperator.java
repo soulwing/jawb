@@ -39,14 +39,6 @@ abstract class UnaryOperator extends AbstractOperand {
   }
 
   /**
-   * Gets the {@code a} property.
-   * @return
-   */
-  public Operand getA() {
-    return a;
-  }
-
-  /**
    * {@inheritDoc}
    */
   @Override
@@ -63,4 +55,20 @@ abstract class UnaryOperator extends AbstractOperand {
    */
   protected abstract Value evaluate(Value a) throws WorkbookBindingException;
   
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final String toString() {
+    return String.format(getDisplayFormat(), a);
+  }
+
+  /**
+   * Gets a format string for {@link String#format(String, Object...)} that
+   * will be used to provide a common implementation of {@link #toString()}.
+   * @return format string with a single string placeholder for the unary
+   *    operand
+   */
+  protected abstract String getDisplayFormat();
+
 }

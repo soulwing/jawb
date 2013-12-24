@@ -42,22 +42,6 @@ abstract class BinaryOperator extends AbstractOperand {
   }
 
   /**
-   * Gets the {@code a} property.
-   * @return
-   */
-  public Operand getA() {
-    return a;
-  }
-
-  /**
-   * Gets the {@code b} property.
-   * @return
-   */
-  public Operand getB() {
-    return b;
-  }
-
-  /**
    * {@inheritDoc}
    */
   @Override
@@ -76,4 +60,20 @@ abstract class BinaryOperator extends AbstractOperand {
   protected abstract Value evaluate(Value a, Value b)
       throws WorkbookBindingException;
   
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final String toString() {
+    return String.format(getDisplayFormat(), a, b);
+  }
+
+  /**
+   * Gets a format string for {@link String#format(String, Object...)} that
+   * will be used to provide a common implementation of {@link #toString()}.
+   * @return format string with two string placeholders; one for each
+   *    operand
+   */
+  protected abstract String getDisplayFormat();
+
 }

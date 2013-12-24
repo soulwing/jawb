@@ -48,8 +48,8 @@ class LessThanOperator extends BinaryOperator {
    * {@inheritDoc}
    */
   @Override
-  public String toString() {
-    return String.format("%s < %s", getA(), getB());
+  public String getDisplayFormat() {
+    return "%s < %s";
   }
   
 }

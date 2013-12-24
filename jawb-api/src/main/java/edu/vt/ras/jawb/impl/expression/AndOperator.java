@@ -44,12 +44,13 @@ class AndOperator extends BinaryOperator {
     return new Value(Value.Type.BOOLEAN, a.isTrue() && b.isTrue());
   }
 
+  
   /**
    * {@inheritDoc}
    */
   @Override
-  public String toString() {
-    return String.format("%s && %s", getA(), getB());
+  protected String getDisplayFormat() {
+    return "%s && %s";
   }
 
 }

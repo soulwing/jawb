@@ -47,8 +47,8 @@ class NotOperator extends UnaryOperator {
    * {@inheritDoc}
    */
   @Override
-  public String toString() {
-    return String.format("!%s", getA());
+  public String getDisplayFormat() {
+    return "!%s";
   }
   
 }

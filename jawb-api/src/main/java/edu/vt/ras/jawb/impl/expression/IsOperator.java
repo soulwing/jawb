@@ -44,5 +44,13 @@ class IsOperator extends BinaryOperator {
     Value.Type type = Value.Type.valueOf(b.toString().toUpperCase());
     return new Value(Value.Type.BOOLEAN, a.getType().equals(type));
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected String getDisplayFormat() {
+    return "%s is %s";
+  }
   
 }
