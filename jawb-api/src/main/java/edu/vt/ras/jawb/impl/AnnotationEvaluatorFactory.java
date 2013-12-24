@@ -21,6 +21,9 @@ package edu.vt.ras.jawb.impl;
 import java.util.Collection;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
+import edu.vt.ras.jawb.annotation.IterateColumns;
+import edu.vt.ras.jawb.annotation.IterateRows;
+import edu.vt.ras.jawb.annotation.IterateSheets;
 import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
@@ -127,24 +130,24 @@ public class AnnotationEvaluatorFactory implements EvaluatorFactory {
    * {@inheritDoc}
    */
   @Override
-  public WorkbookIterator createSheetIterator(int count, int increment) {
-    return new SheetIterator(count, increment, provider);
+  public WorkbookIterator createSheetIterator(IterateSheets annotation) {
+    return new IteratorDetail(annotation).createSheetIterator(provider);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public WorkbookIterator createRowIterator(int count, int increment) {
-    return new RowIterator(count, increment, provider);
+  public WorkbookIterator createRowIterator(IterateRows annotation) {
+    return new IteratorDetail(annotation).createRowIterator(provider);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public WorkbookIterator createColumnIterator(int count, int increment) {
-    return new ColumnIterator(count, increment, provider);
+  public WorkbookIterator createColumnIterator(IterateColumns annotation) {
+    return new IteratorDetail(annotation).createColumnIterator(provider);
   }
   
 }

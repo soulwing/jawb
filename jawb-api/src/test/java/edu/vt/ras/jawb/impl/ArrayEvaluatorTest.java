@@ -41,7 +41,7 @@ public class ArrayEvaluatorTest {
   
   private BoundWorkbook workbook = mockery.mock(BoundWorkbook.class);
   
-  private WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+  private WorkbookIterator iterator = new ColumnIterator(1, 1, "", "", null);
   
   private Evaluator elementEvaluator = mockery.mock(Evaluator.class);
   

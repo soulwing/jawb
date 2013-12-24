@@ -52,7 +52,7 @@ public class ArrayTypeBindingStrategyTest {
   
   @Test
   public void testWithAnnotatedArrayType() throws Exception {
-    final WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+    final WorkbookIterator iterator = new ColumnIterator(0, 0, null, null, null);
     final Evaluator elementEvaluator = mockery.mock(Evaluator.class);
     final IterateColumns columns = mockery.mock(IterateColumns.class);
     mockery.checking(new Expectations() { { 
@@ -64,10 +64,6 @@ public class ArrayTypeBindingStrategyTest {
       will(returnValue(null));
       oneOf(introspector).getAnnotation(IterateSheets.class);
       will(returnValue(null));
-      oneOf(columns).count();
-      will(returnValue(1));
-      oneOf(columns).increment();
-      will(returnValue(1));
       allowing(introspector).getSubType();
       will(returnValue(Object.class));
       allowing(introspector).getType();
@@ -78,7 +74,7 @@ public class ArrayTypeBindingStrategyTest {
       oneOf(evaluatorFactory).createBeanEvaluator(beanIntrospector);
       will(returnValue(elementEvaluator));
       oneOf(introspector).getAccessor();
-      oneOf(evaluatorFactory).createColumnIterator(1, 1);
+      oneOf(evaluatorFactory).createColumnIterator(columns);
       will(returnValue(iterator));
       oneOf(evaluatorFactory).createArrayEvaluator(Object.class, 
           elementEvaluator, iterator);

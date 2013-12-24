@@ -46,7 +46,7 @@ public class CollectionEvaluatorTest {
   
   private BoundWorkbook workbook = mockery.mock(BoundWorkbook.class);
   
-  private WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+  private WorkbookIterator iterator = new ColumnIterator(1, 1, null, null, null);
   
   private ParentableEvaluator elementEvaluator = 
       mockery.mock(ParentableEvaluator.class);

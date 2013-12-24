@@ -21,6 +21,9 @@ package edu.vt.ras.jawb.impl;
 import java.util.Collection;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
+import edu.vt.ras.jawb.annotation.IterateColumns;
+import edu.vt.ras.jawb.annotation.IterateRows;
+import edu.vt.ras.jawb.annotation.IterateSheets;
 import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
@@ -82,26 +85,23 @@ public interface EvaluatorFactory {
   
   /**
    * Creates a new iterator for sheets.
-   * @param count number of steps in the iteration
-   * @param increment number of sheets at each step
+   * @param annotation iterator details
    * @return
    */
-  WorkbookIterator createSheetIterator(int count, int increment);
+  WorkbookIterator createSheetIterator(IterateSheets annotation);
 
   /**
    * Creates a new iterator for rows.
-   * @param count number of steps in the iteration
-   * @param increment number of rows at each step
+   * @param annotation iterator details
    * @return
    */
-  WorkbookIterator createRowIterator(int count, int increment);
+  WorkbookIterator createRowIterator(IterateRows annotation);
   
   /**
    * Creates a new iterator for columns.
-   * @param count number of steps in the iteration
-   * @param increment number of colums at each step
+   * @param annotation iterator details
    * @return
    */
-  WorkbookIterator createColumnIterator(int count, int increment);
+  WorkbookIterator createColumnIterator(IterateColumns annotation);
   
 }

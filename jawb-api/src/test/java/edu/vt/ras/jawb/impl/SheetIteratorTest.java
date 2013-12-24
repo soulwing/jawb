@@ -49,7 +49,7 @@ public class SheetIteratorTest {
       oneOf(ref).applyBias(with(1), with(0), with(0), with(workbook));
     } });
 
-    SheetIterator iterator = new SheetIterator(2, 1, provider);
+    SheetIterator iterator = new SheetIterator(2, 1, "", "", provider);
     while (iterator.hasNext()) {
       iterator.next();
       iterator.applyBias(ref, workbook);

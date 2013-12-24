@@ -49,7 +49,7 @@ public class ColumnIteratorTest {
       oneOf(ref).applyBias(with(0), with(0), with(1), with(workbook));
     } });
 
-    ColumnIterator iterator = new ColumnIterator(2, 1, provider);
+    ColumnIterator iterator = new ColumnIterator(2, 1, "", "", provider);
     while (iterator.hasNext()) {
       iterator.next();
       iterator.applyBias(ref, workbook);

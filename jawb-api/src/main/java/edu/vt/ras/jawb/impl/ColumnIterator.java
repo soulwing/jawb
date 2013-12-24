@@ -25,7 +25,7 @@ import edu.vt.ras.jawb.spi.WorkbookIterator;
 
 /**
  * A {@link WorkbookIterator} that iterates column offsets.
- *
+ * 
  * @author Carl Harris
  */
 class ColumnIterator extends WorkbookIterator {
@@ -34,9 +34,11 @@ class ColumnIterator extends WorkbookIterator {
    * Constructs a new instance.
    * @param count number of steps in the iteration
    * @param increment offset to apply at each iteration
+   * @param stop expression to evaluate to stop iteration
+   * @param skip expression to evaluate to skip the result of an iteration
    * @param provider binding provider
    */
-  public ColumnIterator(int count, int increment,
+  public ColumnIterator(int count, int increment, String stop, String skip,
       WorkbookBindingProvider provider) {
     super(count, increment, provider);
   }
@@ -45,7 +47,7 @@ class ColumnIterator extends WorkbookIterator {
    * {@inheritDoc}
    */
   @Override
-  public BoundCellReference applyBias(BoundCellReference ref, 
+  public BoundCellReference applyBias(BoundCellReference ref,
       BoundWorkbook workbook) {
     return ref.applyBias(0, 0, getOffset(), workbook);
   }

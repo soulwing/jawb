@@ -44,9 +44,9 @@ public class WorksheetIteratorUtilTest {
   
   @Test
   public void testWithIterateSheets() throws Exception {
-    final WorkbookIterator iterator = new SheetIterator(1, -1, null);
+    final WorkbookIterator iterator = new SheetIterator(0, 0, null, null, null);
     mockery.checking(new Expectations() { { 
-      oneOf(evaluatorFactory).createSheetIterator(1, -1);
+      oneOf(evaluatorFactory).createSheetIterator(with(any(IterateSheets.class)));
       will(returnValue(iterator));
     } });
     
@@ -60,9 +60,9 @@ public class WorksheetIteratorUtilTest {
   
   @Test
   public void testWithIterateRows() throws Exception {
-    final WorkbookIterator iterator = new RowIterator(1, -1, null);
+    final WorkbookIterator iterator = new RowIterator(0, 0, null, null, null);
     mockery.checking(new Expectations() { { 
-      oneOf(evaluatorFactory).createRowIterator(1, -1);
+      oneOf(evaluatorFactory).createRowIterator(with(any(IterateRows.class)));
       will(returnValue(iterator));
     } });
     
@@ -76,9 +76,9 @@ public class WorksheetIteratorUtilTest {
   
   @Test
   public void testWithIterateColumns() throws Exception {
-    final WorkbookIterator iterator = new RowIterator(1, -1, null);
+    final WorkbookIterator iterator = new ColumnIterator(0, 0, null, null, null);
     mockery.checking(new Expectations() { { 
-      oneOf(evaluatorFactory).createColumnIterator(1, -1);
+      oneOf(evaluatorFactory).createColumnIterator(with(any(IterateColumns.class)));
       will(returnValue(iterator));
     } });
     

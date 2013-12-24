@@ -34,10 +34,12 @@ class SheetIterator extends WorkbookIterator {
    * Constructs a new instance.
    * @param count number of steps in the iteration
    * @param increment offset to apply at each iteration
+   * @param stop expression to evaluate to stop iteration
+   * @param skip expression to evaluate to skip the result of an iteration
    * @param provider binding provider
    */
   public SheetIterator(int count, int increment,
-      WorkbookBindingProvider provider) {
+      String stop, String skip, WorkbookBindingProvider provider) {
     super(count, increment, provider);
   }
 

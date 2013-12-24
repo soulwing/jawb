@@ -47,17 +47,13 @@ class WorkbookIteratorUtil {
     IterateRows rows = introspector.getAnnotation(IterateRows.class);
     IterateSheets sheets = introspector.getAnnotation(IterateSheets.class);
     if (columns != null) {
-      iterator = evaluatorFactory.createColumnIterator(columns.count(),
-          columns.increment());
+      iterator = evaluatorFactory.createColumnIterator(columns);
     }
     else if (rows != null) {      
-      iterator = evaluatorFactory.createRowIterator(rows.count(),
-          rows.increment());
+      iterator = evaluatorFactory.createRowIterator(rows);
     }
     else if (sheets != null) {      
-      int count = sheets.count();
-      int increment = sheets.increment();
-      iterator = evaluatorFactory.createSheetIterator(count, increment);
+      iterator = evaluatorFactory.createSheetIterator(sheets);
     }
     return iterator;
   }

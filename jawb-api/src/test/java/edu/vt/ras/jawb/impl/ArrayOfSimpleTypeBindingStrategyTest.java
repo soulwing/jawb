@@ -52,7 +52,7 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
   
   @Test
   public void testWithAnnotatedArrayOfSupportedType() throws Exception {
-    final WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+    final WorkbookIterator iterator = new ColumnIterator(0, 0, null, null, null);
     final Evaluator elementEvaluator = mockery.mock(Evaluator.class);
     final Cell cell = mockery.mock(Cell.class);
     final IterateColumns columns = mockery.mock(IterateColumns.class);
@@ -75,16 +75,12 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       will(returnValue("sheetRef"));
       oneOf(evaluatorFactory).createCellEvaluator("sheetRef", "ref", String.class);
       will(returnValue(elementEvaluator));
-      oneOf(columns).count();
-      will(returnValue(1));
-      oneOf(columns).increment();
-      will(returnValue(1));
       allowing(introspector).isAbstractType();
       will(returnValue(true));
       allowing(introspector).getType();
       will(returnValue(Object.class));
       oneOf(introspector).getAccessor();
-      oneOf(evaluatorFactory).createColumnIterator(1, 1);
+      oneOf(evaluatorFactory).createColumnIterator(columns);
       will(returnValue(iterator));
       oneOf(evaluatorFactory).createArrayEvaluator(String.class, 
           elementEvaluator, iterator);
@@ -151,7 +147,7 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
 
   @Test
   public void testWithArrayOfSupportedTypeMissingCell() throws Exception {
-    final WorkbookIterator iterator = new ColumnIterator(1, 1, null);
+    final WorkbookIterator iterator = new ColumnIterator(0, 0, null, null, null);
     final IterateColumns columns = mockery.mock(IterateColumns.class);
     mockery.checking(new Expectations() { { 
       oneOf(introspector).isArrayType();
@@ -170,7 +166,7 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       will(returnValue(1));
       allowing(columns).increment();
       will(returnValue(1));
-      oneOf(evaluatorFactory).createColumnIterator(1, 1);
+      oneOf(evaluatorFactory).createColumnIterator(columns);
       will(returnValue(iterator));
     } });
     
