@@ -81,6 +81,8 @@ public class CollectionTypeBindingStrategyTest {
       oneOf(introspector).getAccessor();
       oneOf(evaluatorFactory).createColumnIterator(columns);
       will(returnValue(iterator));
+      oneOf(introspector).getSheetReference();
+      will(returnValue(null));
       oneOf(evaluatorFactory).createCollectionEvaluator(
           ArrayList.class, elementEvaluator, iterator);
     } });

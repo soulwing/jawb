@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.sameInstance;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.vt.ras.jawb.annotation.IterateColumns;
@@ -42,6 +43,16 @@ public class WorksheetIteratorUtilTest {
   private EvaluatorFactory evaluatorFactory = 
       mockery.mock(EvaluatorFactory.class);
   
+  private BeanIntrospector parent = mockery.mock(BeanIntrospector.class);
+  
+  @Before
+  public void setUp() throws Exception {
+    mockery.checking(new Expectations() { {
+      oneOf(parent).getSheetReference();
+      will(returnValue(null));
+    } });    
+  }
+  
   @Test
   public void testWithIterateSheets() throws Exception {
     final WorkbookIterator iterator = new SheetIterator(0, 0, null, null, null);
@@ -51,7 +62,7 @@ public class WorksheetIteratorUtilTest {
     } });
     
     FieldAttributeIntrospector attribute = new FieldAttributeIntrospector(
-        null, MockBean.class.getField("sheetAnnotated"));
+        parent, MockBean.class.getField("sheetAnnotated"));
     WorkbookIterator result = WorkbookIteratorUtil.createIteratorForAttribute(
         attribute, evaluatorFactory);
     mockery.assertIsSatisfied();
@@ -67,7 +78,7 @@ public class WorksheetIteratorUtilTest {
     } });
     
     FieldAttributeIntrospector attribute = new FieldAttributeIntrospector(
-        null, MockBean.class.getField("rowAnnotated"));
+        parent, MockBean.class.getField("rowAnnotated"));
     WorkbookIterator result = WorkbookIteratorUtil.createIteratorForAttribute(
         attribute, evaluatorFactory);
     mockery.assertIsSatisfied();
@@ -83,7 +94,7 @@ public class WorksheetIteratorUtilTest {
     } });
     
     FieldAttributeIntrospector attribute = new FieldAttributeIntrospector(
-        null, MockBean.class.getField("columnAnnotated"));
+        parent, MockBean.class.getField("columnAnnotated"));
     WorkbookIterator result = WorkbookIteratorUtil.createIteratorForAttribute(
         attribute, evaluatorFactory);
     mockery.assertIsSatisfied();

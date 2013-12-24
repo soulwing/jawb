@@ -71,7 +71,7 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       will(returnValue(null));
       oneOf(cell).value();
       will(returnValue("ref"));
-      oneOf(introspector).getSheetReference();
+      atLeast(1).of(introspector).getSheetReference();
       will(returnValue("sheetRef"));
       oneOf(evaluatorFactory).createCellEvaluator("sheetRef", "ref", String.class);
       will(returnValue(elementEvaluator));
@@ -168,6 +168,8 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       will(returnValue(1));
       oneOf(evaluatorFactory).createColumnIterator(columns);
       will(returnValue(iterator));
+      oneOf(introspector).getSheetReference();
+      will(returnValue(null));
     } });
     
     try {

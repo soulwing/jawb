@@ -55,6 +55,9 @@ class WorkbookIteratorUtil {
     else if (sheets != null) {      
       iterator = evaluatorFactory.createSheetIterator(sheets);
     }
+    if (iterator != null) {
+      iterator.setSheetReference(introspector.getSheetReference());
+    }
     return iterator;
   }
 

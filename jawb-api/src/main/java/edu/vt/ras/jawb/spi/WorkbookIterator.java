@@ -30,6 +30,7 @@ public abstract class WorkbookIterator {
   private final int increment;
   private final WorkbookBindingProvider provider;
   private int iteration;
+  private String sheetReference;
   
   /**
    * Constructs a new instance.
@@ -37,7 +38,8 @@ public abstract class WorkbookIterator {
    * @param increment offset to apply at each iteration
    * @param provider binding provider
    */
-  protected WorkbookIterator(int count, int increment, WorkbookBindingProvider provider) {
+  protected WorkbookIterator(int count, int increment, 
+      WorkbookBindingProvider provider) {
     this.count = count;
     this.increment = increment;
     this.provider = provider;
@@ -51,6 +53,22 @@ public abstract class WorkbookIterator {
     return provider;
   }
   
+  /**
+   * Gets the {@code sheetReference} property.
+   * @return
+   */
+  public String getSheetReference() {
+    return sheetReference;
+  }
+
+  /**
+   * Sets the {@code sheetReference} property.
+   * @param sheetReference
+   */
+  public void setSheetReference(String sheetReference) {
+    this.sheetReference = sheetReference;
+  }
+
   /**
    * Tests whether more steps remain in the receiver's iteration.
    * @return {@code true} if more steps remain
