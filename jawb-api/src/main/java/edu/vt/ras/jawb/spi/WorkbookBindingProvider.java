@@ -46,6 +46,12 @@ public interface WorkbookBindingProvider {
   WorkbookExtractor createExtractor(Evaluator evaluator);
 
   /**
+   * Gets the provider's expression factory.
+   * @return
+   */
+  ExpressionFactory getExpressionFactory();
+  
+  /**
    * Gets the provider's date/time converter.
    * @return date/time converter
    */

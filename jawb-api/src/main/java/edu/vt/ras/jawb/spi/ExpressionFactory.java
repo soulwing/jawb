@@ -16,9 +16,8 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.impl.expression;
+package edu.vt.ras.jawb.spi;
 
-import edu.vt.ras.jawb.spi.Evaluator;
 
 /**
  * A factory that produces expression objects.
@@ -30,9 +29,11 @@ public interface ExpressionFactory {
   /**
    * Creates an evaluator for an expression.
    * @param expression expression text
+   * @param sheetReference sheet reference
    * @return evaluator for the expression
    */
-  Evaluator createExpressionEvaluator(String expression);
+  Evaluator createExpressionEvaluator(String expression, 
+      String sheetReference);
   
   /**
    * Creates an evaluator for an expression that is to be used as a predicate.
@@ -40,8 +41,10 @@ public interface ExpressionFactory {
    * A predicate expression returns a boolean result when evaluated.
    * 
    * @param expression expression test
-   * @return evalutor for the expression
+   * @param sheetReference sheet reference
+   * @return evaluator for the expression
    */
-  Evaluator createPredicateEvaluator(String expression);
+  Evaluator createPredicateEvaluator(String expression, 
+      String sheetReference);
   
 }
