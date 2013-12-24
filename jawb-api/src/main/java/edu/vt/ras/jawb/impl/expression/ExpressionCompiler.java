@@ -282,7 +282,9 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
           Boolean.parseBoolean(ctx.BOOLEAN().getText().toLowerCase()));      
     }
     if (ctx.STRING() != null) {
-      return new LiteralOperand(Value.Type.STRING, ctx.STRING().getText());
+      String text = ctx.STRING().getText();
+      return new LiteralOperand(Value.Type.STRING, 
+          text.substring(1, text.length() - 1));
     }
     if (ctx.DATE() != null) {
       return new LiteralOperand(Value.Type.NUMBER, 
