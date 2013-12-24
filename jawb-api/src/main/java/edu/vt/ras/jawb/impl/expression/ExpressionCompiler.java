@@ -33,7 +33,7 @@ import edu.vt.ras.jawb.impl.expression.ExpressionParser.UnaryOpContext;
 import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
 
 /**
- * DESCRIBE THE TYPE HERE.
+ * A visitor that compiles an expression.
  *
  * @author Carl Harris
  */
@@ -79,6 +79,9 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
    */
   @Override
   public Operand visitStatement(StatementContext ctx) {
+    if (ctx.expression() == null) {
+      return new LiteralOperand(new Value());
+    }
     return super.visit(ctx.expression());
   }
 

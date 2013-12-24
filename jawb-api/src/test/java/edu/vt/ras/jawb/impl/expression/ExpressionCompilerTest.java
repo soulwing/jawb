@@ -459,6 +459,14 @@ public class ExpressionCompilerTest {
     assertThat(value.getValue(), equalTo((Object) true));       
   }
   
+  @Test
+  public void testEmptyStatement() throws Exception {
+    Operand op = compileStatement("");
+    mockery.assertIsSatisfied();
+    Value value = op.evaluate(null);
+    assertThat(value.getType(), equalTo(Value.Type.BLANK));    
+  }
+  
   private Operand compileStatement(String statement) {
     ANTLRInputStream inputStream = new ANTLRInputStream(statement);
     ExpressionLexer lexer = new ExpressionLexer(inputStream);
