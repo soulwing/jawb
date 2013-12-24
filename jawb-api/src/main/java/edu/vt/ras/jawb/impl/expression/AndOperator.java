@@ -25,32 +25,22 @@ import edu.vt.ras.jawb.WorkbookBindingException;
  *
  * @author Carl Harris
  */
-class AndOperator extends BinaryOperator {
-
-  /**
-   * Constructs a new instance.
-   * @param a
-   * @param b
-   */
-  public AndOperator(Operand a, Operand b) {
-    super(a, b);
-  }
+class AndOperator implements BinaryOperator {
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected Value evaluate(Value a, Value b) throws WorkbookBindingException {
+  public Value evaluate(Value a, Value b) throws WorkbookBindingException {
     return new Value(Value.Type.BOOLEAN, a.isTrue() && b.isTrue());
   }
 
-  
   /**
    * {@inheritDoc}
    */
   @Override
-  protected String getDisplayFormat() {
-    return "%s && %s";
+  public String toString() {
+    return "&&";
   }
 
 }

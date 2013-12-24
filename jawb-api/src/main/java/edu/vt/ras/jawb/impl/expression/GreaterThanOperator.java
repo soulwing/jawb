@@ -25,22 +25,13 @@ import edu.vt.ras.jawb.WorkbookBindingException;
  *
  * @author Carl Harris
  */
-class GreaterThanOperator extends BinaryOperator {
-
-  /**
-   * Constructs a new instance.
-   * @param a
-   * @param b
-   */
-  public GreaterThanOperator(Operand a, Operand b) {
-    super(a, b);
-  }
+class GreaterThanOperator implements BinaryOperator {
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected Value evaluate(Value a, Value b) throws WorkbookBindingException {
+  public Value evaluate(Value a, Value b) throws WorkbookBindingException {
     return new Value(Value.Type.BOOLEAN, a.compareTo(b) > 0);
   }
 
@@ -48,8 +39,8 @@ class GreaterThanOperator extends BinaryOperator {
    * {@inheritDoc}
    */
   @Override
-  protected String getDisplayFormat() {
-    return "%s > %s";
+  public String toString() {
+    return ">";
   }
 
 }

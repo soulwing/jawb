@@ -25,22 +25,13 @@ import edu.vt.ras.jawb.WorkbookBindingException;
  *
  * @author Carl Harris
  */
-class InclusiveOrOperator extends BinaryOperator {
-
-  /**
-   * Constructs a new instance.
-   * @param a
-   * @param b
-   */
-  public InclusiveOrOperator(Operand a, Operand b) {
-    super(a, b);
-  }
+class InclusiveOrOperator implements BinaryOperator {
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected Value evaluate(Value a, Value b) throws WorkbookBindingException {
+  public Value evaluate(Value a, Value b) throws WorkbookBindingException {
     return new Value(Value.Type.BOOLEAN, a.isTrue() || b.isTrue());
   }
   
@@ -48,8 +39,8 @@ class InclusiveOrOperator extends BinaryOperator {
    * {@inheritDoc}
    */
   @Override
-  public String getDisplayFormat() {
-    return "%s || %s";
+  public String toString() {
+    return "||";
   }
 
 }

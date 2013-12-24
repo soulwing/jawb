@@ -1,5 +1,5 @@
 /*
- * File created on Dec 23, 2013 
+ * File created on Dec 24, 2013 
  *
  * Copyright (c) 2013 Virginia Polytechnic Institute and State University
  *
@@ -19,61 +19,20 @@
 package edu.vt.ras.jawb.impl.expression;
 
 import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.spi.BoundWorkbook;
 
 /**
- * An operand that represents a binary operator.
+ * A binary operator for an expression.
  *
  * @author Carl Harris
  */
-abstract class BinaryOperator extends AbstractOperand {
-
-  private final Operand a;
-  private final Operand b;
-  
-  /**
-   * Constructs a new instance.
-   * @param a left-hand operand
-   * @param b right-hand operand
-   */
-  public BinaryOperator(Operand a, Operand b) {
-    this.a = a;
-    this.b = b;
-  }
+interface BinaryOperator {
 
   /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected final Value doEvaluate(BoundWorkbook workbook)
-      throws WorkbookBindingException {
-    return evaluate(a.evaluate(workbook), b.evaluate(workbook));
-  }
-
-  /**
-   * Performs the receiver's operation on the given operand values.
-   * @param a left-hand operand value
-   * @param b right-hand operand value
+   * Performs the binary operation assigned to the receiver.
+   * @param a left-hand argument
+   * @param b right-hand argument
    * @return operation result
-   * @throws WorkbookBindingException
    */
-  protected abstract Value evaluate(Value a, Value b)
-      throws WorkbookBindingException;
+  Value evaluate(Value a, Value b) throws WorkbookBindingException;
   
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public final String toString() {
-    return String.format(getDisplayFormat(), a, b);
-  }
-
-  /**
-   * Gets a format string for {@link String#format(String, Object...)} that
-   * will be used to provide a common implementation of {@link #toString()}.
-   * @return format string with two string placeholders; one for each
-   *    operand
-   */
-  protected abstract String getDisplayFormat();
-
 }

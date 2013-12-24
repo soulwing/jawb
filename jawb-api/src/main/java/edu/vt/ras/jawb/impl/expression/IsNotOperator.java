@@ -25,22 +25,13 @@ import edu.vt.ras.jawb.WorkbookBindingException;
  *
  * @author Carl Harris
  */
-class IsNotOperator extends BinaryOperator {
-
-  /**
-   * Constructs a new instance.
-   * @param a
-   * @param b
-   */
-  public IsNotOperator(Operand a, Operand b) {
-    super(a, b);
-  }
+class IsNotOperator implements BinaryOperator {
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected Value evaluate(Value a, Value b) throws WorkbookBindingException {
+  public Value evaluate(Value a, Value b) throws WorkbookBindingException {
     Value.Type type = Value.Type.valueOf(b.toString().toUpperCase());
     return new Value(Value.Type.BOOLEAN, !a.getType().equals(type));
   }
@@ -49,8 +40,8 @@ class IsNotOperator extends BinaryOperator {
    * {@inheritDoc}
    */
   @Override
-  protected String getDisplayFormat() {
-    return "%s is not %s";
+  public String toString() {
+    return "is not";
   }
   
 }
