@@ -114,9 +114,7 @@ public abstract class WorkbookIterator {
   public boolean stop(BoundWorkbook workbook) 
       throws WorkbookBindingException {
     if (stop == null || stop.trim().isEmpty()) return false;
-    boolean result = (boolean) stopExpression().evaluate(workbook);
-    System.out.println(stopExpression() + ": " + result);
-    return result;
+    return (boolean) stopExpression().evaluate(workbook);
   }
 
   /**
@@ -128,9 +126,7 @@ public abstract class WorkbookIterator {
   public boolean skip(BoundWorkbook workbook) 
       throws WorkbookBindingException {
     if (skip == null || skip.trim().isEmpty()) return false;
-    boolean result = (boolean) skipExpression().evaluate(workbook);
-    System.out.println(skipExpression() + ": " + result);
-    return result;
+    return (boolean) skipExpression().evaluate(workbook);
   }
 
   /**
