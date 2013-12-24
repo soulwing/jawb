@@ -43,11 +43,15 @@ relationalOp:
  |  additiveOp OP_LEQ additiveOp
  |  additiveOp OP_GT additiveOp
  |  additiveOp OP_GEQ additiveOp
- |  additiveOp OP_IS TYPE
- |  additiveOp OP_IS_NOT TYPE    
  |  additiveOp
+ |  isTypeOp
  ;
 
+isTypeOp:
+    additiveOp OP_IS TYPE
+ |  additiveOp OP_IS_NOT TYPE    
+ ;
+ 
 additiveOp:
     multiplicativeOp OP_PLUS multiplicativeOp
   | multiplicativeOp OP_MINUS multiplicativeOp

@@ -24,6 +24,7 @@ import edu.vt.ras.jawb.impl.expression.ExpressionParser.EqualityOpContext;
 import edu.vt.ras.jawb.impl.expression.ExpressionParser.ExclusiveOrOpContext;
 import edu.vt.ras.jawb.impl.expression.ExpressionParser.ExpressionContext;
 import edu.vt.ras.jawb.impl.expression.ExpressionParser.FunctionContext;
+import edu.vt.ras.jawb.impl.expression.ExpressionParser.IsTypeOpContext;
 import edu.vt.ras.jawb.impl.expression.ExpressionParser.MultiplicativeOpContext;
 import edu.vt.ras.jawb.impl.expression.ExpressionParser.OperandContext;
 import edu.vt.ras.jawb.impl.expression.ExpressionParser.RelationalOpContext;
@@ -149,6 +150,10 @@ public class MyExpressionVisitor extends ExpressionBaseVisitor<Operand> {
    */
   @Override
   public Operand visitRelationalOp(RelationalOpContext ctx) {
+    if (ctx.isTypeOp() != null) {
+      return super.visit(ctx.isTypeOp());
+    }
+    
     Operand a = super.visit(ctx.additiveOp(0));
     if (ctx.additiveOp(1) == null) return a;
     
@@ -165,16 +170,26 @@ public class MyExpressionVisitor extends ExpressionBaseVisitor<Operand> {
     if (ctx.OP_GEQ() != null) {
       return new GreaterOrEqualsOperator(a, b);
     }
+    if (ctx.OP_MATCH() != null) {
+      return new MatchOperator(a, b);
+    }
+    throw new IllegalStateException("unrecognized relational operator");
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Operand visitIsTypeOp(IsTypeOpContext ctx) {
+    Operand a = super.visit(ctx.additiveOp());
+    Operand b = new LiteralOperand(Value.Type.STRING, ctx.TYPE().getText());
     if (ctx.OP_IS() != null) {
       return new IsOperator(a, b);
     }
     if (ctx.OP_IS_NOT() != null) {
       return new IsNotOperator(a, b);
     }
-    if (ctx.OP_MATCH() != null) {
-      return new MatchOperator(a, b);
-    }
-    throw new IllegalStateException("unrecognized relational operator");
+    throw new IllegalStateException("unrecognized IS operator");
   }
 
   /**
