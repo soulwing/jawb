@@ -46,9 +46,9 @@ public interface WorkbookBindingProvider {
   WorkbookExtractor createExtractor(Evaluator evaluator);
 
   /**
-   * Creates a date/time converter.
+   * Gets the provider's date/time converter.
    * @return date/time converter
    */
-  DateTimeConverter createDateTimeConverter();
+  DateTimeConverter getDateTimeConverter();
   
 }

@@ -62,7 +62,7 @@ public class ApachePoiBindingProvider implements WorkbookBindingProvider {
    * {@inheritDoc}
    */
   @Override
-  public DateTimeConverter createDateTimeConverter() {
+  public DateTimeConverter getDateTimeConverter() {
     return dateTimeConverter;
   }
 
