@@ -34,7 +34,7 @@ public @interface IterateRows {
 
   int count();
   int increment() default 1;
-  Predicate stop() default @Predicate;
-  Predicate skip() default @Predicate;
+  String stop() default "";
+  String skip() default "";
   
 }
