@@ -22,6 +22,7 @@ import org.apache.poi.ss.util.CellReference;
 
 import edu.vt.ras.jawb.WorkbookExtractor;
 import edu.vt.ras.jawb.spi.BoundCellReference;
+import edu.vt.ras.jawb.spi.DateTimeConverter;
 import edu.vt.ras.jawb.spi.Evaluator;
 import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
 
@@ -33,6 +34,9 @@ import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
  */
 public class ApachePoiBindingProvider implements WorkbookBindingProvider {
 
+  private final DateTimeConverter dateTimeConverter =
+      new ApachePoiDateTimeConverter();
+  
   /**
    * {@inheritDoc}
    */
@@ -52,6 +56,14 @@ public class ApachePoiBindingProvider implements WorkbookBindingProvider {
   @Override
   public WorkbookExtractor createExtractor(Evaluator evaluator) {
     return new ApachePoiExtractor(evaluator);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public DateTimeConverter createDateTimeConverter() {
+    return dateTimeConverter;
   }
 
 }

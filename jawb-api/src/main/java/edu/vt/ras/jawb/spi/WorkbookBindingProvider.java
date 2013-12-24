@@ -36,6 +36,7 @@ public interface WorkbookBindingProvider {
   BoundCellReference createCellReference(String sheetRef,
       String ref);
 
+  
   /**
    * Creates an extractor.
    * @param evaluator evaluator that will be used to extract and bind 
@@ -44,4 +45,10 @@ public interface WorkbookBindingProvider {
    */
   WorkbookExtractor createExtractor(Evaluator evaluator);
 
+  /**
+   * Creates a date/time converter.
+   * @return date/time converter
+   */
+  DateTimeConverter createDateTimeConverter();
+  
 }
