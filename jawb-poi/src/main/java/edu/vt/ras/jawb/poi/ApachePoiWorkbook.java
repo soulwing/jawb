@@ -81,11 +81,10 @@ class ApachePoiWorkbook implements BoundWorkbook {
   }
 
   /**
-   * Applies all of the currently applied biases to the given cell reference.
-   * @param ref subject cell reference
-   * @return biased cell reference
+   * {@inheritDoc}
    */
-  private BoundCellReference applyBias(BoundCellReference ref) {
+  @Override
+  public BoundCellReference applyBias(BoundCellReference ref) {
     Iterator<WorkbookIterator> i = iterators.iterator();
     while (i.hasNext()) {
       WorkbookIterator iterator = i.next();

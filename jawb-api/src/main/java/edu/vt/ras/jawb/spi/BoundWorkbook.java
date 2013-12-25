@@ -34,6 +34,20 @@ public interface BoundWorkbook {
   BoundCell evaluateCell(BoundCellReference ref);
   
   /**
+   * Applies the workbook's reference bias to the given cell reference.
+   * <p>
+   * This method is exposed on the interface to allow diagnostic output
+   * to display the actual location of iterated cell references.
+   * 
+   * @param ref the subject cell reference
+   * @return In the face of one or more active workbook iterators, the 
+   *    return value will be a new cell reference that has been biased by 
+   *    the current state of each of the active iterators. Otherwise, the 
+   *    return value {@code ref}.
+   */
+  BoundCellReference applyBias(BoundCellReference ref);  
+
+  /**
    * Pushes a new iterator onto the receiver's stack of iterators.
    * @param iterator the iterator to push
    */
