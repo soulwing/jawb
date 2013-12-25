@@ -61,8 +61,12 @@ public class Value implements Comparable<Value> {
    * @param value value
    */
   public Value(Type type, Object value) {
-    if (value == null && type != Type.BLANK) {
-      throw new NullPointerException("null value with non-BLANK type");
+    if (value == null) {
+      type = Type.BLANK;
+    }
+    if (type == Type.STRING && ((String) value).isEmpty()) {
+      type = Type.BLANK;
+      value = null;
     }
     this.type = type;
     this.value = value;

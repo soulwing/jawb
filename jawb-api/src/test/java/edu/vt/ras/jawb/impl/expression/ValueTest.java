@@ -51,6 +51,20 @@ public class ValueTest {
   }
   
   @Test
+  public void testValueWithNull() throws Exception {
+    Value value = new Value(Value.Type.STRING, null);
+    assertThat(value.getType(), equalTo(Value.Type.BLANK));
+    assertThat(value.getValue(), nullValue());
+  }
+
+  @Test
+  public void testValueWithEmptyString() throws Exception {
+    Value value = new Value(Value.Type.STRING, "");
+    assertThat(value.getType(), equalTo(Value.Type.BLANK));
+    assertThat(value.getValue(), nullValue());
+  }
+
+  @Test
   public void testIsTrueWithFalse() throws Exception {
     Value value = new Value(Value.Type.BOOLEAN, false);
     assertThat(value.isTrue(), equalTo(false));
