@@ -64,6 +64,14 @@ public class AbstractOperandTest {
       if (ex != null) throw ex;
       return value;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString(BoundWorkbook workbook) {
+      throw new UnsupportedOperationException();
+    }
     
   }
   

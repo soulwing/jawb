@@ -54,5 +54,13 @@ abstract class AbstractOperand implements Operand {
    */
   protected abstract Value doEvaluate(BoundWorkbook workbook)
       throws RuntimeException, WorkbookBindingException;
-      
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final String toString() {
+    return toString(null);
+  }
+
 }

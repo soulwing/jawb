@@ -178,4 +178,18 @@ public abstract class WorkbookIterator {
     return skipExpression;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(getClass().getSimpleName());
+    sb.append(" count=").append(count);
+    sb.append(" increment=").append(increment);
+    sb.append(" stop=\"").append(stop).append("\"");
+    sb.append(" skip=\"").append(skip).append("\"");
+    return sb.toString();
+  }
+
 }

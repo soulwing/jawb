@@ -73,20 +73,20 @@ class IfFunction extends AbstractOperand {
    * {@inheritDoc}
    */
   @Override
-  public String toString() {
+  public String toString(BoundWorkbook workbook) {
     StringBuilder sb = new StringBuilder();
     sb.append("if(");
     for (int i = 0, max = expressions.size() / 2; i < max; i++) {
-      sb.append(expressions.get(2*i));
+      sb.append(expressions.get(2*i).toString(workbook));
       sb.append(", ");
-      sb.append(expressions.get(2*i + 1));
+      sb.append(expressions.get(2*i + 1).toString(workbook));
       if (i < max - 1) {
         sb.append(", ");
       }
     }
     if (expressions.size() % 2 != 0) {
       sb.append(",");
-      sb.append(expressions.get(expressions.size() - 1));
+      sb.append(expressions.get(expressions.size() - 1).toString(workbook));
     }
     sb.append(")");
     return sb.toString();

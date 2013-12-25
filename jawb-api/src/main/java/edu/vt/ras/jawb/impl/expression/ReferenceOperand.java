@@ -59,8 +59,11 @@ class ReferenceOperand implements Operand {
    * {@inheritDoc}
    */
   @Override
-  public String toString() {
-    return ref.toString();
+  public String toString(BoundWorkbook workbook) {
+    if (workbook == null) {
+      return ref.toString();
+    }
+    return workbook.applyBias(ref).toString();
   }
- 
+
 }

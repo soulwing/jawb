@@ -75,13 +75,13 @@ class PolyadicOperator extends AbstractOperand {
    * {@inheritDoc}
    */
   @Override
-  public final String toString() {
+  public String toString(BoundWorkbook workbook) {
     StringBuilder sb = new StringBuilder();
-    sb.append(operands.get(0));
+    sb.append(operands.get(0).toString(workbook));
     if (operators.size() > 0) {
       for (int i = 0, max = operators.size(); i < max; i++) {
         sb.append(' ').append(operators.get(i)).append(' ');
-        sb.append(operands.get(i + 1));
+        sb.append(operands.get(i + 1).toString(workbook));
       }
     }    
     return sb.toString();

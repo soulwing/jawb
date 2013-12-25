@@ -28,6 +28,7 @@ import edu.vt.ras.jawb.impl.expression.ExpressionErrorListener;
 import edu.vt.ras.jawb.impl.expression.ExpressionLexer;
 import edu.vt.ras.jawb.impl.expression.ExpressionParser;
 import edu.vt.ras.jawb.impl.expression.Operand;
+import edu.vt.ras.jawb.impl.expression.Value;
 
 /**
  * An {@link ExpressionFactory} that creates compiled expressions.
@@ -99,7 +100,11 @@ public class CompiledExpressionFactory implements ExpressionFactory {
     @Override
     public Object evaluate(BoundWorkbook workbook)
         throws WorkbookBindingException {
-      return operand.evaluate(workbook).getValue();
+      Value value = operand.evaluate(workbook);
+      if (Loggers.EXPRESSION.isDebugEnabled()) {
+        Loggers.EXPRESSION.debug("{}={}", operand.toString(workbook), value);
+      }
+      return value.getValue();
     }
 
     /**
@@ -127,7 +132,11 @@ public class CompiledExpressionFactory implements ExpressionFactory {
     @Override
     public Object evaluate(BoundWorkbook workbook)
         throws WorkbookBindingException {
-      return operand.evaluate(workbook).isTrue();
+      Value value = operand.evaluate(workbook);
+      if (Loggers.EXPRESSION.isDebugEnabled()) {
+        Loggers.EXPRESSION.debug("{}=[{}]", operand.toString(workbook), value);
+      }
+      return value.isTrue();
     }
 
     /**

@@ -60,7 +60,7 @@ class LiteralOperand implements Operand {
    * {@inheritDoc}
    */
   @Override
-  public String toString() {
+  public String toString(BoundWorkbook workbook) {
     return value.toString();
   }
 

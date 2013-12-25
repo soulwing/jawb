@@ -36,4 +36,11 @@ public interface Operand {
    */
   Value evaluate(BoundWorkbook workbook) throws WorkbookBindingException;
   
+  /**
+   * Converts the receiver to a string representation.
+   * @param workbook workbook context
+   * @return
+   */
+  String toString(BoundWorkbook workbook);
+  
 }

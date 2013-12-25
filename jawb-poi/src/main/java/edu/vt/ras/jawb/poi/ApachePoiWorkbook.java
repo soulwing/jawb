@@ -22,7 +22,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -32,6 +31,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import edu.vt.ras.jawb.spi.BoundCell;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
+import edu.vt.ras.jawb.spi.Loggers;
 import edu.vt.ras.jawb.spi.WorkbookIterator;
 
 /**
@@ -76,8 +76,15 @@ class ApachePoiWorkbook implements BoundWorkbook {
     Sheet sheet = sheetName != null ? 
         delegate.getSheet(sheetName) : delegate.getSheetAt(0);
     Row row = sheet.getRow(cellRef.getRow());
-    Cell cell = row.getCell(cellRef.getCol());
-    return new ApachePoiCell(cell, ref, useDate1904);
+    
+    ApachePoiCell cell = new ApachePoiCell(row.getCell(cellRef.getCol()), 
+        ref, useDate1904);
+    
+    if (Loggers.EVALUATION.isDebugEnabled()) {
+      Loggers.EVALUATION.debug("{}=[{}]", ref, cell.getValue());
+    }
+    
+    return cell;
   }
 
   /**
@@ -98,6 +105,9 @@ class ApachePoiWorkbook implements BoundWorkbook {
    */
   @Override
   public void pushIterator(WorkbookIterator iterator) {
+    if (Loggers.ITERATION.isDebugEnabled()) {
+      Loggers.ITERATION.debug("pushed iterator: {}", iterator);
+    }
     iterators.push(iterator);
   }
 
@@ -109,6 +119,9 @@ class ApachePoiWorkbook implements BoundWorkbook {
     WorkbookIterator top = iterators.pop();
     if (top != iterator) {
       throw new IllegalStateException("unexpected top-of-stack iterator");
+    }
+    if (Loggers.ITERATION.isDebugEnabled()) {
+      Loggers.ITERATION.debug("popped iterator: {}", iterator);
     }
   }
 

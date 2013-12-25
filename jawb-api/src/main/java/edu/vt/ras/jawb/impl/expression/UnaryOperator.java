@@ -54,14 +54,6 @@ abstract class UnaryOperator extends AbstractOperand {
    * @throws WorkbookBindingException
    */
   protected abstract Value evaluate(Value a) throws WorkbookBindingException;
-  
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public final String toString() {
-    return String.format(getDisplayFormat(), a);
-  }
 
   /**
    * Gets a format string for {@link String#format(String, Object...)} that
@@ -70,5 +62,13 @@ abstract class UnaryOperator extends AbstractOperand {
    *    operand
    */
   protected abstract String getDisplayFormat();
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String toString(BoundWorkbook workbook) {
+    return String.format(getDisplayFormat(), a.toString(workbook));
+  }
 
 }
