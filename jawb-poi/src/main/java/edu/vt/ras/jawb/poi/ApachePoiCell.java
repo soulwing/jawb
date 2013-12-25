@@ -64,6 +64,30 @@ class ApachePoiCell implements BoundCell {
    * {@inheritDoc}
    */
   @Override
+  public Object getValue() {
+    if (isBlank()) return null;
+    try {
+      return getStringValue();
+    }
+    catch (IllegalStateException ex1) {
+      try {
+        return getNumericValue();
+      }
+      catch (IllegalStateException ex2) {
+        try {
+          return getBooleanValue();
+        }
+        catch (IllegalStateException ex3) {
+          throw new IllegalStateException("unrecognized cell content");
+        }
+      }
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public boolean getBooleanValue() {
     if (isBlank()) {
       throw new IllegalStateException("blank value");

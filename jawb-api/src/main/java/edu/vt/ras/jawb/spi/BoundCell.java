@@ -40,6 +40,13 @@ public interface BoundCell {
   boolean isBlank();
   
   /**
+   * Gets the cell's value as either a {@code Double}, {@code Boolean},
+   * {@code String}, or {@code null} according to its contents.
+   * @return cell value
+   */
+  Object getValue();
+  
+  /**
    * Gets the receiver's value as a boolean.
    * <p>
    * @return
