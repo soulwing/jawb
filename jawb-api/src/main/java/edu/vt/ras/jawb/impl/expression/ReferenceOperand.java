@@ -47,58 +47,12 @@ class ReferenceOperand implements Operand {
   public Value evaluate(BoundWorkbook workbook)
       throws WorkbookBindingException {    
     BoundCell cell = workbook.evaluateCell(ref);
-    return cellValue(cell);
-  }
-
-  private Value cellValue(BoundCell cell) {
-    Object value = null;
-    if (cell.isBlank()) {
-      return new Value();
-    }
-    
-    value = getStringValue(cell);
-    if (value != null) {
-      return new Value(Value.Type.STRING, value);
-    }
-
-    value = getNumericValue(cell);
-    if (value != null) {
-      return new Value(Value.Type.NUMBER, value);
-    }
-    
-    value = getBooleanValue(cell);
-    if (value != null) {
-      return new Value(Value.Type.BOOLEAN, value);
-    }
-    
+    Object value = cell.getValue();
+    if (value == null) return new Value();
+    if (value instanceof String) return new Value(Value.Type.STRING, value);
+    if (value instanceof Double) return new Value(Value.Type.NUMBER, value);
+    if (value instanceof Boolean) return new Value(Value.Type.BOOLEAN, value);
     throw new IllegalStateException("unrecognized data type");
-  }
-
-  private Object getBooleanValue(BoundCell cell) {
-    try {
-      return cell.getBooleanValue();
-    }
-    catch (IllegalStateException ex) {
-      return null;
-    }
-  }
-  
-  private Object getNumericValue(BoundCell cell) {
-    try {
-      return cell.getNumericValue();
-    }
-    catch (IllegalStateException ex) {
-      return null;
-    }
-  }
-  
-  private Object getStringValue(BoundCell cell) {
-    try {
-      return cell.getStringValue();
-    }
-    catch (IllegalStateException ex) {
-      return null;
-    }
   }
 
   /**
