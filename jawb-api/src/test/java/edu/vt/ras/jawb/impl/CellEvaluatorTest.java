@@ -31,6 +31,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
+import edu.vt.ras.jawb.annotation.CellEnumValue;
 import edu.vt.ras.jawb.spi.BoundCellReference;
 import edu.vt.ras.jawb.spi.BoundCell;
 import edu.vt.ras.jawb.spi.BoundWorkbook;
@@ -263,6 +264,45 @@ public class CellEvaluatorTest {
     assertThat(obj, equalTo((Object) BigInteger.valueOf((long) result)));
   }
 
+  @Test
+  public void testWithEnumTargetUsingAnnotation() throws Exception {
+    final String result = "Value 1";
+    mockery.checking(enumValueExpectations(result));
+    
+    CellEvaluator evaluator = new CellEvaluator(ref, MockEnum.class);
+    Object obj = evaluator.evaluate(workbook);
+    mockery.assertIsSatisfied();
+    assertThat(obj, equalTo((Object) MockEnum.VALUE1));
+  }
+
+  @Test
+  public void testWithEnumTargetUsingName() throws Exception {
+    final String result = "VALUE2";
+    mockery.checking(enumValueExpectations(result));
+    
+    CellEvaluator evaluator = new CellEvaluator(ref, MockEnum.class);
+    Object obj = evaluator.evaluate(workbook);
+    mockery.assertIsSatisfied();
+    assertThat(obj, equalTo((Object) MockEnum.VALUE2));
+  }
+
+  private Expectations enumValueExpectations(final String result) {
+    return new Expectations() { { 
+      oneOf(workbook).evaluateCell(with(same(ref)));
+      will(returnValue(cell));
+      oneOf(cell).isBlank();
+      will(returnValue(false));
+      oneOf(cell).getValue();
+      will(returnValue(result));
+    } };
+  }
+
+  public enum MockEnum {
+    @CellEnumValue("Value 1")
+    VALUE1,
+    VALUE2;
+  }
+  
   @Test
   public void testWithStringTarget() throws Exception {
     final String result = new String();

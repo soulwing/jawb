@@ -35,6 +35,7 @@ class CellEvaluator implements Evaluator {
     BooleanCellEvaluatorStrategy.INSTANCE,
     CalendarCellEvaluatorStrategy.INSTANCE,
     DateCellEvaluatorStrategy.INSTANCE,
+    EnumCellEvaluatorStrategy.INSTANCE,
     StringCellEvaluatorStrategy.INSTANCE,
     NumericPrimitiveCellEvaluatorStrategy.INSTANCE,
     ValueOfCellEvaluatorStrategy.INSTANCE
