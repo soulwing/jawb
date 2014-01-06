@@ -121,6 +121,7 @@ public class TypeUtil {
     if (boolean.class.equals(type)) return true;
     if (Calendar.class.isAssignableFrom(type)) return true;
     if (Date.class.isAssignableFrom(type)) return true;
+    if (Enum.class.isAssignableFrom(type)) return true;
     if (TypeUtil.isNumericPrimitive(type)) return true;
     if (TypeUtil.findValueOfMethod(type) != null) return true;
     return false;
