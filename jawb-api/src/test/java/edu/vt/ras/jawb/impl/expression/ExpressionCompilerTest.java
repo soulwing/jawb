@@ -65,13 +65,7 @@ public class ExpressionCompilerTest {
       will(returnValue(cell));
       allowing(cell).getReference();
       will(returnValue(ref));
-      allowing(cell).isBlank();
-      will(returnValue(false));
-      allowing(cell).getBooleanValue();
-      will(throwException(new IllegalAccessException()));
-      allowing(cell).getStringValue();
-      will(throwException(new IllegalAccessException()));
-      allowing(cell).getNumericValue();
+      oneOf(cell).getValue();
       will(returnValue(1.0));
     } });
     

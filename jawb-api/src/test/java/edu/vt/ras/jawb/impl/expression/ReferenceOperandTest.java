@@ -55,14 +55,8 @@ public class ReferenceOperandTest {
       will(returnValue(cell));
       allowing(cell).getReference();
       will(returnValue(ref));
-      allowing(cell).isBlank();
-      will(returnValue(false));
-      allowing(cell).getNumericValue();
+      oneOf(cell).getValue();
       will(returnValue(result));
-      allowing(cell).getBooleanValue();
-      will(throwException(new IllegalStateException()));
-      allowing(cell).getStringValue();
-      will(throwException(new IllegalStateException()));
     } });
     
     Value value = operand.evaluate(workbook);
@@ -79,14 +73,8 @@ public class ReferenceOperandTest {
       will(returnValue(cell));
       allowing(cell).getReference();
       will(returnValue(ref));
-      allowing(cell).isBlank();
-      will(returnValue(false));
-      allowing(cell).getNumericValue();
-      will(throwException(new IllegalStateException()));
-      allowing(cell).getBooleanValue();
+      oneOf(cell).getValue();
       will(returnValue(result));
-      allowing(cell).getStringValue();
-      will(throwException(new IllegalStateException()));
     } });
     
     Value value = operand.evaluate(workbook);
@@ -103,13 +91,7 @@ public class ReferenceOperandTest {
       will(returnValue(cell));
       allowing(cell).getReference();
       will(returnValue(ref));
-      allowing(cell).isBlank();
-      will(returnValue(false));
-      allowing(cell).getNumericValue();
-      will(throwException(new IllegalStateException()));
-      allowing(cell).getBooleanValue();
-      will(throwException(new IllegalStateException()));
-      allowing(cell).getStringValue();
+      oneOf(cell).getValue();
       will(returnValue(result));
     } });
     
@@ -126,8 +108,8 @@ public class ReferenceOperandTest {
       will(returnValue(cell));
       allowing(cell).getReference();
       will(returnValue(ref));
-      allowing(cell).isBlank();
-      will(returnValue(true));
+      oneOf(cell).getValue();
+      will(returnValue(null));
     } });
     
     Value value = operand.evaluate(workbook);
