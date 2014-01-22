@@ -57,7 +57,7 @@ class ApachePoiCell implements BoundCell {
    */
   @Override
   public boolean isBlank() {
-    return delegate == null;
+    return delegate == null || delegate.getCellType() == Cell.CELL_TYPE_BLANK;
   }
 
   /**
@@ -100,6 +100,9 @@ class ApachePoiCell implements BoundCell {
    */
   @Override
   public Date getDateValue() {
+    if (isBlank()) {
+      return null;
+    }
     double numericValue = delegate.getNumericCellValue();
     if (!DateUtil.isValidExcelDate(numericValue)) {
       throw new IllegalStateException("not a valid date");
