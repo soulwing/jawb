@@ -194,7 +194,7 @@ public class AnnotationEvaluatorFactoryTest {
       will(returnValue(ref));
       oneOf(workbook).evaluateCell(with(same(ref)));
       will(returnValue(value));
-      oneOf(value).getStringValue();
+      oneOf(value).getValue();
       will(returnValue(result));
     } };
   }

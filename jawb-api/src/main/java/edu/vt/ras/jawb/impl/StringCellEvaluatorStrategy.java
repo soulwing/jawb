@@ -48,7 +48,7 @@ class StringCellEvaluatorStrategy implements CellEvaluatorStrategy {
     }
     
     try {
-      return cell.getStringValue();
+      return cell.getValue().toString();
     }
     catch (IllegalStateException ex) {
       throw new TypeMismatchException(cell.getReference(), targetType);

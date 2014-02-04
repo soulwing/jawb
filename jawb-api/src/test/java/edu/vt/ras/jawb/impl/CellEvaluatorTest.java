@@ -311,7 +311,7 @@ public class CellEvaluatorTest {
       will(returnValue(cell));
       oneOf(cell).isBlank();
       will(returnValue(false));
-      oneOf(cell).getStringValue();
+      oneOf(cell).getValue();
       will(returnValue(result));
     } });
     

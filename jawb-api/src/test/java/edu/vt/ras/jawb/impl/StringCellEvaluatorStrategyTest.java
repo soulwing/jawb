@@ -20,13 +20,11 @@ package edu.vt.ras.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.fail;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import edu.vt.ras.jawb.TypeMismatchException;
 import edu.vt.ras.jawb.spi.BoundCell;
 
 /**
@@ -44,7 +42,7 @@ public class StringCellEvaluatorStrategyTest {
   public void testEvaluateWithStringValue() throws Exception {
     final String result = new String();
     mockery.checking(new Expectations() { { 
-      oneOf(cell).getStringValue();
+      oneOf(cell).getValue();
       will(returnValue(result));
     } } );
        
@@ -55,19 +53,15 @@ public class StringCellEvaluatorStrategyTest {
   
   @Test
   public void testEvaluateWithNonStringValue() throws Exception {
+    final Number result = Integer.valueOf(0);
     mockery.checking(new Expectations() { { 
-      oneOf(cell).getStringValue();
-      will(throwException(new IllegalStateException()));
-      allowing(cell).getReference();      
+      oneOf(cell).getValue();
+      will(returnValue(result));
     } } );
        
-    try {
-      StringCellEvaluatorStrategy.INSTANCE.evaluate(cell, String.class);
-      fail("expected TypeMismatchException");
-    }
-    catch (TypeMismatchException ex) {
-      mockery.assertIsSatisfied();
-    }
+    assertThat(StringCellEvaluatorStrategy.INSTANCE
+        .evaluate(cell, String.class),  equalTo((Object)"0"));
+    mockery.assertIsSatisfied();
   }
 
 }
