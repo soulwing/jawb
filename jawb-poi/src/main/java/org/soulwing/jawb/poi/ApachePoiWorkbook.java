@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.poi;
+package org.soulwing.jawb.poi;
 
 import java.util.Deque;
 import java.util.Iterator;

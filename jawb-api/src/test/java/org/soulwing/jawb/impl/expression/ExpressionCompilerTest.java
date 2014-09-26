@@ -39,8 +39,8 @@ import org.soulwing.jawb.spi.BoundWorkbook;
 import org.soulwing.jawb.spi.DateTimeConverter;
 import org.soulwing.jawb.spi.WorkbookBindingProvider;
 
-import edu.vt.ras.jawb.impl.expression.ExpressionLexer;
-import edu.vt.ras.jawb.impl.expression.ExpressionParser;
+import org.soulwing.jawb.impl.expression.ExpressionLexer;
+import org.soulwing.jawb.impl.expression.ExpressionParser;
 
 /**
  * Tests for {@link ExpressionCompiler}.

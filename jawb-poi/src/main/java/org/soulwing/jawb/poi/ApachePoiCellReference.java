@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.poi;
+package org.soulwing.jawb.poi;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;

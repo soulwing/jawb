@@ -20,4 +20,4 @@
 /**
  * Apache POI workbook binding provider.
  */
-package edu.vt.ras.jawb.poi;
+package org.soulwing.jawb.poi;

@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.poi;
+package org.soulwing.jawb.poi;
 
 import java.text.DateFormat;
 import java.text.ParseException;

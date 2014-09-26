@@ -16,9 +16,10 @@
  * limitations under the License.
  *
  */
-package edu.vt.ras.jawb.poi;
+package org.soulwing.jawb.poi;
 
 import org.junit.Test;
+import org.soulwing.jawb.poi.ApachePoiDateTimeConverter;
 
 /**
  * Unit tests for {@link ApachePoiDateTimeConverter}.
