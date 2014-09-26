@@ -24,10 +24,9 @@ import java.io.InputStream;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.WorkbookExtractor;
-import edu.vt.ras.jawb.spi.Evaluator;
+import org.soulwing.jawb.WorkbookBindingException;
+import org.soulwing.jawb.WorkbookExtractor;
+import org.soulwing.jawb.spi.Evaluator;
 
 /**
  * A {@link WorkbookExtractor} implementation based on Apache POI.

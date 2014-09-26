@@ -27,12 +27,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import edu.vt.ras.jawb.spi.BoundCell;
-import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundWorkbook;
-import edu.vt.ras.jawb.spi.Loggers;
-import edu.vt.ras.jawb.spi.WorkbookIterator;
+import org.soulwing.jawb.spi.BoundCell;
+import org.soulwing.jawb.spi.BoundCellReference;
+import org.soulwing.jawb.spi.BoundWorkbook;
+import org.soulwing.jawb.spi.Loggers;
+import org.soulwing.jawb.spi.WorkbookIterator;
 
 /**
  * A {@link BoundWorkbook} that delegates to a POI {@link Workbook}.

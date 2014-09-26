@@ -20,9 +20,8 @@ package edu.vt.ras.jawb.poi;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
-
-import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.BoundWorkbook;
+import org.soulwing.jawb.spi.BoundCellReference;
+import org.soulwing.jawb.spi.BoundWorkbook;
 
 /**
  * A {@link BoundCellReference} that delegates to a POI {@link CellReference}

@@ -22,9 +22,8 @@ import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
-
-import edu.vt.ras.jawb.spi.BoundCell;
-import edu.vt.ras.jawb.spi.BoundCellReference;
+import org.soulwing.jawb.spi.BoundCell;
+import org.soulwing.jawb.spi.BoundCellReference;
 
 /**
  * A {@link BoundCell} that delegates to a POI {@link Cell}.

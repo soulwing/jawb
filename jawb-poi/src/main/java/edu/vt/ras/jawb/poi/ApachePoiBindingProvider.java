@@ -19,14 +19,13 @@
 package edu.vt.ras.jawb.poi;
 
 import org.apache.poi.ss.util.CellReference;
-
-import edu.vt.ras.jawb.WorkbookExtractor;
-import edu.vt.ras.jawb.spi.BoundCellReference;
-import edu.vt.ras.jawb.spi.CompiledExpressionFactory;
-import edu.vt.ras.jawb.spi.DateTimeConverter;
-import edu.vt.ras.jawb.spi.Evaluator;
-import edu.vt.ras.jawb.spi.ExpressionFactory;
-import edu.vt.ras.jawb.spi.WorkbookBindingProvider;
+import org.soulwing.jawb.WorkbookExtractor;
+import org.soulwing.jawb.spi.BoundCellReference;
+import org.soulwing.jawb.spi.CompiledExpressionFactory;
+import org.soulwing.jawb.spi.DateTimeConverter;
+import org.soulwing.jawb.spi.Evaluator;
+import org.soulwing.jawb.spi.ExpressionFactory;
+import org.soulwing.jawb.spi.WorkbookBindingProvider;
 
 /**
  * An implementation of {@link WorkbookBindingProvider} based on

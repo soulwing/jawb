@@ -30,14 +30,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.poi.util.IOUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import edu.vt.ras.jawb.WorkbookBindingContext;
-import edu.vt.ras.jawb.WorkbookBindingException;
-import edu.vt.ras.jawb.WorkbookExtractor;
-import edu.vt.ras.jawb.annotation.Cell;
-import edu.vt.ras.jawb.annotation.IterateColumns;
-import edu.vt.ras.jawb.annotation.IterateRows;
-import edu.vt.ras.jawb.annotation.Sheet;
+import org.soulwing.jawb.WorkbookBindingContext;
+import org.soulwing.jawb.WorkbookBindingException;
+import org.soulwing.jawb.WorkbookExtractor;
+import org.soulwing.jawb.annotation.Cell;
+import org.soulwing.jawb.annotation.IterateColumns;
+import org.soulwing.jawb.annotation.IterateRows;
+import org.soulwing.jawb.annotation.Sheet;
 
 /**
  * Some integration tests for {@link WorkbookExtractor}.

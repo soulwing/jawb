@@ -23,8 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.apache.poi.ss.usermodel.DateUtil;
-
-import edu.vt.ras.jawb.spi.DateTimeConverter;
+import org.soulwing.jawb.spi.DateTimeConverter;
 
 /**
  * A {@link DateTimeConverter} implementation that utilizes POI's
