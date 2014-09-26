@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.METHOD})
 public @interface IterateColumns {
 
-  int count();
+  int count() default Integer.MAX_VALUE;
   int increment() default 1;
   String stop() default "";
   String skip() default "";
