@@ -81,9 +81,7 @@ class ApachePoiWorkbook implements BoundWorkbook {
   }
 
   private BoundCell getBoundCell(BoundCellReference ref, CellReference cellRef) {
-    String sheetName = cellRef.getSheetName();
-    Sheet sheet = sheetName != null ? 
-        delegate.getSheet(sheetName) : delegate.getSheetAt(0);
+    Sheet sheet = getSheet(cellRef);
     Row row = sheet.getRow(cellRef.getRow());
     if (row == null || row.getCell(cellRef.getCol()) == null) {
       return new ApachePoiNullCell(ref);
@@ -91,6 +89,20 @@ class ApachePoiWorkbook implements BoundWorkbook {
     else {
       return new ApachePoiCell(row.getCell(cellRef.getCol()), ref, useDate1904);
     }
+  }
+
+  private Sheet getSheet(CellReference cellRef) {
+    String sheetName = cellRef.getSheetName();
+    Sheet sheet = sheetName != null ? 
+        delegate.getSheet(sheetName) : delegate.getSheetAt(0);
+    if (sheet == null && sheetName != null) {
+      throw new IllegalArgumentException(
+          "invalid sheet name '" + sheetName + "'");
+    }
+    else if (sheet == null) {
+      throw new IllegalStateException("workbook contains no sheets");
+    }
+    return sheet;
   }
 
   /**
