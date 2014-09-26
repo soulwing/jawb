@@ -70,20 +70,27 @@ class ApachePoiWorkbook implements BoundWorkbook {
   @Override
   public BoundCell evaluateCell(BoundCellReference ref) {
     ref = applyBias(ref);
-    CellReference cellRef = ((ApachePoiCellReference) ref).getDelegate();
-    String sheetName = cellRef.getSheetName();
-    Sheet sheet = sheetName != null ? 
-        delegate.getSheet(sheetName) : delegate.getSheetAt(0);
-    Row row = sheet.getRow(cellRef.getRow());
-    
-    ApachePoiCell cell = new ApachePoiCell(row.getCell(cellRef.getCol()), 
-        ref, useDate1904);
+    CellReference cellRef = ((ApachePoiCellReference) ref).getDelegate();    
+    BoundCell cell = getBoundCell(ref, cellRef);
     
     if (Loggers.EVALUATION.isDebugEnabled()) {
       Loggers.EVALUATION.debug("{}=[{}]", ref, cell.getValue());
     }
     
     return cell;
+  }
+
+  private BoundCell getBoundCell(BoundCellReference ref, CellReference cellRef) {
+    String sheetName = cellRef.getSheetName();
+    Sheet sheet = sheetName != null ? 
+        delegate.getSheet(sheetName) : delegate.getSheetAt(0);
+    Row row = sheet.getRow(cellRef.getRow());
+    if (row == null || row.getCell(cellRef.getCol()) == null) {
+      return new ApachePoiNullCell(ref);
+    }
+    else {
+      return new ApachePoiCell(row.getCell(cellRef.getCol()), ref, useDate1904);
+    }
   }
 
   /**
