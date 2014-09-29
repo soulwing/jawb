@@ -21,6 +21,8 @@ package org.soulwing.jawb;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.validation.Validator;
+
 /**
  * An object that extracts the information from an Excel workbook 
  * to create a graph of Java bean instances.
@@ -40,5 +42,13 @@ public interface WorkbookExtractor {
    */
   Object extract(InputStream inputStream) 
       throws WorkbookBindingException, IOException;
+  
+  /**
+   * Sets a Beans Validation {@link Validator} that will be called upon to
+   * validate each bean that is extracted from a workbook by this extractor.
+   * @param validator the validator to set (or {@code null}) to indicate that
+   *    no validation should be performed (the default). 
+   */
+  void setValidator(Validator validator);
   
 }

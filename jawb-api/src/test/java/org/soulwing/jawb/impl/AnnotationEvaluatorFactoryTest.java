@@ -19,11 +19,14 @@
 package org.soulwing.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyArray;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 
 import java.util.List;
+
+import javax.validation.Validator;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -31,8 +34,6 @@ import org.junit.Test;
 import org.soulwing.jawb.annotation.Bound;
 import org.soulwing.jawb.annotation.Cell;
 import org.soulwing.jawb.annotation.IterateRows;
-import org.soulwing.jawb.impl.AnnotationEvaluatorFactory;
-import org.soulwing.jawb.impl.BeanIntrospector;
 import org.soulwing.jawb.spi.BoundCell;
 import org.soulwing.jawb.spi.BoundCellReference;
 import org.soulwing.jawb.spi.BoundWorkbook;
@@ -57,6 +58,8 @@ public class AnnotationEvaluatorFactoryTest {
 
   private WorkbookBindingProvider provider = 
       mockery.mock(WorkbookBindingProvider.class);
+  
+  private Validator validator = mockery.mock(Validator.class);
   
   private AnnotationEvaluatorFactory introspector = 
       new AnnotationEvaluatorFactory(provider);
@@ -197,6 +200,10 @@ public class AnnotationEvaluatorFactoryTest {
       will(returnValue(value));
       oneOf(value).getValue();
       will(returnValue(result));
+      allowing(workbook).getValidator();
+      will(returnValue(validator));
+      allowing(validator).validate(with(any(Object.class)), 
+          (Class[]) with(emptyArray()));
     } };
   }
 

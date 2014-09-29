@@ -18,6 +18,8 @@
  */
 package org.soulwing.jawb.spi;
 
+import javax.validation.Validator;
+
 
 /**
  * A workbook that is bound to a Java object model.
@@ -60,5 +62,12 @@ public interface BoundWorkbook {
    *    the same object as {@code iterator}
    */
   void popIterator(WorkbookIterator iterator);
+  
+  /**
+   * Gets a Beans Validation {@link Validator} that will be called upon to
+   * validate each bean that is extracted from this workbook.
+   * @return validator or {@code null} if no validation is to be performed
+   */
+  Validator getValidator();
   
 }

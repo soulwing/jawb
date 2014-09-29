@@ -23,7 +23,10 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+
 import org.soulwing.jawb.WorkbookBindingException;
+import org.soulwing.jawb.WorkbookValidationException;
 import org.soulwing.jawb.spi.BoundWorkbook;
 import org.soulwing.jawb.spi.Evaluator;
 
@@ -75,6 +78,13 @@ class BeanEvaluator implements Evaluator, Parentable {
       invokeCallback(beforeExtractMethod(), bean, parent);
       for (Binding binding : bindings) {
         binding.bind(workbook, bean);
+      }
+      if (workbook.getValidator() != null) {
+        Set<ConstraintViolation<Object>> constraintViolations = 
+            workbook.getValidator().validate(bean);
+        if (!constraintViolations.isEmpty()) {
+          throw new WorkbookValidationException(bean, constraintViolations);
+        }
       }
       invokeCallback(afterExtractMethod(), bean, parent);
       return bean;

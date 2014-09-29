@@ -21,11 +21,15 @@ package org.soulwing.jawb.poi;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.validation.Validator;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.soulwing.jawb.WorkbookBindingException;
 import org.soulwing.jawb.WorkbookExtractor;
+import org.soulwing.jawb.spi.AbstractWorkbookExtractor;
+import org.soulwing.jawb.spi.BoundWorkbook;
 import org.soulwing.jawb.spi.Evaluator;
 
 /**
@@ -33,31 +37,25 @@ import org.soulwing.jawb.spi.Evaluator;
  *
  * @author Carl Harris
  */
-class ApachePoiExtractor implements WorkbookExtractor {
+public class ApachePoiExtractor extends AbstractWorkbookExtractor {
 
-  private final Evaluator evaluator;
-  
   /**
    * Constructs a new instance.
    * @param evaluator
    */
   public ApachePoiExtractor(Evaluator evaluator) {
-    this.evaluator = evaluator;
+    super(evaluator);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Object extract(InputStream inputStream)
+  public BoundWorkbook newWorkbook(InputStream inputStream, Validator validator)
       throws WorkbookBindingException, IOException {
     try {
       OPCPackage pkg = OPCPackage.open(inputStream);
       XSSFWorkbook workbook = new XSSFWorkbook(pkg);
-      return evaluator.evaluate(new ApachePoiWorkbook(workbook));
+      return new ApachePoiWorkbook(workbook, validator);
     }
     catch (InvalidFormatException ex) {
-      throw new WorkbookBindingException(ex.getMessage(), ex);
+      throw new WorkbookBindingException(ex);
     }
   }
 

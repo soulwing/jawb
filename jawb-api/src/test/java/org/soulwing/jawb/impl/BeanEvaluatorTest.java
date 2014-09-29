@@ -19,16 +19,17 @@
 package org.soulwing.jawb.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyArray;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
+
+import javax.validation.Validator;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.soulwing.jawb.impl.BeanEvaluator;
-import org.soulwing.jawb.impl.Binding;
 import org.soulwing.jawb.spi.BoundWorkbook;
 
 /**
@@ -43,8 +44,12 @@ public class BeanEvaluatorTest {
   private BoundWorkbook workbook = mockery.mock(BoundWorkbook.class);
 
   private Binding binding = mockery.mock(Binding.class);
+
+  private Validator validator = mockery.mock(Validator.class);
   
   private BeanEvaluator evaluator = new BeanEvaluator(MockBean.class);
+  
+
   
   @Before
   public void setUp() throws Exception {
@@ -55,6 +60,10 @@ public class BeanEvaluatorTest {
   public void testEvaluate() throws Exception {
     mockery.checking(new Expectations() { {
       oneOf(binding).bind(with(same(workbook)), with(any(MockBean.class)));
+      atLeast(1).of(workbook).getValidator();
+      will(returnValue(validator));
+      oneOf(validator).validate(with(any(MockBean.class)), 
+          (Class<?>[]) with(emptyArray()));
     } });
     
     Object parent = new Object();

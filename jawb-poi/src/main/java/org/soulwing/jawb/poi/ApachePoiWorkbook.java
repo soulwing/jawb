@@ -22,6 +22,8 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.validation.Validator;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -44,14 +46,17 @@ class ApachePoiWorkbook implements BoundWorkbook {
       new LinkedList<WorkbookIterator>();
   
   private final Workbook delegate;
+  private final Validator validator;
   private final boolean useDate1904;
   
   /**
    * Constructs a new instance.
-   * @param delegate
+   * @param delegate the POI workbook delegate
+   * @param validator beans validator
    */
-  public ApachePoiWorkbook(Workbook delegate) {
+  public ApachePoiWorkbook(Workbook delegate, Validator validator) {
     this.delegate = delegate;
+    this.validator = validator;
     this.useDate1904 = ((XSSFWorkbook) delegate).getCTWorkbook()
         .getWorkbookPr().getDate1904();
   }
@@ -141,6 +146,14 @@ class ApachePoiWorkbook implements BoundWorkbook {
     if (Loggers.ITERATION.isDebugEnabled()) {
       Loggers.ITERATION.debug("popped iterator: {}", iterator);
     }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Validator getValidator() {
+    return validator;
   }
 
 }

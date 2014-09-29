@@ -25,6 +25,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.poi.util.IOUtils;
@@ -68,6 +74,16 @@ public class WorkbookExtractorTest {
   }
 
   @Test
+  public void testBeanWithListOfBeansAndValidation() throws Exception {
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    WorkbookBindingContext context = WorkbookBindingContext.newInstance(
+        Persons.class);
+    WorkbookExtractor extractor = context.createExtractor();
+    extractor.setValidator(validatorFactory.getValidator());
+    extract(extractor);
+  }
+
+  @Test
   public void testBeanNestedRowIteration() throws Exception {
     WorkbookBindingContext context = WorkbookBindingContext.newInstance(
         Cars.class);
@@ -86,6 +102,11 @@ public class WorkbookExtractorTest {
   private void extract(WorkbookBindingContext context) throws IOException,
       WorkbookBindingException {
     WorkbookExtractor extractor = context.createExtractor();
+    extract(extractor);
+  }
+
+  private void extract(WorkbookExtractor extractor) throws IOException,
+      WorkbookBindingException {
     InputStream inputStream = getWorkbookStream();
     try {
       Object bean = extractor.extract(inputStream);
@@ -122,16 +143,25 @@ public class WorkbookExtractorTest {
   }
   
   public static class Person {
+    
     @Cell("A2")
     private String prefix;
+    
     @Cell("B2")
-    private String lastName;
-    @Cell("C2")
     private String firstName;
+    
+    @NotNull
+    @Size(min = 1)
+    @Cell("C2")
+    private String lastName;
+    
     @Cell("D2")
     private String suffix;
+    
     @Cell("E2")
     private int age;
+
+    @Past
     @Cell("F2")
     private Date birthdate;
     
