@@ -50,7 +50,7 @@ public class TypeUtil {
    * type.
    * @param argType desired primitive type 
    * @param value the value to wrap
-   * @return a wrapper of a type that corresponds to {@link argType}.
+   * @return a wrapper of a type that corresponds to {@code argType}.
    */
   public static Object wrapValue(Class<?> argType, double value) {
     if (argType.equals(double.class)) {

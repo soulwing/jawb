@@ -39,7 +39,7 @@ public interface Operand {
   /**
    * Converts the receiver to a string representation.
    * @param workbook workbook context
-   * @return
+   * @return string representation of this operand
    */
   String toString(BoundWorkbook workbook);
   

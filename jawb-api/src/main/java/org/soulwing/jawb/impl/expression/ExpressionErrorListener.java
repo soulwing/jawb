@@ -46,12 +46,16 @@ public class ExpressionErrorListener extends BaseErrorListener {
 
   /**
    * Tests whether one or more errors occurred.
-   * @return
+   * @return {@code true} if one or more errors occurred
    */
   public boolean hasErrors() {
     return !errors.isEmpty();
   }
   
+  /**
+   * Gets an exception that represents that errors that occurred.
+   * @return exception
+   */
   public RuntimeException getException() {
     StringBuilder sb = new StringBuilder();
     sb.append("expression syntax errors(s): ");

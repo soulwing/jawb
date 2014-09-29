@@ -28,21 +28,14 @@ import org.junit.Test;
 import org.soulwing.jawb.annotation.IterateColumns;
 import org.soulwing.jawb.annotation.IterateRows;
 import org.soulwing.jawb.annotation.IterateSheets;
-import org.soulwing.jawb.impl.BeanIntrospector;
-import org.soulwing.jawb.impl.ColumnIterator;
-import org.soulwing.jawb.impl.EvaluatorFactory;
-import org.soulwing.jawb.impl.FieldAttributeIntrospector;
-import org.soulwing.jawb.impl.RowIterator;
-import org.soulwing.jawb.impl.SheetIterator;
-import org.soulwing.jawb.impl.WorkbookIteratorUtil;
 import org.soulwing.jawb.spi.WorkbookIterator;
 
 /**
- * Unit tests for {@link WorksheetIteratorUtil}.
+ * Unit tests for {@link WorkbookIteratorUtil}.
  *
  * @author Carl Harris
  */
-public class WorksheetIteratorUtilTest {
+public class WorkbookIteratorUtilTest {
 
   private Mockery mockery = new Mockery();
   

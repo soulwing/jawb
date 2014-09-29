@@ -36,7 +36,6 @@ public interface WorkbookBindingProvider {
   BoundCellReference createCellReference(String sheetRef,
       String ref);
 
-  
   /**
    * Creates an extractor.
    * @param evaluator evaluator that will be used to extract and bind 
@@ -47,7 +46,7 @@ public interface WorkbookBindingProvider {
 
   /**
    * Gets the provider's expression factory.
-   * @return
+   * @return expression factory
    */
   ExpressionFactory getExpressionFactory();
   

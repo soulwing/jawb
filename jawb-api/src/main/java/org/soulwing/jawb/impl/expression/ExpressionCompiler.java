@@ -46,7 +46,7 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
   
   /**
    * Gets the {@code sheetReference} property.
-   * @return
+   * @return sheet reference
    */
   public String getSheetReference() {
     return sheetReference;
@@ -54,7 +54,7 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
 
   /**
    * Sets the {@code sheetReference} property.
-   * @param sheetReference
+   * @param sheetReference the sheet reference to set
    */
   public void setSheetReference(String sheetReference) {
     this.sheetReference = sheetReference;
@@ -62,7 +62,7 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
 
   /**
    * Gets the {@code provider} property.
-   * @return
+   * @return provider
    */
   public WorkbookBindingProvider getProvider() {
     return provider;
@@ -70,7 +70,7 @@ public class ExpressionCompiler extends ExpressionBaseVisitor<Operand> {
 
   /**
    * Sets the {@code provider} property.
-   * @param provider
+   * @param provider the provider to set
    */
   public void setProvider(WorkbookBindingProvider provider) {
     this.provider = provider;

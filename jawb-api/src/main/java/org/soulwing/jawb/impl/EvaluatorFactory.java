@@ -86,21 +86,21 @@ public interface EvaluatorFactory {
   /**
    * Creates a new iterator for sheets.
    * @param annotation iterator details
-   * @return
+   * @return iterator
    */
   WorkbookIterator createSheetIterator(IterateSheets annotation);
 
   /**
    * Creates a new iterator for rows.
    * @param annotation iterator details
-   * @return
+   * @return iterator
    */
   WorkbookIterator createRowIterator(IterateRows annotation);
   
   /**
    * Creates a new iterator for columns.
    * @param annotation iterator details
-   * @return
+   * @return iterator
    */
   WorkbookIterator createColumnIterator(IterateColumns annotation);
   

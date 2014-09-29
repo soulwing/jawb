@@ -48,8 +48,7 @@ public interface BoundCell {
   
   /**
    * Gets the receiver's value as a boolean.
-   * <p>
-   * @return
+   * @return boolean value of this cell
    * @throws IllegalStateException if invoked on a value that is not of 
    *    boolean type
    */
@@ -57,7 +56,7 @@ public interface BoundCell {
   
   /**
    * Gets the receiver's value as a {@link Date}.
-   * @return
+   * @return date value of this cell
    * @throws IllegalStateException if invoked on a value that is not of 
    *    date type
    */
@@ -65,7 +64,7 @@ public interface BoundCell {
   
   /**
    * Gets the receiver's value as a double.
-   * @return
+   * @return double value of this cell
    * @throws IllegalStateException if invoked on a value that is not of 
    *    numeric type
    */
@@ -73,7 +72,7 @@ public interface BoundCell {
   
   /**
    * Gets the receiver's value as a string.
-   * @return
+   * @return string value of this cell
    * @throws IllegalStateException if invoked on a value that is not of 
    *    numeric type
    */

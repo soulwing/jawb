@@ -65,7 +65,7 @@ public abstract class WorkbookIterator {
   
   /**
    * Gets the {@code sheetReference} property.
-   * @return
+   * @return sheet reference
    */
   public String getSheetReference() {
     return sheetReference;
@@ -73,7 +73,7 @@ public abstract class WorkbookIterator {
 
   /**
    * Sets the {@code sheetReference} property.
-   * @param sheetReference
+   * @param sheetReference the sheet reference to set
    */
   public void setSheetReference(String sheetReference) {
     this.sheetReference = sheetReference;

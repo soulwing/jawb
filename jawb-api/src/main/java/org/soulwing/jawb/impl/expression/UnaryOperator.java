@@ -57,7 +57,7 @@ abstract class UnaryOperator extends AbstractOperand {
 
   /**
    * Gets a format string for {@link String#format(String, Object...)} that
-   * will be used to provide a common implementation of {@link #toString()}.
+   * will be used to provide a common implementation of {@link Object#toString()}.
    * @return format string with a single string placeholder for the unary
    *    operand
    */

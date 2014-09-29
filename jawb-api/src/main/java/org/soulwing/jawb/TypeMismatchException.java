@@ -34,7 +34,6 @@ public class TypeMismatchException extends WorkbookBindingException {
   /**
    * Constructs a new instance.
    * @param ref bound cell reference
-   * @param cellType source cell type
    * @param attributeType target binding type
    */
   public TypeMismatchException(BoundCellReference ref, 

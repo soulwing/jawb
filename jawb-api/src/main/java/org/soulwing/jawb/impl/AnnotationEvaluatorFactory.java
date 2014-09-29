@@ -29,7 +29,7 @@ import org.soulwing.jawb.spi.WorkbookBindingProvider;
 import org.soulwing.jawb.spi.WorkbookIterator;
 
 /**
- * A {@link BindingFactory} that utilizes annotations to identify
+ * An {@link EvaluatorFactory} that utilizes annotations to identify
  * binding characteristics.
  *
  * @author Carl Harris
