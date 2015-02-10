@@ -20,6 +20,7 @@ package org.soulwing.jawb.impl;
 
 import org.soulwing.jawb.WorkbookBindingException;
 import org.soulwing.jawb.annotation.Cell;
+import org.soulwing.jawb.annotation.CellFormat;
 import org.soulwing.jawb.spi.Evaluator;
 import org.soulwing.jawb.spi.WorkbookIterator;
 
@@ -63,9 +64,12 @@ class ArrayOfSimpleTypeBindingStrategy implements BindingStrategy {
           "an array of simple types must have include annotations for "
           + " cell and iteration");
     }
-    
+
+    CellFormat cellFormat = introspector.getAnnotation(CellFormat.class);
+    String format = cellFormat != null ? cellFormat.value() : null;    
+
     Evaluator cellEvaluator = evaluatorFactory.createCellEvaluator(
-        introspector.getSheetReference(), cell.value(), type);
+        introspector.getSheetReference(), cell.value(), type, format);
     
     Evaluator evaluator = evaluatorFactory.createArrayEvaluator(type, 
         cellEvaluator, iterator);

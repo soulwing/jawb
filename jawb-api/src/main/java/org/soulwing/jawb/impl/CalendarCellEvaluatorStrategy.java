@@ -41,7 +41,7 @@ class CalendarCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCell cell, Class<?> targetType) 
+  public Object evaluate(BoundCell cell, Class<?> targetType, String format) 
       throws WorkbookBindingException {
 
     if (!Calendar.class.isAssignableFrom(targetType)) {

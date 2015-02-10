@@ -42,7 +42,7 @@ class ValueOfCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCell value, Class<?> targetType)
+  public Object evaluate(BoundCell value, Class<?> targetType, String format)
       throws WorkbookBindingException {
 
     Method method = TypeUtil.findValueOfMethod(targetType);

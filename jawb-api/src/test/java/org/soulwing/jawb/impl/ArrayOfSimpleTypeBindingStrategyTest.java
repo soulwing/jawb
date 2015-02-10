@@ -28,6 +28,7 @@ import org.jmock.Mockery;
 import org.junit.Test;
 import org.soulwing.jawb.WorkbookBindingException;
 import org.soulwing.jawb.annotation.Cell;
+import org.soulwing.jawb.annotation.CellFormat;
 import org.soulwing.jawb.annotation.IterateColumns;
 import org.soulwing.jawb.annotation.IterateRows;
 import org.soulwing.jawb.annotation.IterateSheets;
@@ -67,6 +68,8 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       will(returnValue(String.class));
       oneOf(introspector).getAnnotation(Cell.class);
       will(returnValue(cell));
+      oneOf(introspector).getAnnotation(CellFormat.class);
+      will(returnValue(null));
       oneOf(introspector).getAnnotation(IterateColumns.class);
       will(returnValue(columns));
       oneOf(introspector).getAnnotation(IterateRows.class);
@@ -77,7 +80,7 @@ public class ArrayOfSimpleTypeBindingStrategyTest {
       will(returnValue("ref"));
       atLeast(1).of(introspector).getSheetReference();
       will(returnValue("sheetRef"));
-      oneOf(evaluatorFactory).createCellEvaluator("sheetRef", "ref", String.class);
+      oneOf(evaluatorFactory).createCellEvaluator("sheetRef", "ref", String.class, null);
       will(returnValue(elementEvaluator));
       allowing(introspector).isAbstractType();
       will(returnValue(true));

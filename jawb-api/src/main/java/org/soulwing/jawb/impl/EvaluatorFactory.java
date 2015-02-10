@@ -69,10 +69,11 @@ public interface EvaluatorFactory {
    * @param sheetReference sheet reference
    * @param ref string representation of the cell reference.
    * @param targetType type of target attribute
+   * @param format format string
    * @return evaluator
    */
   Evaluator createCellEvaluator(String sheetReference,
-      String ref, Class<?> targetType);
+      String ref, Class<?> targetType, String format);
 
   /**
    * Creates a bean introspector for a bound class.

@@ -49,7 +49,7 @@ public class EnumCellEvaluatorStrategyTest {
     } });
     
     Object result = 
-        EnumCellEvaluatorStrategy.INSTANCE.evaluate(cell, Color.class);
+        EnumCellEvaluatorStrategy.INSTANCE.evaluate(cell, Color.class, null);
     mockery.assertIsSatisfied();
     assertThat(result, equalTo((Object) Color.RED));
   }
@@ -63,7 +63,7 @@ public class EnumCellEvaluatorStrategyTest {
     } });
     
     Object result = 
-        EnumCellEvaluatorStrategy.INSTANCE.evaluate(cell, Color.class);
+        EnumCellEvaluatorStrategy.INSTANCE.evaluate(cell, Color.class, null);
     mockery.assertIsSatisfied();
     assertThat(result, equalTo((Object) Color.BLUE));
   }
@@ -77,7 +77,7 @@ public class EnumCellEvaluatorStrategyTest {
     } });
     
     try {
-      EnumCellEvaluatorStrategy.INSTANCE.evaluate(cell, Color.class);
+      EnumCellEvaluatorStrategy.INSTANCE.evaluate(cell, Color.class, null);
       fail("expected WorkbookBindingException");
     }
     catch (WorkbookBindingException ex) {

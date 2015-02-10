@@ -41,7 +41,7 @@ class DateCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCell cell, Class<?> targetType) 
+  public Object evaluate(BoundCell cell, Class<?> targetType, String format) 
       throws WorkbookBindingException {
     
     if (!Date.class.isAssignableFrom(targetType)) {

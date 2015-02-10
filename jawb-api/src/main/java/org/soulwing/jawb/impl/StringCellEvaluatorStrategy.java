@@ -40,7 +40,7 @@ class StringCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCell cell, Class<?> targetType) 
+  public Object evaluate(BoundCell cell, Class<?> targetType, String format) 
       throws WorkbookBindingException {
     
     if (!String.class.isAssignableFrom(targetType)) {
@@ -48,7 +48,12 @@ class StringCellEvaluatorStrategy implements CellEvaluatorStrategy {
     }
     
     try {
-      return cell.getValue().toString();
+      Object value = cell.getValue();
+      if (format != null && value instanceof Double) {
+          System.out.println("format is " + format);
+        return String.format(format, value);
+      }
+      return value.toString();
     }
     catch (IllegalStateException ex) {
       throw new TypeMismatchException(cell.getReference(), targetType);

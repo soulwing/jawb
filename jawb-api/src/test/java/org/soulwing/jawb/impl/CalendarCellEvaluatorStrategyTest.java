@@ -53,7 +53,7 @@ public class CalendarCellEvaluatorStrategyTest {
     } } );
        
     assertThat(CalendarCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, Calendar.class), equalTo((Object) result));
+        .evaluate(cell, Calendar.class, null), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -67,7 +67,7 @@ public class CalendarCellEvaluatorStrategyTest {
        
     try {
       CalendarCellEvaluatorStrategy.INSTANCE
-          .evaluate(cell, Calendar.class);
+          .evaluate(cell, Calendar.class, null);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

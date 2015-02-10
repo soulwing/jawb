@@ -20,6 +20,7 @@ package org.soulwing.jawb.impl;
 
 import org.soulwing.jawb.WorkbookBindingException;
 import org.soulwing.jawb.annotation.Cell;
+import org.soulwing.jawb.annotation.CellFormat;
 import org.soulwing.jawb.spi.Evaluator;
 
 /**
@@ -51,11 +52,14 @@ class SimpleTypeBindingStrategy implements BindingStrategy {
           + introspector.getDeclaringClass().getName());
     }
     if (cell != null) {
-      
+      CellFormat cellFormat = introspector.getAnnotation(CellFormat.class);
+      String format = cellFormat != null ? cellFormat.value() : null;    
+
       Evaluator cellEvaluator = evaluatorFactory.createCellEvaluator(
           introspector.getSheetReference(), 
-          cell.value(), 
-          introspector.getType());
+          cell.value(),
+          introspector.getType(), 
+          format);
       
       binding = new BaseBinding(introspector.getAccessor(), cellEvaluator);
     }

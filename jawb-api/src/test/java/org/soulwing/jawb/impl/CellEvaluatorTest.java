@@ -63,7 +63,7 @@ public class CellEvaluatorTest {
       will(returnValue(result));
     } });
     
-    CellEvaluator evaluator = new CellEvaluator(ref, boolean.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, boolean.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, sameInstance((Object) result));
@@ -81,7 +81,7 @@ public class CellEvaluatorTest {
       will(returnValue(result));
     } });
     
-    CellEvaluator evaluator = new CellEvaluator(ref, Boolean.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Boolean.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, sameInstance((Object) result));
@@ -100,7 +100,7 @@ public class CellEvaluatorTest {
       will(returnValue(result.getTime()));
     } });
     
-    CellEvaluator evaluator = new CellEvaluator(ref, Calendar.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Calendar.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) result));
@@ -118,7 +118,7 @@ public class CellEvaluatorTest {
       will(returnValue(result));
     } });
     
-    CellEvaluator evaluator = new CellEvaluator(ref, Date.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Date.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, sameInstance((Object) result));
@@ -128,7 +128,7 @@ public class CellEvaluatorTest {
   public void testWithDoublePrimitiveTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));
-    CellEvaluator evaluator = new CellEvaluator(ref, double.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, double.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) result));
@@ -138,7 +138,7 @@ public class CellEvaluatorTest {
   public void testWithDoubleWrapperTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));    
-    CellEvaluator evaluator = new CellEvaluator(ref, Double.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Double.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) result));
@@ -148,7 +148,7 @@ public class CellEvaluatorTest {
   public void testWithFloatPrimitiveTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));
-    CellEvaluator evaluator = new CellEvaluator(ref, float.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, float.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((float) result)));
@@ -158,7 +158,7 @@ public class CellEvaluatorTest {
   public void testWithFloatWrapperTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));
-    CellEvaluator evaluator = new CellEvaluator(ref, Float.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Float.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((float) result)));
@@ -168,7 +168,7 @@ public class CellEvaluatorTest {
   public void testWithLongPrimitiveTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, long.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, long.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((long) result)));
@@ -178,7 +178,7 @@ public class CellEvaluatorTest {
   public void testWithLongWrapperTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, Long.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Long.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((long) result)));
@@ -188,7 +188,7 @@ public class CellEvaluatorTest {
   public void testWithIntegerPrimitiveTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, int.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, int.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((int) result)));
@@ -198,7 +198,7 @@ public class CellEvaluatorTest {
   public void testWithIntegerWrapperTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, Integer.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Integer.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((int) result)));
@@ -208,7 +208,7 @@ public class CellEvaluatorTest {
   public void testWithShortPrimitiveTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, short.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, short.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((short) result)));
@@ -218,7 +218,7 @@ public class CellEvaluatorTest {
   public void testWithShortWrapperTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, Short.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Short.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((short) result)));
@@ -228,7 +228,7 @@ public class CellEvaluatorTest {
   public void testWithBytePrimitiveTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, byte.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, byte.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((byte) result)));
@@ -238,7 +238,7 @@ public class CellEvaluatorTest {
   public void testWithByteWrapperTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, Byte.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, Byte.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) ((byte) result)));
@@ -248,7 +248,7 @@ public class CellEvaluatorTest {
   public void testWithBigDecimalTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, BigDecimal.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, BigDecimal.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) BigDecimal.valueOf(result)));
@@ -258,7 +258,7 @@ public class CellEvaluatorTest {
   public void testWithBigIntegerTarget() throws Exception {
     final double result = 1.0;
     mockery.checking(numericValueExpectations(result));  
-    CellEvaluator evaluator = new CellEvaluator(ref, BigInteger.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, BigInteger.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) BigInteger.valueOf((long) result)));
@@ -269,7 +269,7 @@ public class CellEvaluatorTest {
     final String result = "Value 1";
     mockery.checking(enumValueExpectations(result));
     
-    CellEvaluator evaluator = new CellEvaluator(ref, MockEnum.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, MockEnum.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) MockEnum.VALUE1));
@@ -280,7 +280,7 @@ public class CellEvaluatorTest {
     final String result = "VALUE2";
     mockery.checking(enumValueExpectations(result));
     
-    CellEvaluator evaluator = new CellEvaluator(ref, MockEnum.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, MockEnum.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, equalTo((Object) MockEnum.VALUE2));
@@ -315,7 +315,7 @@ public class CellEvaluatorTest {
       will(returnValue(result));
     } });
     
-    CellEvaluator evaluator = new CellEvaluator(ref, String.class);
+    CellEvaluator evaluator = new CellEvaluator(ref, String.class, null);
     Object obj = evaluator.evaluate(workbook);
     mockery.assertIsSatisfied();
     assertThat(obj, sameInstance((Object) result));

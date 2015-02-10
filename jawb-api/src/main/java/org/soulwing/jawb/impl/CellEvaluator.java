@@ -43,15 +43,19 @@ class CellEvaluator implements Evaluator {
   
   private final BoundCellReference ref;
   private final Class<?> targetType;
+  private final String format;
   
   /**
    * Constructs a new instance.
    * @param ref cell reference
    * @param targetType data type for the resulting value
+   * @param format format string
    */
-  public CellEvaluator(BoundCellReference ref, Class<?> targetType) {
+  public CellEvaluator(BoundCellReference ref, Class<?> targetType,
+      String format) {
     this.ref = ref;
     this.targetType = targetType;
+    this.format = format;
   }
 
   /**
@@ -66,7 +70,7 @@ class CellEvaluator implements Evaluator {
       return null;
     }
     for (CellEvaluatorStrategy strategy : strategies) {
-      obj = strategy.evaluate(value, targetType);
+      obj = strategy.evaluate(value, targetType, format);
       if (obj != null) break;
     }
     return obj;

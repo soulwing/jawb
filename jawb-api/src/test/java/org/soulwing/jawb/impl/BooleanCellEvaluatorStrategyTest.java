@@ -49,7 +49,7 @@ public class BooleanCellEvaluatorStrategyTest {
     } } );
        
     assertThat(BooleanCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, Boolean.class), equalTo((Object) result));
+        .evaluate(cell, Boolean.class, null), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -62,7 +62,7 @@ public class BooleanCellEvaluatorStrategyTest {
     } } );
        
     assertThat(
-        BooleanCellEvaluatorStrategy.INSTANCE.evaluate(cell, boolean.class),
+        BooleanCellEvaluatorStrategy.INSTANCE.evaluate(cell, boolean.class, null),
         equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
@@ -76,7 +76,7 @@ public class BooleanCellEvaluatorStrategyTest {
     } } );
        
     try {
-      BooleanCellEvaluatorStrategy.INSTANCE.evaluate(cell, boolean.class);
+      BooleanCellEvaluatorStrategy.INSTANCE.evaluate(cell, boolean.class, null);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

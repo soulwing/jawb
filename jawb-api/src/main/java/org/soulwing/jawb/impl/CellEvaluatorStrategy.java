@@ -33,11 +33,12 @@ interface CellEvaluatorStrategy {
    * the target type.
    * @param cell evaluated cell
    * @param targetType target binding type
+   * @param format format string
    * @return evaluated value or {@code null} if the receiver does not 
    *    support the target type
    * @throws WorkbookBindingException
    */
-  Object evaluate(BoundCell cell, Class<?> targetType)
+  Object evaluate(BoundCell cell, Class<?> targetType, String format)
       throws WorkbookBindingException;
   
 }

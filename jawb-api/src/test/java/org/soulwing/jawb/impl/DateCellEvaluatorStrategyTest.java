@@ -51,7 +51,7 @@ public class DateCellEvaluatorStrategyTest {
     } } );
        
     assertThat(DateCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, Date.class), equalTo((Object) result));
+        .evaluate(cell, Date.class, null), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -64,7 +64,7 @@ public class DateCellEvaluatorStrategyTest {
     } } );
        
     try {
-      DateCellEvaluatorStrategy.INSTANCE.evaluate(cell, Date.class);
+      DateCellEvaluatorStrategy.INSTANCE.evaluate(cell, Date.class, null);
       fail("expected TypeMismatchException");
     }
     catch (TypeMismatchException ex) {

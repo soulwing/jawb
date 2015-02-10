@@ -47,7 +47,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, double.class), equalTo((Object) result));
+        .evaluate(cell, double.class, null), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
 
@@ -60,7 +60,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, float.class), equalTo((Object) (float) result));
+        .evaluate(cell, float.class, null), equalTo((Object) (float) result));
     mockery.assertIsSatisfied();
   }
   
@@ -73,7 +73,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, long.class), equalTo((Object) (long) result));
+        .evaluate(cell, long.class, null), equalTo((Object) (long) result));
     mockery.assertIsSatisfied();
   }
   
@@ -86,7 +86,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, int.class), equalTo((Object) (int) result));
+        .evaluate(cell, int.class, null), equalTo((Object) (int) result));
     mockery.assertIsSatisfied();
   }
   
@@ -99,7 +99,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, short.class), equalTo((Object) (short) result));
+        .evaluate(cell, short.class, null), equalTo((Object) (short) result));
     mockery.assertIsSatisfied();
   }
   
@@ -112,7 +112,7 @@ public class NumericPrimitiveCellEvaluatorStrategyTest {
     } });
     
     assertThat(NumericPrimitiveCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, byte.class), equalTo((Object) (byte) result));
+        .evaluate(cell, byte.class, null), equalTo((Object) (byte) result));
     mockery.assertIsSatisfied();
   }
   

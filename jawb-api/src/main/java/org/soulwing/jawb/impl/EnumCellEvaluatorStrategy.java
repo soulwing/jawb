@@ -46,7 +46,7 @@ public class EnumCellEvaluatorStrategy implements CellEvaluatorStrategy {
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCell cell, Class<?> targetType)
+  public Object evaluate(BoundCell cell, Class<?> targetType, String format)
       throws WorkbookBindingException {
     try {
       Map<String, Object> valueMap = cache.get(targetType);

@@ -40,7 +40,7 @@ class NumericPrimitiveCellEvaluatorStrategy
    * {@inheritDoc}
    */
   @Override
-  public Object evaluate(BoundCell cell, Class<?> targetType) throws WorkbookBindingException {
+  public Object evaluate(BoundCell cell, Class<?> targetType, String format) throws WorkbookBindingException {
     
     if (!TypeUtil.isNumericPrimitive(targetType)) {
       return null;

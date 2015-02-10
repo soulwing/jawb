@@ -40,6 +40,7 @@ import org.soulwing.jawb.WorkbookBindingContext;
 import org.soulwing.jawb.WorkbookBindingException;
 import org.soulwing.jawb.WorkbookExtractor;
 import org.soulwing.jawb.annotation.Cell;
+import org.soulwing.jawb.annotation.CellFormat;
 import org.soulwing.jawb.annotation.IterateColumns;
 import org.soulwing.jawb.annotation.IterateRows;
 import org.soulwing.jawb.annotation.Sheet;
@@ -229,6 +230,10 @@ public class WorkbookExtractorTest {
   @Sheet("Sheet2")
   public static class Budget {
   
+    @Cell("A1")
+    @CellFormat("%.0f")
+    private String number;
+    
     @IterateColumns(count = 3, increment = 5)
     private Period[] periods;
     

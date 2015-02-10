@@ -47,7 +47,7 @@ public class StringCellEvaluatorStrategyTest {
     } } );
        
     assertThat(StringCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, String.class), equalTo((Object) result));
+        .evaluate(cell, String.class, null), equalTo((Object) result));
     mockery.assertIsSatisfied();
   }
   
@@ -60,7 +60,20 @@ public class StringCellEvaluatorStrategyTest {
     } } );
        
     assertThat(StringCellEvaluatorStrategy.INSTANCE
-        .evaluate(cell, String.class),  equalTo((Object)"0"));
+        .evaluate(cell, String.class, null),  equalTo((Object)"0"));
+    mockery.assertIsSatisfied();
+  }
+
+  @Test
+  public void testEvaluateWithDoubleValueAndFormat() throws Exception {
+    final Number result = Double.valueOf("123456789");
+    mockery.checking(new Expectations() { { 
+      oneOf(cell).getValue();
+      will(returnValue(result));
+    } } );
+       
+    assertThat(StringCellEvaluatorStrategy.INSTANCE
+        .evaluate(cell, String.class, "%.0f"),  equalTo((Object)"123456789"));
     mockery.assertIsSatisfied();
   }
 

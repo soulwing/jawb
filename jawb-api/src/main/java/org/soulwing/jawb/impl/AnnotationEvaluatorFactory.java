@@ -112,9 +112,9 @@ public class AnnotationEvaluatorFactory implements EvaluatorFactory {
    */
   @Override
   public Evaluator createCellEvaluator(String sheetRef,
-      String ref, Class<?> targetType) {
+      String ref, Class<?> targetType, String format) {
     return new CellEvaluator(provider.createCellReference(sheetRef, ref), 
-        targetType);
+        targetType, format);
   }
 
   /**
