@@ -50,7 +50,6 @@ class StringCellEvaluatorStrategy implements CellEvaluatorStrategy {
     try {
       Object value = cell.getValue();
       if (format != null && value instanceof Double) {
-          System.out.println("format is " + format);
         return String.format(format, value);
       }
       return value.toString();
