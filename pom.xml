@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.soulwing</groupId>
   <artifactId>jawb</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Java API for Workbook Binding (JAWB)</name>
   <description>
@@ -112,9 +112,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <additionalparam>-Xdoclint:none</additionalparam>
-        </configuration>
         <executions>
           <execution>
             <id>attach-javdocs</id>
