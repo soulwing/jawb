@@ -261,12 +261,12 @@
     <repository>
       <id>releases</id>
       <name>OSS Releases</name>
-      <url>https://nexus.cns.vt.edu/nexus/content/repositories/oss-releases</url>
+      <url>https://nexus.summit-qa.research.vt.edu/repository/oss-releases</url>
     </repository>
     <snapshotRepository>
       <id>snapshots</id>
       <name>OSS Snapshots</name>
-      <url>https://nexus.cns.vt.edu/nexus/content/repositories/oss-snapshots</url>
+      <url>https://nexus.summit-qa.research.vt.edu/repository/oss-snapshots</url>
       <uniqueVersion>true</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>
