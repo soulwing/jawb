@@ -259,12 +259,12 @@
   </dependencyManagement>
   <distributionManagement>
     <repository>
-      <id>releases</id>
+      <id>oss-releases</id>
       <name>OSS Releases</name>
       <url>https://nexus.summit-qa.research.vt.edu/repository/oss-releases</url>
     </repository>
     <snapshotRepository>
-      <id>snapshots</id>
+      <id>oss-snapshots</id>
       <name>OSS Snapshots</name>
       <url>https://nexus.summit-qa.research.vt.edu/repository/oss-snapshots</url>
       <uniqueVersion>true</uniqueVersion>
